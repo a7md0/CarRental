@@ -26,4 +26,12 @@ class Database extends MySQLi
 
         return self::$instance;
     }
+
+    public function closeConnection()
+    {
+        if (self::$instance != null) {
+            parent::close();
+            self::$instance = null;
+        }
+    }
 }
