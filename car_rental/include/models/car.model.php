@@ -70,7 +70,7 @@ class Car extends Model
     {
         return parent::getValue('car_model_id');
     }
-    
+
     /**
      * Undocumented function
      *
