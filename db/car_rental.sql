@@ -38,6 +38,20 @@ CREATE TABLE `dbproj_car` (
   `preview_image` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `dbproj_car`
+--
+INSERT INTO `dbproj_car` (`car_id`, `car_model_id`, `color`, `daily_rent_rate`, `license_plate`, `vehicle_identification_number`, `status`, `preview_image`) VALUES
+(1, 1001, 'Black', '9.999', '24927', NULL, 'available', NULL),
+(2, 1001, 'White', '9.999', '46070', NULL, 'available', NULL),
+(3, 1001, 'Brown', '9.999', '36005', NULL, 'available', NULL),
+(4, 1000, 'Black', '11.999', '34423', NULL, 'available', NULL),
+(5, 1000, 'White', '11.999', '37566', NULL, 'available', NULL),
+(6, 1000, 'Brown', '11.999', '77542', NULL, 'available', NULL),
+(7, 1005, 'Red', '12.699', '88879', NULL, 'available', NULL),
+(8, 1005, 'Black', '12.699', '20300', NULL, 'available', NULL),
+(9, 1005, 'White', '12.699', '27166', NULL, 'available', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -57,7 +71,7 @@ CREATE TABLE `dbproj_car_accessory` (
 --
 
 INSERT INTO `dbproj_car_accessory` (`car_accessory_id`, `car_type_id`, `name`, `preview_image`, `charge`) VALUES
-(100, 100, '\r\nToddler safety seat (1-3 years)', NULL, '0.00'),
+(100, 100, 'Toddler safety seat (1-3 years)', NULL, '0.00'),
 (101, 101, 'Toddler safety seat (1-3 years)', NULL, '0.00'),
 (102, 100, 'Navigation System', NULL, '0.00'),
 (103, 101, 'Navigation System', NULL, '0.00'),
@@ -143,7 +157,7 @@ INSERT INTO `dbproj_car_model` (`car_model_id`, `car_type_id`, `brand`, `model`,
 --
 
 CREATE TABLE `dbproj_car_reservation` (
-  `customer_car_reservation_id` int(10) UNSIGNED NOT NULL,
+  `user_car_reservation_id` int(10) UNSIGNED NOT NULL,
   `car_id` int(10) UNSIGNED NOT NULL,
   `pickup_date` datetime NOT NULL,
   `return_date` datetime NOT NULL,
@@ -158,7 +172,7 @@ CREATE TABLE `dbproj_car_reservation` (
 
 CREATE TABLE `dbproj_car_reservation_accessory` (
   `car_id` int(10) UNSIGNED NOT NULL,
-  `customer_car_reservation_id` int(10) UNSIGNED NOT NULL,
+  `user_car_reservation_id` int(10) UNSIGNED NOT NULL,
   `car_accessory_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -186,11 +200,11 @@ INSERT INTO `dbproj_car_type` (`car_type_id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dbproj_customer_car_reservation`
+-- Table structure for table `dbproj_user_car_reservation`
 --
 
-CREATE TABLE `dbproj_customer_car_reservation` (
-  `customer_car_reservation_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE `dbproj_user_car_reservation` (
+  `user_car_reservation_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `sales_invoice_id` int(10) UNSIGNED DEFAULT NULL,
   `status` enum('confirmed','unconfirmed','cancelled') CHARACTER SET utf8mb4 DEFAULT NULL,
@@ -334,17 +348,17 @@ ALTER TABLE `dbproj_car_model`
 -- Indexes for table `dbproj_car_reservation`
 --
 ALTER TABLE `dbproj_car_reservation`
-  ADD PRIMARY KEY (`car_id`,`customer_car_reservation_id`),
+  ADD PRIMARY KEY (`car_id`,`user_car_reservation_id`),
   ADD KEY `IXFK_car_reservation_car` (`car_id`),
-  ADD KEY `IXFK_car_reservation_customer_car_reservation` (`customer_car_reservation_id`);
+  ADD KEY `IXFK_car_reservation_user_car_reservation` (`user_car_reservation_id`);
 
 --
 -- Indexes for table `dbproj_car_reservation_accessory`
 --
 ALTER TABLE `dbproj_car_reservation_accessory`
-  ADD PRIMARY KEY (`car_id`,`customer_car_reservation_id`,`car_accessory_id`),
+  ADD PRIMARY KEY (`car_id`,`user_car_reservation_id`,`car_accessory_id`),
   ADD KEY `IXFK_car_reservation_accessory_car_accessory` (`car_accessory_id`),
-  ADD KEY `IXFK_car_reservation_accessory_car_reservation` (`car_id`,`customer_car_reservation_id`);
+  ADD KEY `IXFK_car_reservation_accessory_car_reservation` (`car_id`,`user_car_reservation_id`);
 
 --
 -- Indexes for table `dbproj_car_type`
@@ -353,12 +367,12 @@ ALTER TABLE `dbproj_car_type`
   ADD PRIMARY KEY (`car_type_id`);
 
 --
--- Indexes for table `dbproj_customer_car_reservation`
+-- Indexes for table `dbproj_user_car_reservation`
 --
-ALTER TABLE `dbproj_customer_car_reservation`
-  ADD PRIMARY KEY (`customer_car_reservation_id`),
-  ADD KEY `IXFK_customer_car_reservation_sales_invoice` (`sales_invoice_id`),
-  ADD KEY `IXFK_customer_reservation_user` (`user_id`);
+ALTER TABLE `dbproj_user_car_reservation`
+  ADD PRIMARY KEY (`user_car_reservation_id`),
+  ADD KEY `IXFK_user_car_reservation_sales_invoice` (`sales_invoice_id`),
+  ADD KEY `IXFK_user_car_reservation_user` (`user_id`);
 
 --
 -- Indexes for table `dbproj_sales_invoice`
@@ -438,10 +452,10 @@ ALTER TABLE `dbproj_car_type`
   MODIFY `car_type_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
--- AUTO_INCREMENT for table `dbproj_customer_car_reservation`
+-- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
-ALTER TABLE `dbproj_customer_car_reservation`
-  MODIFY `customer_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `dbproj_user_car_reservation`
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
@@ -506,21 +520,21 @@ ALTER TABLE `dbproj_car_model`
 --
 ALTER TABLE `dbproj_car_reservation`
   ADD CONSTRAINT `FK_car_reservation_car` FOREIGN KEY (`car_id`) REFERENCES `dbproj_car` (`car_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_car_reservation_customer_car_reservation` FOREIGN KEY (`customer_car_reservation_id`) REFERENCES `dbproj_customer_car_reservation` (`customer_car_reservation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_car_reservation_user_car_reservation` FOREIGN KEY (`user_car_reservation_id`) REFERENCES `dbproj_user_car_reservation` (`user_car_reservation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `dbproj_car_reservation_accessory`
 --
 ALTER TABLE `dbproj_car_reservation_accessory`
   ADD CONSTRAINT `FK_car_reservation_accessory_car_accessory` FOREIGN KEY (`car_accessory_id`) REFERENCES `dbproj_car_accessory` (`car_accessory_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_car_reservation_accessory_car_reservation` FOREIGN KEY (`car_id`,`customer_car_reservation_id`) REFERENCES `dbproj_car_reservation` (`car_id`, `customer_car_reservation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_car_reservation_accessory_car_reservation` FOREIGN KEY (`car_id`,`user_car_reservation_id`) REFERENCES `dbproj_car_reservation` (`car_id`, `user_car_reservation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `dbproj_customer_car_reservation`
+-- Constraints for table `dbproj_user_car_reservation`
 --
-ALTER TABLE `dbproj_customer_car_reservation`
-  ADD CONSTRAINT `FK_customer_car_reservation_sales_invoice` FOREIGN KEY (`sales_invoice_id`) REFERENCES `dbproj_sales_invoice` (`sales_invoice_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_customer_reservation_user` FOREIGN KEY (`user_id`) REFERENCES `dbproj_user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `dbproj_user_car_reservation`
+  ADD CONSTRAINT `FK_user_car_reservation_sales_invoice` FOREIGN KEY (`sales_invoice_id`) REFERENCES `dbproj_sales_invoice` (`sales_invoice_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_user_car_reservation_user` FOREIGN KEY (`user_id`) REFERENCES `dbproj_user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `dbproj_sales_invoice`
