@@ -41,10 +41,14 @@ abstract class Model
      * @param array $keys
      * @return void
      */
-    function setPrimaryKeys(array $keys)
+    function setPrimaryKeys(...$keys)
     {
-        foreach ($keys as $key => $value) {
-            $this->setValue($key, $value);
+        if (count($keys) != count(static::$primaryKeys)) {
+            throw new Exception('???');
+        }
+
+        for ($i = 0; $i < count($keys); $i++) {
+            $this->setValue(static::$primaryKeys[$i], $keys[$i]);
         }
 
         return $this;
