@@ -8,14 +8,14 @@ require_once('include/models/car_model.model.php');
 
 require_once('include/models/user.model.php');
 
-$car = Car::findOne(1);
+$car = Car::findById(1);
 var_dump($car);
 
-$carAccessory = CarAccessory::findOne(100);
+$carAccessory = CarAccessory::findById(100);
 var_dump($carAccessory);
 
-$carModel = CarModel::findOne(1000);
+$carModel = CarModel::findById(1000);
 var_dump($carModel);
 
-$userModel = User::findOne(1);
+$userModel = User::findById(1);
 var_dump($userModel);

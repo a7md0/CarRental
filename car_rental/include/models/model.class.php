@@ -93,10 +93,11 @@ abstract class Model
         return $this->values[$columnName];
     }
 
-    static function findOne($id) {
+    static function findById(...$ids) {
         $db = Database::getInstance();
         $tblName = static::$tableName;
         $pkCol = static::$primaryKeys[0];
+        $id = $ids[0];
 
         $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id;");
 
