@@ -5,7 +5,7 @@ class SalesInvoice extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'sales_invoice';
     protected static $primaryKeys = ['sales_invoice_id'];
-    protected static $properties = ['sales_invoice_id', 'user_id', 'status', 'paid_amount', 'grand_total', 'ref_id'];
+    protected static $properties = ['sales_invoice_id', 'status', 'paid_amount', 'grand_total', 'ref_id'];
 
     /*
 return parent::getValue('car_id');
@@ -45,26 +45,6 @@ parent::setValue('car_id', $value);
     public function setSalesInvoiceId($value)
     {
         parent::setValue('sales_invoice_id', $value);
-
-        return $this;
-    }
-
-    /**
-     * Get the value of user_id
-     */
-    public function getUserId()
-    {
-        return parent::getValue('user_id');
-    }
-
-    /**
-     * Set the value of user_id
-     *
-     * @return self
-     */
-    public function setUserId($value)
-    {
-        parent::setValue('user_id', $value);
 
         return $this;
     }

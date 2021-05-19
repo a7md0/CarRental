@@ -5,7 +5,7 @@ class UserType extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user_type';
     protected static $primaryKeys = ['user_type_id'];
-    protected static $properties = ['user_type_id', 'type'];
+    protected static $properties = ['user_type_id', 'type', 'access_level'];
 
     /*
 return parent::getValue('car_id');
@@ -66,6 +66,27 @@ parent::setValue('car_id', $value);
     public function setType($value)
     {
         parent::setValue('type', $value);
+
+        return $this;
+    }
+
+    
+    /**
+     * Get the value of access_level
+     */
+    public function getAccessLevel()
+    {
+        return parent::getValue('access_level');
+    }
+
+    /**
+     * Set the value of access_level
+     *
+     * @return  self
+     */
+    public function setAccessLevel($value)
+    {
+        parent::setValue('access_level', $value);
 
         return $this;
     }

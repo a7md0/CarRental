@@ -5,7 +5,7 @@ class Transaction extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'transaction';
     protected static $primaryKeys = ['transaction_id'];
-    protected static $properties = ['transaction_id', 'user_id', 'amount', 'method', 'remark', 'created_at'];
+    protected static $properties = ['transaction_id', 'sales_invoice_id', 'amount', 'method', 'remark', 'created_at'];
 
     /*
 return parent::getValue('car_id');
@@ -50,21 +50,21 @@ parent::setValue('car_id', $value);
     }
 
     /**
-     * Get the value of user_id
+     * Get the value of sales_invoice_id
      */
-    public function getUserId()
+    public function getSalesInvoiceId()
     {
-        return parent::getValue('user_id');
+        return parent::getValue('sales_invoice_id');
     }
 
     /**
-     * Set the value of user_id
+     * Set the value of sales_invoice_id
      *
-     * @return self
+     * @return  self
      */
-    public function setUser_id($value)
+    public function setSalesInvoiceId($value)
     {
-        parent::setValue('user_id', $value);
+        parent::setValue('sales_invoice_id', $value);
 
         return $this;
     }
