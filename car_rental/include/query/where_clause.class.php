@@ -98,16 +98,17 @@ class WhereClause
     public function whereIn($column, array $values, $equal = true)
     {
         $last = $this->lastPredicate();
-        $placeholders = "";
+        $placeholders = [];
 
         foreach ($values as $value) {
-            $placeholders += "?";
+            $placeholders[] = "?";
             $this->values[] = $value;
         }
 
         $prefix = $equal == true ? '' : 'NOT ';
+        $list = join(", ", $placeholders);
 
-        $last->predicates[] = "`$column` " . $prefix . "IN ($placeholders)";
+        $last->predicates[] = "`$column` " . $prefix . "IN ($list)";
 
         return $this;
     }
