@@ -3,7 +3,7 @@
 class WhereClause
 {
     private $predicates = [new AndPredicate];
-    private $values = [];
+    public $values = [];
 
     public function hasAny()
     {
