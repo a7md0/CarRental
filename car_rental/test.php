@@ -2,6 +2,7 @@
 
 require_once('include/env.php');
 require_once('include/database.class.php');
+
 require_once('include/models/car.model.php');
 require_once('include/models/car_accessory.model.php');
 require_once('include/models/car_model.model.php');
@@ -21,6 +22,12 @@ var_dump($carModel);
 
 $userModel = User::findById(1);
 var_dump($userModel);
+
+$cars = Car::find();
+var_dump($cars);
+
+$cars = Car::count();
+var_dump($cars);
 
 
 $where0 = (new WhereClause())->where("x", "123", "=")->whereBetween("y", 1, 5);
