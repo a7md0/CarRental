@@ -66,8 +66,6 @@ require_once 'routes/routes.php';
         </nav>
     </header>
 
-    <?php $CURRENT_ROUTE->includePage(); ?>
-
     <main class="<?= join(' ', $CUSTOM_CLASSES['main']); ?>">
         <?php $CURRENT_ROUTE->includePage(); ?>
 
