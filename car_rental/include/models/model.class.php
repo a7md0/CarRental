@@ -123,7 +123,7 @@ abstract class Model
     }*/
 
     /**
-     * Undocumented function
+     * Initialize new object from the provided data.
      *
      * @param array $data
      * @return self
