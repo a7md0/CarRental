@@ -115,6 +115,10 @@ class WhereClause
         return $this;
     }
 
+    // TODO: Search by Full-Text index (array $cols, $queryStr, $searchMode = 'BOOLEAN')
+    // TODO: Where col is equal col [for ON statements] ($prefix1, $col1, $prefix2, $col2, $operator = '=')
+    // TODO: Set col prefix ($prefix)
+
     private function lastPredicate()
     {
         return $this->predicates[count($this->predicates) - 1];
