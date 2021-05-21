@@ -100,7 +100,7 @@ abstract class Model
         $pkCol = static::$primaryKeys[0];
         $id = $ids[0];
 
-        $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id;");
+        $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id LIMIT 1;");
 
         $row = $result->fetch_assoc();
         $model = static::initializeFromData($row);
