@@ -5,7 +5,7 @@ class User extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user';
     protected static $primaryKeys = ['user_id'];
-    protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality'];
+    protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'gender'];
 
     /*
 return parent::getValue('car_id');
@@ -185,6 +185,26 @@ parent::setValue('car_id', $value);
     public function setNationality($value)
     {
         parent::setValue('nationality', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of gender
+     */
+    public function getGender()
+    {
+        return parent::getValue('gender');
+    }
+
+    /**
+     * Set the value of gender
+     *
+     * @return  self
+     */
+    public function setGender($value)
+    {
+        parent::setValue('gender', $value);
 
         return $this;
     }
