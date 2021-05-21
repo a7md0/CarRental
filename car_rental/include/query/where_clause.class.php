@@ -4,8 +4,14 @@
 */
 class WhereClause
 {
-    private $predicates = [new AndPredicate];
+    /** @var Predicate[] */
+    private $predicates = [];
     public $values = [];
+
+    public function __construct()
+    {
+        $this->predicates[] = new AndPredicate;
+    }
 
     public function hasAny()
     {
@@ -118,6 +124,25 @@ class WhereClause
     // TODO: Search by Full-Text index (array $cols, $queryStr, $searchMode = 'BOOLEAN')
     // TODO: Where col is equal col [for ON statements] ($prefix1, $col1, $prefix2, $col2, $operator = '=')
     // TODO: Set col prefix ($prefix)
+
+    public function getSQL($defaultClause = 'WHERE') {
+        $clause = '';
+
+        foreach ($this->predicates as $predicate) {
+            $predicates = $predicate->predicates;
+
+            if (count($predicates) > 0) {
+                if (strlen($clause) > 0) {
+                    $op = $predicate->predicateOperator(); // "AND" or "OR"
+                    $clause .= " $op";
+                }
+
+                $clause .= join(" AND ", $predicates);
+            }
+        }
+
+        return strlen($clause) > 0 ? "$defaultClause $clause" : "";
+    }
 
     private function lastPredicate()
     {
