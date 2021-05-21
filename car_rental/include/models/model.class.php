@@ -164,7 +164,7 @@ abstract class Model
             $insertTypes .= $insert->getTypes();
             $insertValues += $insert->getValues();
 
-            $queries .= "INSERT INTO `$tblName`$insertClause; ";
+            $queries .= "INSERT INTO `$tblName`$insertClause; "; // TODO: Insert values multiple time, instead of diff queries
         }
 
         $stmt = static::executeStatement($queries, $insertTypes, $insertValues);

@@ -15,7 +15,7 @@ class InsertClause
     public function __construct(array $data, array $primaryKeys)
     {
         foreach ($data as $column => $value) {
-            if (in_array($column, $primaryKeys)) {
+            if (in_array($column, $primaryKeys)) { // TODO: Would cause issue with two pfk
                 continue;
             }
 
