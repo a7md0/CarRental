@@ -134,7 +134,9 @@ abstract class Model
         $model = new $modelType;
 
         foreach ($data as $key => $value) {
-            $model->values[$key] = $value;
+            if (in_array($key, static::$properties)) {
+                $model->values[$key] = $value;
+            }
         }
 
         return $model;
