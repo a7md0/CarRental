@@ -1,5 +1,7 @@
 <?php
-
+/*
+ new WhereClause().where("x", "123", "=").whereBetween().or().where("")
+*/
 class WhereClause
 {
     private $predicates = [new AndPredicate];
