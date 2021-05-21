@@ -99,6 +99,9 @@ abstract class Model
 
         $columns = join(', ', array_keys($this->values));
         $values = join(', ', array_values($this->values));
+    public static function primaryKeysColumns() {
+        return static::$primaryKeys;
+    }
 
         $query = "INSERT INTO `$tblName` ($columns) VALUES ($values);"; // TODO: Set clause
 
@@ -109,7 +112,7 @@ abstract class Model
     {
         $primaryKeys = static::$primaryKeys;
 
-        $setClause = new SetClause($this->values);
+        $setClause = new SetClause($this->values, static::primaryKeysColumns());
         $whereClause = new WhereClause();
 
         foreach ($primaryKeys as $primaryKey) {
