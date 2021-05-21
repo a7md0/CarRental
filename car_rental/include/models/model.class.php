@@ -93,19 +93,26 @@ abstract class Model
         return $this->values[$columnName];
     }
 
-    function insert()
+    /**
+     * Get all values.
+     *
+     * @param string $columnName
+     * @return array
+     */
+    function getValues()
     {
-        $tblName = static::$tableName;
+        return $this->values;
+    }
 
-        $columns = join(', ', array_keys($this->values));
-        $values = join(', ', array_values($this->values));
     public static function primaryKeysColumns() {
         return static::$primaryKeys;
     }
 
-        $query = "INSERT INTO `$tblName` ($columns) VALUES ($values);"; // TODO: Set clause
+    function insert()
+    {
+        $affectedRows = static::insertMany([$this]);
 
-        //$stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        return $affectedRows == 1;
     }
 
     function update()
@@ -136,6 +143,37 @@ abstract class Model
         $affectedRows = static::deleteMany($whereClause, 1);
 
         return $affectedRows == 1;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Model[] $models
+     * @return int
+     */
+    static function insertMany(array $models)
+    {
+        $tblName = static::$tableName;
+        $queries = '';
+        $insertTypes = '';
+        $insertValues = [];
+
+        foreach ($models as $model) {
+            $insert = new InsertClause($model->getValues(), $model::primaryKeysColumns());
+            $insertClause = $insert->getSQL();
+            $insertTypes .= $insert->getTypes();
+            $insertValues += $insert->getValues();
+
+            $queries .= "INSERT INTO `$tblName`$insertClause; ";
+        }
+
+        $stmt = static::executeStatement($queries, $insertTypes, $insertValues);
+        $affectedRows = $stmt->affected_rows;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $affectedRows;
     }
 
     static function updateMany(SetClause $set, WhereClause $where = null, $limit = null)
