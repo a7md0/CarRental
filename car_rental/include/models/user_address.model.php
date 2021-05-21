@@ -23,7 +23,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_address_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserAddressId($value)
     {
@@ -43,7 +43,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserId($value)
     {
@@ -63,7 +63,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of type
      *
-     * @return  self
+     * @return self
      */
     public function setType($value)
     {
@@ -83,7 +83,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of address1
      *
-     * @return  self
+     * @return self
      */
     public function setAddress1($value)
     {
@@ -103,7 +103,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of address2
      *
-     * @return  self
+     * @return self
      */
     public function setAddress2($value)
     {
@@ -123,7 +123,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of country
      *
-     * @return  self
+     * @return self
      */
     public function setCountry($value)
     {
@@ -143,7 +143,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of city
      *
-     * @return  self
+     * @return self
      */
     public function setCity($value)
     {
@@ -163,7 +163,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of zip_code
      *
-     * @return  self
+     * @return self
      */
     public function setZipCode($value)
     {

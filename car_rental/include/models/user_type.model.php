@@ -23,7 +23,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_type_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserTypeId($value)
     {
@@ -43,7 +43,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of type
      *
-     * @return  self
+     * @return self
      */
     public function setType($value)
     {
@@ -64,7 +64,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of access_level
      *
-     * @return  self
+     * @return self
      */
     public function setAccessLevel($value)
     {

@@ -30,7 +30,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserId($value)
     {
@@ -50,7 +50,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_type_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserTypeId($value)
     {
@@ -70,7 +70,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of first_name
      *
-     * @return  self
+     * @return self
      */
     public function setFirstName($value)
     {
@@ -90,7 +90,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of last_name
      *
-     * @return  self
+     * @return self
      */
     public function setLastName($value)
     {
@@ -110,7 +110,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of email
      *
-     * @return  self
+     * @return self
      */
     public function setEmail($value)
     {
@@ -130,7 +130,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of password
      *
-     * @return  self
+     * @return self
      */
     public function setPassword($value)
     {
@@ -150,7 +150,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of cpr
      *
-     * @return  self
+     * @return self
      */
     public function setCpr($value)
     {
@@ -170,7 +170,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of nationality
      *
-     * @return  self
+     * @return self
      */
     public function setNationality($value)
     {
@@ -190,7 +190,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of gender
      *
-     * @return  self
+     * @return self
      */
     public function setGender($value)
     {

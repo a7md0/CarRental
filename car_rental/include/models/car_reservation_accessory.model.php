@@ -23,7 +23,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of car_id
      *
-     * @return  self
+     * @return self
      */
     public function setCarId($value)
     {
@@ -43,7 +43,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_car_reservation_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserCarReservationId($value)
     {
@@ -63,7 +63,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of car_accessory_id
      *
-     * @return  self
+     * @return self
      */
     public function setCarAccessoryId($value)
     {

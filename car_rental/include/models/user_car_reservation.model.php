@@ -23,7 +23,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_car_reservation_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserCarReservationId($value)
     {
@@ -43,7 +43,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of user_id
      *
-     * @return  self
+     * @return self
      */
     public function setUserId($value)
     {
@@ -62,7 +62,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of car_id
      *
-     * @return  self
+     * @return self
      */
     public function setCarId($value)
     {
@@ -82,7 +82,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of pickup_date
      *
-     * @return  self
+     * @return self
      */
     public function setPickupDate($value)
     {
@@ -102,7 +102,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of return_date
      *
-     * @return  self
+     * @return self
      */
     public function setReturnDate($value)
     {
@@ -122,7 +122,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of sales_invoice_id
      *
-     * @return  self
+     * @return self
      */
     public function setSalesInvoiceId($value)
     {
@@ -142,7 +142,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of status
      *
-     * @return  self
+     * @return self
      */
     public function setStatus($value)
     {
@@ -162,7 +162,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of created_at
      *
-     * @return  self
+     * @return self
      */
     public function setCreatedAt($value)
     {
@@ -182,7 +182,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of updated_at
      *
-     * @return  self
+     * @return self
      */
     public function setUpdatedAt($value)
     {

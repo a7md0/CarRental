@@ -43,7 +43,7 @@ parent::setValue('car_id', $value);
     /**
      * Set the value of sales_invoice_id
      *
-     * @return  self
+     * @return self
      */
     public function setSalesInvoiceId($value)
     {
