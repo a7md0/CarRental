@@ -414,7 +414,7 @@ abstract class Model
      * @param array $values
      * @return mysqli_stmt|false
      */
-    private static function executeStatement($query, $types, array $values)
+    protected static function executeStatement($query, $types, array $values)
     {
         $db = Database::getInstance();
         $stmt = $db->prepare($query);
