@@ -102,6 +102,10 @@ abstract class Model
 
         $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id LIMIT 1;");
 
+        if ($result->num_rows == 0) {
+            throw new Exception("No record is matching the provided identifiers", 404);
+        }
+
         $row = $result->fetch_assoc();
         $model = static::initializeFromData($row);
 
