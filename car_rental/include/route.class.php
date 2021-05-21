@@ -1,5 +1,10 @@
 <?php
 
+$CUSTOM_CLASSES = [
+    'body' => [],
+    'main' => []
+];
+
 class Route
 {
     /**
@@ -33,6 +38,7 @@ class Route
 
     public function includeHeader()
     {
+        global $CUSTOM_CLASSES;
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
         if (file_exists($file)) {
