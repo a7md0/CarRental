@@ -26,5 +26,5 @@ var_dump($userModel);
 $where0 = (new WhereClause())->where("x", "123", "=")->whereBetween("y", 1, 5);
 
 echo $where0->getSQL('ON') . "<br />";
-print_r($where0->types) . "<br />";
-print_r($where0->values) . "<br />";
+echo $where0->getTypes() . "<br />";
+print_r($where0->getValues()) . "<br />";
