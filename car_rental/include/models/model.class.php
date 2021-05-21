@@ -75,7 +75,7 @@ abstract class Model
      */
     function setValue($columnName, $value)
     {
-        if (!array_key_exists($columnName, static::$properties)) {
+        if (!in_array($columnName, static::$properties)) {
             throw new Exception(get_class($this) . ' property/parent_object ' . $columnName . ' does not exist');
         }
 
