@@ -40,3 +40,22 @@ INNER JOIN `dbproj_car_model` AS CM
 WHERE CR.`car_id` IS NULL;
 
 ----------------------------------------
+
+SELECT C.*, CR.*, CM.*
+FROM `dbproj_car` AS C
+
+LEFT JOIN `dbproj_user_car_reservation` AS CR
+	ON C.`car_id` = CR.`car_id`
+		AND CR.`status` = 'confirmed'
+    AND CR.`return_date` >= '2021-06-10' AND CR.`pickup_date` <= '2021-06-12'
+
+INNER JOIN `dbproj_car_model` AS CM
+	ON C.`car_model_id` = CM.`car_model_id`
+	AND CM.`year` BETWEEN 2020 AND 2021
+
+WHERE C.`status` = 'available'
+AND CR.`car_id` IS NULL
+AND C.`color` = 'Black'
+AND c.`daily_rent_rate` BETWEEN 10 AND 20;
+
+----------------------------------------
