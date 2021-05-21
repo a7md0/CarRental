@@ -7,27 +7,17 @@ class User extends Model
     protected static $primaryKeys = ['user_id'];
     protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'gender'];
 
+    /**
+     * Undocumented variable
+     *
+     * @var UserType
+     */
+    protected $userType = null;
+
     /*
 return parent::getValue('car_id');
 parent::setValue('car_id', $value);
     */
-
-    /**
-     * Undocumented function
-     *
-     * @param array $data
-     * @return self
-     */
-    static function createFromDb(array $data)
-    {
-        $model = new self;
-
-        foreach ($data as $key => $value) {
-            $model->values[$key] = $value;
-        }
-
-        return $model;
-    }
 
     /**
      * Get the value of user_id

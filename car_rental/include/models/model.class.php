@@ -103,7 +103,7 @@ abstract class Model
         $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id;");
 
         $row = $result->fetch_assoc();
-        $model = static::createFromDb($row);
+        $model = static::initializeFromData($row);
 
         $result->free_result();
 
@@ -145,7 +145,17 @@ abstract class Model
      * @param array $data
      * @return self
      */
-    abstract static function createFromDb(array $data);
+    static function initializeFromData(array $data)
+    {
+        $modelType = static::class;
+        $model = new $modelType;
+
+        foreach ($data as $key => $value) {
+            $model->values[$key] = $value;
+        }
+
+        return $model;
+    }
 
     /**
      * Get all items
@@ -192,7 +202,7 @@ abstract class Model
         $className = get_called_class();
         foreach ($result as $row) {
             $item = new $className();
-            $item->createFromDb($row);
+            $item->createFromData($row);
             array_push($collection, $item);
         }
         return $collection;
@@ -227,7 +237,7 @@ abstract class Model
         $row = $s->fetch(PDO::FETCH_ASSOC);
         $className = get_called_class();
         $item = new $className();
-        $item->createFromDb($row);
+        $item->createFromData($row);
         return $item;
     }*/
 

@@ -13,24 +13,6 @@ parent::setValue('car_id', $value);
     */
 
     /**
-     * Undocumented function
-     *
-     * @param array $data
-     * @return self
-     */
-    static function createFromDb(array $data)
-    {
-        $model = new self;
-
-        foreach ($data as $key => $value) {
-            $model->values[$key] = $value;
-        }
-
-        return $model;
-    }
-
-
-    /**
      * Get the value of user_type_id
      */
     public function getUserTypeId()

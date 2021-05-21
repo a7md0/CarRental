@@ -7,24 +7,6 @@ class Car extends Model
     protected static $primaryKeys = ['car_id'];
     protected static $properties = array('car_id', 'car_model_id', 'color', 'daily_rent_rate', 'license_plate', 'vehicle_identification_number', 'status', 'preview_image');
 
-
-    /**
-     * Undocumented function
-     *
-     * @param array $data
-     * @return self
-     */
-    static function createFromDb(array $data)
-    {
-        $model = new self;
-
-        foreach ($data as $key => $value) {
-            $model->values[$key] = $value;
-        }
-
-        return $model;
-    }
-
     /**
      * Undocumented function
      *

@@ -10,23 +10,6 @@ class CarModel extends Model
     /**
      * Undocumented function
      *
-     * @param array $data
-     * @return self
-     */
-    static function createFromDb(array $data)
-    {
-        $model = new self;
-
-        foreach ($data as $key => $value) {
-            $model->values[$key] = $value;
-        }
-
-        return $model;
-    }
-
-    /**
-     * Undocumented function
-     *
      * @param int $value
      * @return self
      */
