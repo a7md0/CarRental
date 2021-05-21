@@ -2,9 +2,11 @@
 
 class SetClause
 {
-    /** @var Predicate[] */
+    /** @var string[] */
     private $predicates = [];
+    /** @var mixed[] */
     private $values = [];
+    /** @var string[] */
     private $types = [];
 
     public function __construct(array $data)
