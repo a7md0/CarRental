@@ -93,27 +93,6 @@ abstract class Model
         return $this->values[$columnName];
     }
 
-    static function findById(...$ids)
-    {
-        $db = Database::getInstance();
-        $tblName = static::$tableName;
-        $pkCol = static::$primaryKeys[0];
-        $id = $ids[0];
-
-        $result = $db->query("SELECT * FROM `$tblName` WHERE `$pkCol` = $id LIMIT 1;");
-
-        if ($result->num_rows == 0) {
-            throw new Exception("No record is matching the provided identifiers", 404);
-        }
-
-        $row = $result->fetch_assoc();
-        $model = static::initializeFromData($row);
-
-        $result->free_result();
-
-        return $model;
-    }
-
     /**
      * Save or update the item data in database
      */
@@ -162,120 +141,162 @@ abstract class Model
     }
 
     /**
-     * Get all items
-     * Conditions are combined by logical AND
-     * @example getAll(array(name=>'Bond',job=>'artist'),'age DESC',0,25) converts to SELECT * FROM TABLE WHERE name='Bond' AND job='artist' ORDER BY age DESC LIMIT 0,25
+     * Find one matching record with the provided identifer(s).
+     *
+     * @param WhereClause $where
+     * @return self|null
      */
-    /*static function getAll($condition = array(), $order = NULL, $startIndex = NULL, $count = NULL)
+    static function findById(...$ids)
     {
-        $query = "SELECT * FROM " . static::$tableName;
-        if (!empty($condition)) {
-            $query .= " WHERE ";
-            foreach ($condition as $key => $value) {
-                $query .= $key . "=:" . $key . " AND ";
-            }
+        $whereClause = new WhereClause();
+        $primaryKeys = static::$primaryKeys;
+
+        for ($i = 0; $i < count($primaryKeys); $i++) {
+            $whereClause->where($primaryKeys[$i], $ids[$i]);
         }
-        $query = rtrim($query, ' AND ');
-        if ($order) {
-            $query .= " ORDER BY " . $order;
+
+        $model = static::findOne($whereClause);
+
+        if ($model == null) {
+            throw new Exception("No record is matching the provided identifiers", 404);
         }
-        if ($startIndex !== NULL) {
-            $query .= " LIMIT " . $startIndex;
-            if ($count) {
-                $query .= "," . $count;
-            }
-        }
-        return self::get($query, $condition);
-    }*/
+
+        return $model;
+    }
 
     /**
-     * Pass a custom query and condition
-     * @example get('SELECT * FROM TABLE WHERE name=:user OR age<:age',array(name=>'Bond',age=>25))
+     * Find any matching records with the provided condition(s).
+     *
+     * @param WhereClause $where
+     * @return self|null
      */
-    /*static function get($query, $condition = array())
+    static function find(WhereClause $where = null)
+    {
+        $tblName = static::$tableName;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "SELECT * FROM `$tblName`$whereClause;";
+
+        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $models = [];
+
+        if ($result = $stmt->get_result()) {
+            while ($row = $result->fetch_assoc()) {
+                $models[] = static::initializeFromData($row);
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $models;
+    }
+
+    /**
+     * Find one matching record with the provided condition(s).
+     *
+     * @param WhereClause $where
+     * @return self|null
+     */
+    static function findOne(WhereClause $where = null)
+    {
+        $tblName = static::$tableName;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "SELECT * FROM `$tblName`$whereClause LIMIT 1;";
+
+        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $model = null;
+
+        if ($result = $stmt->get_result()) {
+            $row = $result->fetch_assoc();
+
+            if ($row != null) {
+                $model = static::initializeFromData($row);
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $model;
+    }
+
+    /**
+     * Count matching rows and return count.
+     *
+     * @param WhereClause $where
+     * @return int
+     */
+    static function count(WhereClause $where = null)
+    {
+        $tblName = static::$tableName;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "SELECT COUNT(*) FROM `$tblName`$whereClause;";
+
+        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $count = 0;
+
+        if ($result = $stmt->get_result()) {
+            $row = $result->fetch_row();
+
+            if ($row != null) {
+                $count = $row[0];
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $count;
+    }
+
+    /**
+     * Prepare and execute statements and bind passed types and values.
+     *
+     * @param string $query
+     * @param string $types
+     * @param array $values
+     * @return mysqli_stmt|false
+     */
+    private static function executeStatement($query, $types, array $values)
     {
         $db = Database::getInstance();
-        $s = $db->getPreparedStatment($query);
-        foreach ($condition as $key => $value) {
-            $condition[':' . $key] = $value;
-            unset($condition[$key]);
-        }
-        $s->execute($condition);
-        $result = $s->fetchAll(PDO::FETCH_ASSOC);
-        $collection = array();
-        $className = get_called_class();
-        foreach ($result as $row) {
-            $item = new $className();
-            $item->createFromData($row);
-            array_push($collection, $item);
-        }
-        return $collection;
-    }*/
+        $stmt = $db->prepare($query);
 
-    /**
-     * Get a single item
-     */
-    /*static function getOne($condition = array(), $order = NULL, $startIndex = NULL)
-    {
-        $query = "SELECT * FROM " . static::$tableName;
-        if (!empty($condition)) {
-            $query .= " WHERE ";
-            foreach ($condition as $key => $value) {
-                $query .= $key . "=:" . $key . " AND ";
-            }
+        if (strlen($types) > 0 && count($values) > 0) {
+            $stmt->bind_param($types, ...$values);
         }
-        $query = rtrim($query, ' AND ');
-        if ($order) {
-            $query .= " ORDER BY " . $order;
-        }
-        if ($startIndex !== NULL) {
-            $query .= " LIMIT " . $startIndex . ",1";
-        }
-        $db = Database::getInstance();
-        $s = $db->getPreparedStatment($query);
-        foreach ($condition as $key => $value) {
-            $condition[':' . $key] = $value;
-            unset($condition[$key]);
-        }
-        $s->execute($condition);
-        $row = $s->fetch(PDO::FETCH_ASSOC);
-        $className = get_called_class();
-        $item = new $className();
-        $item->createFromData($row);
-        return $item;
-    }*/
+        $stmt->execute();
 
-    /**
-     * Get an item by the primarykey
-     */
-    /*static function getByPrimaryKey($value)
-    {
-        $condition = array();
-        $condition[static::$primaryKeys[0]] = $value;
-        return self::getOne($condition);
-    }*/
-
-    /**
-     * Get the number of items
-     */
-    /*static function getCount($condition = array())
-    {
-        $query = "SELECT COUNT(*) FROM " . static::$tableName;
-        if (!empty($condition)) {
-            $query .= " WHERE ";
-            foreach ($condition as $key => $value) {
-                $query .= $key . "=:" . $key . " AND ";
-            }
-        }
-        $query = rtrim($query, ' AND ');
-        $db = Database::getInstance();
-        $s = $db->getPreparedStatment($query);
-        foreach ($condition as $key => $value) {
-            $condition[':' . $key] = $value;
-            unset($condition[$key]);
-        }
-        $s->execute($condition);
-        $countArr = $s->fetch();
-        return $countArr[0];
-    }*/
+        return $stmt;
+    }
 }
