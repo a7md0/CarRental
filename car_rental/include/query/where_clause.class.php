@@ -128,8 +128,26 @@ class WhereClause
         return $this;
     }
 
-    // TODO: Search by Full-Text index (array $cols, $queryStr, $searchMode = 'BOOLEAN')
-    // TODO: Where col is equal col [for ON statements] ($prefix1, $col1, $prefix2, $col2, $operator = '=')
+    public function whereFullText(array $columns, $query) {
+        $last = $this->lastPredicate();
+
+        $last->predicates[] = "MATCH (" . '`'. join('`, `', $columns) . '`' . ") AGAINST (? IN NATURAL LANGUAGE MODE)";
+        $this->values[] = $query;
+        $this->types[] = $this->typeOfValue($query);
+
+        return $this;
+
+    }
+
+    public function whereColumn($prefix1, $col1, $prefix2, $col2, $operator = '=') {
+        $last = $this->lastPredicate();
+
+        $last->predicates[] = "$prefix1.`$col1` $operator $prefix2.`$col2`";
+
+        return $this;
+
+    }
+
     // TODO: Set col prefix ($prefix)
 
     /**
