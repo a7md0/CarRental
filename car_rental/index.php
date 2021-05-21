@@ -37,7 +37,7 @@ require_once 'routes/routes.php';
     <?php $CURRENT_ROUTE->includeHeader(); ?>
 </head>
 
-<body>
+<body class="<?= join(' ', $CUSTOM_CLASSES['body']); ?>">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
@@ -68,7 +68,7 @@ require_once 'routes/routes.php';
 
     <?php $CURRENT_ROUTE->includePage(); ?>
 
-    <main>
+    <main class="<?= join(' ', $CUSTOM_CLASSES['main']); ?>">
         <?php $CURRENT_ROUTE->includePage(); ?>
 
         <hr class="featurette-divider">
