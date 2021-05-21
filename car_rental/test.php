@@ -11,13 +11,12 @@ require_once('include/models/user.model.php');
 
 require_once('include/query/where_clause.class.php');
 require_once('include/query/set_clause.class.php');
+require_once('include/query/insert_clause.class.php');
 
 $car = Car::findById(1);
 var_dump($car);
 
-$car->setValue('color', 'PINK');
-
-var_dump($car->update());
+var_dump($car->insert());
 
 // $carAccessory = CarAccessory::findById(100);
 // var_dump($carAccessory);
