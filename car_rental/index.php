@@ -1,6 +1,6 @@
 <?php
-require_once('include/head.php');
-require_once('routes/routes.php');
+require_once 'include/head.php';
+require_once 'routes/routes.php';
 
 ?>
 <!DOCTYPE html>

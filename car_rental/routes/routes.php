@@ -1,7 +1,7 @@
 <?php
 
-require_once('include/route.class.php');
-require_once('routes.' . basename($_SERVER["SCRIPT_FILENAME"]));
+require_once 'include/route.class.php';
+require_once 'routes.' . basename($_SERVER["SCRIPT_FILENAME"]);
 
 $error401 = new ErrorRoute('Unauthorized', '401');
 $error403 = new ErrorRoute('Forbidden', '403');

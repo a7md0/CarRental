@@ -1,5 +1,5 @@
 <?php
-require_once('model.class.php');
+require_once 'model.class.php';
 
 class CarAccessory extends Model
 {

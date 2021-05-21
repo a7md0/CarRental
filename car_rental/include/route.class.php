@@ -36,13 +36,13 @@ class Route
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
         if (file_exists($file)) {
-            include_once($file);
+            include_once $file;
         }
     }
 
     public function includePage()
     {
-        require_once("$this->pageFolder/$this->pageFile.page.php");
+        require_once "$this->pageFolder/$this->pageFile.page.php";
     }
 
     public function includeFooter()
@@ -50,7 +50,7 @@ class Route
         $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
 
         if (file_exists($file)) {
-            include_once($file);
+            include_once $file;
         }
     }
 }
