@@ -7,6 +7,7 @@ class WhereClause
     /** @var Predicate[] */
     private $predicates = [];
     public $values = [];
+    public $types = [];
 
     public function __construct()
     {
@@ -39,6 +40,7 @@ class WhereClause
 
         $last->predicates[] = "`$column` $operator ?";
         $this->values[] = $value;
+        $this->types[] = $this->typeOfValue($value);
 
         return $this;
     }
@@ -59,8 +61,12 @@ class WhereClause
         $prefix = $equal == true ? '' : 'NOT ';
 
         $last->predicates[] = "`$column` " . $prefix . "BETWEEN ? AND ?";
+
         $this->values[] = $minValue;
+        $this->types[] = $this->typeOfValue($minValue);
+
         $this->values[] = $maxValue;
+        $this->types[] = $this->typeOfValue($maxValue);
 
         return $this;
     }
@@ -111,6 +117,7 @@ class WhereClause
         foreach ($values as $value) {
             $placeholders[] = "?";
             $this->values[] = $value;
+            $this->types[] = $this->typeOfValue($value);
         }
 
         $prefix = $equal == true ? '' : 'NOT ';
@@ -125,7 +132,8 @@ class WhereClause
     // TODO: Where col is equal col [for ON statements] ($prefix1, $col1, $prefix2, $col2, $operator = '=')
     // TODO: Set col prefix ($prefix)
 
-    public function getSQL($defaultClause = 'WHERE') {
+    public function getSQL($defaultClause = 'WHERE')
+    {
         $clause = '';
 
         foreach ($this->predicates as $predicate) {
@@ -147,6 +155,20 @@ class WhereClause
     private function lastPredicate()
     {
         return $this->predicates[count($this->predicates) - 1];
+    }
+
+    private function typeOfValue($value)
+    {
+        switch (gettype($value)) {
+            case 'integer':
+                return 'i';
+            case 'double':
+                return 'd';
+            case 'string':
+                return 's';
+            default:
+                return 'b';
+        }
     }
 }
 
