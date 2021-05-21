@@ -9,9 +9,13 @@ class SetClause
     /** @var string[] */
     private $types = [];
 
-    public function __construct(array $data)
+    public function __construct(array $data, array $primaryKeys)
     {
         foreach ($data as $column => $value) {
+            if (in_array($column, $primaryKeys)) {
+                continue;
+            }
+
             $val = $value;
 
             if ($val == null) {
