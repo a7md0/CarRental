@@ -16,7 +16,7 @@ abstract class Model
      * Undocumented function
      *
      * @param int $value
-     * @return self
+     * @return static
      */
     function setPrimaryKey($value)
     {
@@ -251,7 +251,7 @@ abstract class Model
      * Initialize new object from the provided data.
      *
      * @param array $data
-     * @return self
+     * @return static
      */
     static function initializeFromData(array $data)
     {
@@ -271,7 +271,7 @@ abstract class Model
      * Find one matching record with the provided identifer(s).
      *
      * @param WhereClause $where
-     * @return self|null
+     * @return static|null
      */
     static function findById(...$ids)
     {
@@ -295,7 +295,7 @@ abstract class Model
      * Find any matching records with the provided condition(s).
      *
      * @param WhereClause $where
-     * @return self|null
+     * @return static|null
      */
     static function find(WhereClause $where = null)
     {
@@ -332,7 +332,7 @@ abstract class Model
      * Find one matching record with the provided condition(s).
      *
      * @param WhereClause $where
-     * @return self|null
+     * @return static|null
      */
     static function findOne(WhereClause $where = null)
     {
