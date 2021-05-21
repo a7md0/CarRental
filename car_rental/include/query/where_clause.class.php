@@ -6,8 +6,8 @@ class WhereClause
 {
     /** @var Predicate[] */
     private $predicates = [];
-    public $values = [];
-    public $types = [];
+    private $values = [];
+    private $types = [];
 
     public function __construct()
     {
@@ -132,6 +132,12 @@ class WhereClause
     // TODO: Where col is equal col [for ON statements] ($prefix1, $col1, $prefix2, $col2, $operator = '=')
     // TODO: Set col prefix ($prefix)
 
+    /**
+     * Return built string part of the where clause.
+     *
+     * @param string $defaultClause The default clause to use, default to 'WHERE'
+     * @return string
+     */
     public function getSQL($defaultClause = 'WHERE')
     {
         $clause = '';
@@ -150,6 +156,24 @@ class WhereClause
         }
 
         return strlen($clause) > 0 ? "$defaultClause $clause" : "";
+    }
+
+    /**
+     * Return string representation of current types in one string.
+     *
+     * @return string
+     */
+    public function getTypes() {
+        return join('', $this->types);
+    }
+
+    /**
+     * Return values of the current where clause.
+     *
+     * @return array
+     */
+    public function getValues() {
+        return $this->values;
     }
 
     private function lastPredicate()
