@@ -23,8 +23,7 @@ $userModel = User::findById(1);
 var_dump($userModel);
 
 
-$where0 = new WhereClause();
-$where0->where("x", "123", "=")->whereBetween("y", 1, 5);
+$where0 = (new WhereClause())->where("x", "123", "=")->whereBetween("y", 1, 5);
 
 echo $where0->getSQL('ON') . "<br />";
 print_r($where0->values);
