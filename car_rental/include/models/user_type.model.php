@@ -70,7 +70,7 @@ parent::setValue('car_id', $value);
         return $this;
     }
 
-    
+
     /**
      * Get the value of access_level
      */

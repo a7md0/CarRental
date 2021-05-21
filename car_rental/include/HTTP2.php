@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of HTTP2
  *
@@ -64,7 +65,7 @@ class HTTP2
         // RFC822 or RFC850
         $format = ini_get('y2k_compliance') ? 'D, d M Y' : 'l, d-M-y';
 
-        return gmdate($format .' H:i:s \G\M\T', $time);
+        return gmdate($format . ' H:i:s \G\M\T', $time);
     }
 
     /**
@@ -336,7 +337,7 @@ class HTTP2
             $p = parse_url($this->absoluteURI($url));
         } elseif ($p['scheme'] != 'http') {
             throw new InvalidArgumentException(
-                'Unsupported protocol: '. $p['scheme']
+                'Unsupported protocol: ' . $p['scheme']
             );
         }
 
@@ -395,20 +396,21 @@ class HTTP2
         }
 
         $url = $this->absoluteURI($url);
-        header('Location: '. $url);
+        header('Location: ' . $url);
 
-        if ($rfc2616 && isset($_SERVER['REQUEST_METHOD'])
+        if (
+            $rfc2616 && isset($_SERVER['REQUEST_METHOD'])
             && $_SERVER['REQUEST_METHOD'] != 'HEAD'
         ) {
             echo '
-<p>Redirecting to: <a href="'.str_replace('"', '%22', $url).'">'
-                 .htmlspecialchars($url).'</a>.</p>
+<p>Redirecting to: <a href="' . str_replace('"', '%22', $url) . '">'
+                . htmlspecialchars($url) . '</a>.</p>
 <script type="text/javascript">
 //<![CDATA[
 if (location.replace == null) {
     location.replace = location.assign;
 }
-location.replace("'.str_replace('"', '\\"', $url).'");
+location.replace("' . str_replace('"', '\\"', $url) . '");
 // ]]>
 </script>';
         }
@@ -449,12 +451,12 @@ location.replace("'.str_replace('"', '\\"', $url).'");
                 return $url;
             }
             if (!empty($protocol)) {
-                $url = $protocol .':'. end($array = explode(':', $url, 2));
+                $url = $protocol . ':' . end($array = explode(':', $url, 2));
             }
             if (!empty($port)) {
                 $url = preg_replace(
                     '!^(([a-z0-9]+)://[^/:]+)(:[\d]+)?!i',
-                    '\1:'. $port,
+                    '\1:' . $port,
                     $url
                 );
             }
@@ -489,21 +491,24 @@ location.replace("'.str_replace('"', '\\"', $url).'");
             unset($port);
         }
 
-        $server = $protocol.'://'.$host.(isset($port) ? ':'.$port : '');
+        $server = $protocol . '://' . $host . (isset($port) ? ':' . $port : '');
 
         $uriAll = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI']
-                                                 : $_SERVER['PHP_SELF'];
+            : $_SERVER['PHP_SELF'];
         if (false !== ($q = strpos($uriAll, '?'))) {
             $uriBase = substr($uriAll, 0, $q);
         } else {
             $uriBase = $uriAll;
         }
-        if (!strlen($url) || $url{0} == '#') {
-            $url = $uriAll.$url;
-        } elseif ($url{0} == '?') {
-            $url = $uriBase.$url;
+        if (!strlen($url) || $url{
+            0} == '#') {
+            $url = $uriAll . $url;
+        } elseif ($url{
+            0} == '?') {
+            $url = $uriBase . $url;
         }
-        if ($url{0} == '/') {
+        if ($url{
+            0} == '/') {
             return $server . $url;
         }
 
@@ -516,7 +521,7 @@ location.replace("'.str_replace('"', '\\"', $url).'");
              *
              * @link http://pear.php.net/bugs/12672
              */
-            $path = dirname($uriBase.'-');
+            $path = dirname($uriBase . '-');
         }
 
         if (substr($path = strtr($path, '\\', '/'), -1) != '/') {
@@ -554,10 +559,12 @@ location.replace("'.str_replace('"', '\\"', $url).'");
             while ($pos < $len - 1) {
                 $link = array();
                 $pos = $len - strlen(ltrim(substr($line, $pos)));
-                if ($line{$pos} == ',') {
+                if ($line{
+                    $pos} == ',') {
                     ++$pos;
                     continue;
-                } else if ($line{$pos} != '<') {
+                } else if ($line{
+                    $pos} != '<') {
                     break;
                 }
                 $end = strpos($line, '>', $pos + 1);
@@ -568,12 +575,14 @@ location.replace("'.str_replace('"', '\\"', $url).'");
                 $pos = $end + 1;
 
                 while ($pos < $len - 1) {
-                    if ($line{$pos} == ',') {
+                    if ($line{
+                        $pos} == ',') {
                         $extracted[] = $link;
                         $link = array();
                         ++$pos;
                         continue;
-                    } else if ($line{$pos} != ';') {
+                    } else if ($line{
+                        $pos} != ';') {
                         break;
                     }
 
@@ -584,9 +593,10 @@ location.replace("'.str_replace('"', '\\"', $url).'");
                     }
                     $pname = trim(substr($line, $pos, $end - $pos));
                     $pos = $end + 1;
-                    
+
                     $rest = trim(substr($line, $pos));
-                    if ($rest{0} == '"') {
+                    if ($rest{
+                        0} == '"') {
                         $pos = strpos($line, '"', $pos) + 1;
                         $end = strpos($line, '"', $pos + 1);
                         $pval = substr($line, $pos, $end - $pos);
@@ -613,7 +623,9 @@ location.replace("'.str_replace('"', '\\"', $url).'");
                         }
                         list($charset, $lang, $val) = $parts;
                         $link[$pname][$lang] = $this->convertCharset(
-                            $charset, 'utf-8', urldecode($val)
+                            $charset,
+                            'utf-8',
+                            urldecode($val)
                         );
                     } else if ($pname == 'rel' || $pname == 'rev') {
                         if (!isset($link[$pname])) {
@@ -626,7 +638,8 @@ location.replace("'.str_replace('"', '\\"', $url).'");
                     } else if (!isset($link[$pname])) {
                         $link[$pname] = $pval;
                     }
-                    if ($end >= $len || $line{$end} == ',') {
+                    if ($end >= $len || $line{
+                        $end} == ',') {
                         break;
                     }
                 }
@@ -659,4 +672,3 @@ location.replace("'.str_replace('"', '\\"', $url).'");
         return $str;
     }
 }
-?>

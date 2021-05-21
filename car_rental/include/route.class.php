@@ -31,7 +31,8 @@ class Route
         $this->pageFolder = $pageFolder;
     }
 
-    public function includeHeader() {
+    public function includeHeader()
+    {
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
         if (file_exists($file)) {
@@ -39,11 +40,13 @@ class Route
         }
     }
 
-    public function includePage() {
+    public function includePage()
+    {
         require_once("$this->pageFolder/$this->pageFile.page.php");
     }
 
-    public function includeFooter() {
+    public function includeFooter()
+    {
         $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
 
         if (file_exists($file)) {
@@ -52,18 +55,18 @@ class Route
     }
 }
 
-class AuthorizedOnlyRoute extends Route {
-
+class AuthorizedOnlyRoute extends Route
+{
 }
 
-class UnauthorizedOnlyRoute extends Route {
-
+class UnauthorizedOnlyRoute extends Route
+{
 }
 
-class ErrorRoute extends Route {
+class ErrorRoute extends Route
+{
     public function __construct($pageTitle, $pageFile, $pageFolder = "pages/errors")
     {
         parent::__construct($pageTitle, $pageFile, $pageFolder);
     }
 }
-

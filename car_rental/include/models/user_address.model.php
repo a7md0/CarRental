@@ -11,7 +11,7 @@ class UserAddress extends Model
 return parent::getValue('car_id');
 parent::setValue('car_id', $value);
     */
-    
+
     /**
      * Undocumented function
      *

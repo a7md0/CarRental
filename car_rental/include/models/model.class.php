@@ -61,7 +61,7 @@ abstract class Model
      */
     function getPrimaryKeys()
     {
-        return array_map(function($key) {
+        return array_map(function ($key) {
             return $this->getValue($key);
         }, static::$primaryKeys);
     }
@@ -93,7 +93,8 @@ abstract class Model
         return $this->values[$columnName];
     }
 
-    static function findById(...$ids) {
+    static function findById(...$ids)
+    {
         $db = Database::getInstance();
         $tblName = static::$tableName;
         $pkCol = static::$primaryKeys[0];
