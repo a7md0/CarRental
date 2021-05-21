@@ -93,34 +93,118 @@ abstract class Model
         return $this->values[$columnName];
     }
 
-    /**
-     * Save or update the item data in database
-     */
-    /*function save()
+    function insert()
     {
-        $class = get_called_class();
-        $query =  "REPLACE INTO " . static::$tableName . " (" . implode(",", array_keys($this->columns)) . ") VALUES(";
-        $keys = array();
-        foreach ($this->columns as $key => $value) {
-            $keys[":" . $key] = $value;
+        $tblName = static::$tableName;
+
+        $columns = join(', ', array_keys($this->values));
+        $values = join(', ', array_values($this->values));
+
+        $query = "INSERT INTO `$tblName` ($columns) VALUES ($values);"; // TODO: Set clause
+
+        //$stmt = static::executeStatement($query, $whereTypes, $whereValues);
+    }
+
+    function update()
+    {
+        $primaryKeys = static::$primaryKeys;
+
+        $setClause = new SetClause($this->values);
+        $whereClause = new WhereClause();
+
+        foreach ($primaryKeys as $primaryKey) {
+            $whereClause->where($primaryKey, $this->values[$primaryKey]);
         }
-        $query .= implode(",", array_keys($keys)) . ")";
-        $db = Database::getInstance();
-        $s = $db->getPreparedStatment($query);
-        $s->execute($keys);
-    }*/
+
+        $affectedRows = static::updateMany($setClause, $whereClause, 1);
+
+        return $affectedRows == 1;
+    }
+
+    function delete()
+    {
+        $primaryKeys = static::$primaryKeys;
+        $whereClause = new WhereClause();
+
+        foreach ($primaryKeys as $primaryKey) {
+            $whereClause->where($primaryKey, $this->values[$primaryKey]);
+        }
+
+        $affectedRows = static::deleteMany($whereClause, 1);
+
+        return $affectedRows == 1;
+    }
+
+    static function updateMany(SetClause $set, WhereClause $where = null, $limit = null)
+    {
+        $tblName = static::$tableName;
+
+        $setClause = '';
+        $setTypes = '';
+        $setValues = [];
+
+        if (isset($set) && $set->hasAny()) {
+            $setClause = ' ' . $set->getSQL() . ' ';
+            $setTypes = $set->getTypes();
+            $setValues = $set->getValues();
+        }
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        $limitClause = $limit == null ? '' : " LIMIT $limit";
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "UPDATE `$tblName`$setClause$whereClause$limitClause;"; // TODO: Set clause
+
+        $stmt = static::executeStatement($query, $setTypes . $whereTypes, array_merge($setValues, $whereValues));
+        $affectedRows = $stmt->affected_rows;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $affectedRows;
+    }
 
     /**
-     * Delete this item data from database
+     * Delete many records from the current table where the provided condition(s) matches. Also, it is possible to limit the delete process to number of rows.
+     *
+     * @param WhereClause $where
+     * @param int|null $limit
+     * @return int
      */
-    /*function delete()
+    static function deleteMany(WhereClause $where = null, $limit = null)
     {
-        $class = get_called_class();
-        $query = "DELETE FROM " . static::$tableName . " WHERE " . static::$primaryKey . "=:id LIMIT 1";
-        $db = Database::getInstance();
-        $s = $db->getPreparedStatment($query);
-        $s->execute(array(':id' => $this->columns[static::$primaryKey]));
-    }*/
+        $tblName = static::$tableName;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        $limitClause = $limit == null ? '' : " LIMIT $limit";
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "DELETE FROM `$tblName`$whereClause$limitClause;"; // TODO: Set clause
+
+        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $affectedRows = $stmt->affected_rows;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $affectedRows;
+    }
 
     /**
      * Initialize new object from the provided data.
