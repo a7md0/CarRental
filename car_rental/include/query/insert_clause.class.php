@@ -19,19 +19,16 @@ class InsertClause
                 continue;
             }
 
-            $val = $value;
-
-            if ($val == null) {
-                $val = 'NULL';
+            if ($value == null) {
+                continue;
             }
 
             $this->columns[] = $column;
             $this->valuesPlaceholder[] = '?';
 
-            $this->values[] = $val;
-            $this->types[] = static::typeOfValue($val);
+            $this->values[] = $value;
+            $this->types[] = static::typeOfValue($value);
         }
-
     }
 
     public function hasAny()

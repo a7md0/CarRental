@@ -16,17 +16,14 @@ class SetClause
                 continue;
             }
 
-            $val = $value;
-
-            if ($val == null) {
-                $val = 'NULL';
+            if ($value == null) {
+                $this->predicates[] = "`$column` = NULL";
+            } else {
+                $this->predicates[] = "`$column` = ?";
+                $this->values[] = $value;
+                $this->types[] = static::typeOfValue($value);
             }
-
-            $this->predicates[] = "`$column` = ?";
-            $this->values[] = $val;
-            $this->types[] = static::typeOfValue($val);
         }
-
     }
 
     public function hasAny()
