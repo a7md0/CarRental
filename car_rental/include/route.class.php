@@ -5,6 +5,8 @@ $CUSTOM_CLASSES = [
     'main' => []
 ];
 
+$HIDE_FOOTER = false;
+
 class Route
 {
     /**
@@ -38,7 +40,7 @@ class Route
 
     public function includeHeader()
     {
-        global $CUSTOM_CLASSES;
+        global $CUSTOM_CLASSES, $HIDE_FOOTER;
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
         if (file_exists($file)) {

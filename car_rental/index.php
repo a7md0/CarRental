@@ -69,12 +69,14 @@ require_once 'routes/routes.php';
     <main class="<?= join(' ', $CUSTOM_CLASSES['main']); ?>">
         <?php $CURRENT_ROUTE->includePage(); ?>
 
-        <hr class="featurette-divider">
+        <?php if ($HIDE_FOOTER === false) { ?>
+            <hr class="featurette-divider">
 
-        <footer class="container">
-            <p class="float-end"><a href="#">Back to top</a></p>
-            <p>&copy; 2017–2021 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-        </footer>
+            <footer class="container">
+                <p class="float-end"><a href="#">Back to top</a></p>
+                <p>&copy; <?= date("Y"); ?> Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            </footer>
+        <?php } ?>
     </main>
 
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>

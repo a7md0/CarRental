@@ -43,4 +43,5 @@
 <?php
 $CUSTOM_CLASSES['body'][] = 'text-center';
 $CUSTOM_CLASSES['main'][] = 'form-signin';
+$HIDE_FOOTER = true;
 ?>
