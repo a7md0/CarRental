@@ -194,6 +194,12 @@ class WhereClause
                 return 'b';
         }
     }
+
+    public function __clone() {
+        $this->predicates = clone $this->predicates;
+        $this->values = clone $this->values;
+        $this->types = clone $this->types;
+    }
 }
 
 abstract class Predicate
