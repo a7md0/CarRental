@@ -49,10 +49,7 @@ require_once 'routes/routes.php';
                             <a class="nav-link<?= $requestPage == 'home' ? ' active' : ''; ?>" href="">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            <a class="nav-link<?= $requestPage == 'lookup-cars' ? ' active' : ''; ?>" href="?p=lookup-cars">Lookup cars</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
