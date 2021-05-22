@@ -5,7 +5,7 @@ class User extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user';
     protected static $primaryKeys = ['user_id'];
-    protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'gender'];
+    protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'gender', 'phone'];
 
     /**
      * Undocumented variable
@@ -197,6 +197,27 @@ parent::setValue('car_id', $value);
     public function setGender($value)
     {
         parent::setValue('gender', $value);
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of phone
+     */
+    public function getPhone()
+    {
+        return parent::getValue('phone');
+    }
+
+    /**
+     * Set the value of gender
+     *
+     * @return self
+     */
+    public function setPhone($value)
+    {
+        parent::setValue('phone', $value);
 
         return $this;
     }
