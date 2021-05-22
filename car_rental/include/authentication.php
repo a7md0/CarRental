@@ -3,6 +3,15 @@
 session_name('CrsSession');
 session_start();
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout']) && isset($_SESSION['user'])) {
+    session_unset();
+    session_destroy();
+
+    header('Location: ?p=home');
+
+    exit;
+}
+
 /** @var User|null */
 $CURRENT_USER = null;
 if (isset($_SESSION['user'])) {
@@ -10,3 +19,4 @@ if (isset($_SESSION['user'])) {
 
     $CURRENT_USER = User::findById($user_id);
 }
+
