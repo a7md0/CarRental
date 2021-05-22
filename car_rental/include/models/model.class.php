@@ -105,7 +105,8 @@ abstract class Model
         return $this->values;
     }
 
-    public static function primaryKeysColumns() {
+    public static function primaryKeysColumns()
+    {
         return static::$primaryKeys;
     }
 
