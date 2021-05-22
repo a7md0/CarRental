@@ -121,6 +121,8 @@ parent::setValue('car_id', $value);
 
     /**
      * Get the value of password
+     *
+     * @return string
      */
     public function getPassword()
     {
