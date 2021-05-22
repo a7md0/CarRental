@@ -22,7 +22,7 @@
     <div class="row g-3">
         <div class="col-6">
             <label for="firstName" class="form-label">First name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" value="" autocomplete="given-name" required>
+            <input type="text" class="form-control" id="firstName" name="first_name" value="<?= @$_POST['first_name'] ?>" autocomplete="given-name" required>
             <div class="invalid-feedback">
                 Valid first name is required.
             </div>
@@ -30,7 +30,7 @@
 
         <div class="col-6">
             <label for="lastName" class="form-label">Last name</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" value="" autocomplete="family-name" required>
+            <input type="text" class="form-control" id="lastName" name="last_name" value="<?= @$_POST['last_name'] ?>" autocomplete="family-name" required>
             <div class="invalid-feedback">
                 Valid last name is required.
             </div>
@@ -40,7 +40,7 @@
 
         <div class="col-6">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <input type="email" class="form-control" id="email" name="email" value="<?= @$_POST['email'] ?>" placeholder="you@example.com" autocomplete="email" required>
             <div class="invalid-feedback">
                 Please enter a valid email.
             </div>
@@ -58,7 +58,7 @@
 
         <div class="col-6">
             <label for="cpr" class="form-label">CPR</label>
-            <input type="text" class="form-control" id="cpr" name="cpr" placeholder="990000000" required>
+            <input type="text" class="form-control" id="cpr" name="cpr" value="<?= @$_POST['cpr'] ?>" placeholder="990000000" minlength="9" maxlength="9" required>
             <div class="invalid-feedback">
                 Please enter a valid cpr.
             </div>
@@ -267,7 +267,7 @@
 
         <div class="col-6">
             <label for="phone" class="form-label">Phone</label>
-            <input type="tel" class="form-control" id="phone" name="phone" placeholder="3xxxxxxx" autocomplete="tel-local" required>
+            <input type="tel" class="form-control" id="phone" name="phone" value="<?= @$_POST['phone'] ?>" placeholder="3xxxxxxx" autocomplete="tel-local" minlength="8" maxlength="8" required>
         </div>
 
         <div class="col-6">
