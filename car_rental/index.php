@@ -1,4 +1,5 @@
 <?php
+require_once 'include/auto_loader.php';
 require_once 'include/head.php';
 require_once 'routes/routes.php';
 
