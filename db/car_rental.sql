@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2021 at 08:32 PM
+-- Generation Time: May 22, 2021 at 08:59 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -43,15 +43,52 @@ CREATE TABLE `dbproj_car` (
 --
 
 INSERT INTO `dbproj_car` (`car_id`, `car_model_id`, `color`, `daily_rent_rate`, `license_plate`, `vehicle_identification_number`, `status`, `preview_image`) VALUES
-(1, 1000, 'Black', '11.999', '24927', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_black.jpg'),
-(2, 1000, 'White', '11.999', '46070', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_white.jpg'),
-(3, 1000, 'Beige', '11.999', '36005', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_beige.jpg'),
-(4, 1000, 'Blue', '11.999', '34423', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_blue.jpg'),
-(5, 1000, 'Gray', '11.999', '37566', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_gray.jpg'),
-(6, 1000, 'Red', '11.999', '77542', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_red.jpg'),
-(7, 1000, 'Red', '11.999', '88879', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_silver.jpg'),
-(8, 1005, 'Black', '12.699', '20300', NULL, 'available', NULL),
-(9, 1005, 'White', '12.699', '27166', NULL, 'available', NULL);
+(1, 1000, 'Black', '11.999', '478415', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_black.jpg'),
+(2, 1000, 'White', '11.999', '409310', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_white.jpg'),
+(3, 1000, 'Beige', '11.999', '611306', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_beige.jpg'),
+(4, 1000, 'Blue', '11.999', '828601', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_blue.jpg'),
+(5, 1000, 'Gray', '11.999', '309090', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_gray.jpg'),
+(6, 1000, 'Red', '11.999', '59644', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_red.jpg'),
+(7, 1000, 'Silver', '11.999', '370954', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_silver.jpg'),
+(8, 1003, 'Black', '11.999', '675836', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_black.jpg'),
+(9, 1003, 'White', '11.999', '266317', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_white.jpg'),
+(10, 1003, 'Beige', '11.999', '304080', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_beige.jpg'),
+(11, 1003, 'Blue', '11.999', '721451', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_blue.jpg'),
+(12, 1003, 'Gray', '11.999', '695012', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_gray.jpg'),
+(13, 1003, 'Red', '11.999', '310710', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_red.jpg'),
+(14, 1003, 'Silver', '11.999', '468515', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_silver.jpg'),
+(15, 1010, 'Black', '11.999', '410444', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_black.jpg'),
+(16, 1010, 'White', '11.999', '646678', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_white.jpg'),
+(17, 1010, 'Blue', '11.999', '2057', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_blue.jpg'),
+(18, 1010, 'Gray', '11.999', '70250', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_gray.jpg'),
+(19, 1010, 'Red', '11.999', '345081', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_red.jpg'),
+(20, 1010, 'Silver', '11.999', '514655', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg'),
+(21, 1005, 'Black', '11.999', '538033', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_black.jpg'),
+(22, 1005, 'White', '11.999', '146201', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_white.jpg'),
+(23, 1005, 'Blue', '11.999', '116906', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_blue.jpg'),
+(24, 1005, 'Gray', '11.999', '145927', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_gray.jpg'),
+(25, 1005, 'Red', '11.999', '378919', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_red.jpg'),
+(26, 1005, 'Silver', '11.999', '456813', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_silver.jpg'),
+(27, 1035, 'Black', '11.999', '147311', NULL, 'available', 'assets/images/cars/honda_accord_2020_black.jpg'),
+(28, 1035, 'White', '11.999', '366115', NULL, 'available', 'assets/images/cars/honda_accord_2020_white.jpg'),
+(29, 1035, 'Blue', '11.999', '388641', NULL, 'available', 'assets/images/cars/honda_accord_2020_blue.jpg'),
+(30, 1035, 'Red', '11.999', '844862', NULL, 'available', 'assets/images/cars/honda_accord_2020_red.jpg'),
+(31, 1035, 'Silver', '11.999', '58387', NULL, 'available', 'assets/images/cars/honda_accord_2020_silver.jpg'),
+(32, 1015, 'Black', '11.999', '757350', NULL, 'available', 'assets/images/cars/gmc_yukon_2020_black.jpg'),
+(33, 1015, 'White', '11.999', '611589', NULL, 'available', 'assets/images/cars/gmc_yukon_2020_white.jpg'),
+(34, 1015, 'Blue', '11.999', '785897', NULL, 'available', 'assets/images/cars/gmc_yukon_2020_blue.jpg'),
+(35, 1015, 'Red', '11.999', '94716', NULL, 'available', 'assets/images/cars/gmc_yukon_2020_red.jpg'),
+(37, 1020, 'White', '11.999', '115889', NULL, 'available', 'assets/images/cars/gmc_acadia_2020_white.jpg'),
+(38, 1030, 'Black', '11.999', '295298', NULL, 'available', 'assets/images/cars/ford_mustang_2020_black.jpg'),
+(39, 1030, 'Blue', '11.999', '128826', NULL, 'available', 'assets/images/cars/ford_mustang_2020_blue.jpg'),
+(40, 1030, 'Lime', '11.999', '758235', NULL, 'available', 'assets/images/cars/ford_mustang_2020_lime.jpg'),
+(41, 1030, 'Orange', '11.999', '404699', NULL, 'available', 'assets/images/cars/ford_mustang_2020_orange.jpg'),
+(42, 1030, 'Red', '11.999', '748789', NULL, 'available', 'assets/images/cars/ford_mustang_2020_red.jpg'),
+(43, 1030, 'White', '11.999', '529850', NULL, 'available', 'assets/images/cars/ford_mustang_2020_white.jpg'),
+(44, 1025, 'Black', '11.999', '402882', NULL, 'available', 'assets/images/cars/ford_explorer_2020_black.jpg'),
+(45, 1025, 'Blue', '11.999', '424859', NULL, 'available', 'assets/images/cars/ford_explorer_2020_blue.jpg'),
+(46, 1025, 'Silver', '11.999', '915653', NULL, 'available', 'assets/images/cars/ford_explorer_2020_silver.jpg'),
+(47, 1010, 'Silver', '11.999', '345081', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg');
 
 -- --------------------------------------------------------
 
@@ -305,10 +342,10 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (1, 1, 6, '2021-05-13', '2021-05-16', 'confirmed', NULL, '2021-05-19 20:15:34', '2021-05-19 20:15:34'),
 (2, 1, 7, '2021-05-11', '2021-05-14', 'confirmed', NULL, '2021-05-19 20:15:35', '2021-05-19 20:15:35'),
 (3, 1, 7, '2021-05-18', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:15:36', '2021-05-19 20:15:36'),
-(4, 1, 8, '2021-05-10', '2021-05-20', 'confirmed', NULL, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
-(5, 1, 9, '2021-05-10', '2021-05-12', 'confirmed', NULL, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
-(6, 1, 9, '2021-05-18', '2021-05-18', 'confirmed', NULL, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
-(7, 1, 9, '2021-05-20', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:37:34', '2021-05-19 20:37:34');
+(4, 1, 5, '2021-05-10', '2021-05-20', 'confirmed', NULL, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
+(5, 1, 5, '2021-05-10', '2021-05-12', 'confirmed', NULL, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
+(6, 1, 5, '2021-05-18', '2021-05-18', 'confirmed', NULL, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
+(7, 1, 5, '2021-05-20', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:37:34', '2021-05-19 20:37:34');
 
 -- --------------------------------------------------------
 
@@ -428,7 +465,7 @@ ALTER TABLE `dbproj_user_type`
 -- AUTO_INCREMENT for table `dbproj_car`
 --
 ALTER TABLE `dbproj_car`
-  MODIFY `car_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `car_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `dbproj_car_accessory`
