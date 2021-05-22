@@ -32,10 +32,6 @@ require_once 'routes/routes.php';
         }
     </style>
 
-
-    <!-- Custom styles for this template -->
-    <link href="assets/bootstrap/css/carousel.css" rel="stylesheet">
-
     <?php $CURRENT_ROUTE->includeHeader(); ?>
 </head>
 
