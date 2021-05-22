@@ -84,3 +84,22 @@ class ErrorRoute extends Route
         parent::__construct($pageTitle, $pageFile, $pageFolder);
     }
 }
+
+class AdminOnlyRoute extends Route
+{
+    public function __construct($pageTitle, $pageFile, $pageFolder = "pages/admin")
+    {
+        parent::__construct($pageTitle, $pageFile, $pageFolder);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function canAccess($user) {
+        return $user->getUserType()->getAccessLevel() > 0;
+    }
+}
+
