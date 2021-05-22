@@ -15,8 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout']) && isset($_S
 /** @var User|null */
 $CURRENT_USER = null;
 if (isset($_SESSION['user'])) {
-    $user_id = $_SESSION['user']['user_id'];
+    try {
+        $user_id = $_SESSION['user']['user_id'];
 
-    $CURRENT_USER = User::findById($user_id);
+        $CURRENT_USER = User::findById($user_id);
+    } catch (Exception $e) {
+        session_unset();
+        session_destroy();
+    }
 }
 
