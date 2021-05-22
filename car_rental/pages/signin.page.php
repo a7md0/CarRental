@@ -1,5 +1,6 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
