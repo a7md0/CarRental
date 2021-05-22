@@ -313,7 +313,7 @@ abstract class Model
      * Find any matching records with the provided condition(s).
      *
      * @param WhereClause $where
-     * @return static|null
+     * @return static[]|null
      */
     static function find(WhereClause $where = null)
     {
