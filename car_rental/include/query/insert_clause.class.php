@@ -12,10 +12,10 @@ class InsertClause
     /** @var string[] */
     private $types = [];
 
-    public function __construct(array $data, array $primaryKeys)
+    public function __construct(array $data, $autoIncrementKey)
     {
         foreach ($data as $column => $value) {
-            if (in_array($column, $primaryKeys)) { // TODO: Would cause issue with two pfk
+            if ($column == $autoIncrementKey) { // TODO: Would cause issue with two pfk
                 continue;
             }
 

@@ -4,6 +4,7 @@ abstract class Model
 {
     protected static $tableName = '';
     protected static $primaryKeys = array();
+    protected static $autoIncrementKey = null;
     protected static $properties = array();
 
     protected $values = array();
@@ -119,7 +120,7 @@ abstract class Model
     {
         $primaryKeys = static::$primaryKeys;
 
-        $setClause = new SetClause($this->values, static::primaryKeysColumns());
+        $setClause = new SetClause($this->values, static::$autoIncrementKey);
         $whereClause = new WhereClause();
 
         foreach ($primaryKeys as $primaryKey) {

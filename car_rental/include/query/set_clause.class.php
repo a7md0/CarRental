@@ -9,10 +9,10 @@ class SetClause
     /** @var string[] */
     private $types = [];
 
-    public function __construct(array $data, array $primaryKeys)
+    public function __construct(array $data, $autoIncrementKey)
     {
         foreach ($data as $column => $value) {
-            if (in_array($column, $primaryKeys)) {
+            if ($column == $autoIncrementKey) {
                 continue;
             }
 
