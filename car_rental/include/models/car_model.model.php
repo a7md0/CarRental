@@ -5,6 +5,7 @@ class CarModel extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'car_model';
     protected static $primaryKeys = ['car_model_id'];
+    protected static $autoIncrementKey = 'car_model_id';
     protected static $properties = ['car_model_id', 'car_type_id', 'brand', 'model', 'year'];
 
     /**

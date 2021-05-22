@@ -5,6 +5,7 @@ class UserType extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user_type';
     protected static $primaryKeys = ['user_type_id'];
+    protected static $autoIncrementKey = 'user_type_id';
     protected static $properties = ['user_type_id', 'type', 'access_level'];
 
     /*

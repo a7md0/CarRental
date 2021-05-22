@@ -5,6 +5,7 @@ class UserCarReservation extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user_car_reservation';
     protected static $primaryKeys = ['user_car_reservation_id'];
+    protected static $autoIncrementKey = 'user_car_reservation_id';
     protected static $properties = ['user_car_reservation_id', 'user_id', 'car_id', 'pickup_date', 'return_date', 'sales_invoice_id', 'status', 'created_at', 'updated_at'];
 
     /*

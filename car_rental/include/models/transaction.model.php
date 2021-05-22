@@ -5,6 +5,7 @@ class Transaction extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'transaction';
     protected static $primaryKeys = ['transaction_id'];
+    protected static $autoIncrementKey = 'transaction_id';
     protected static $properties = ['transaction_id', 'sales_invoice_id', 'amount', 'method', 'remark', 'created_at'];
 
     /*

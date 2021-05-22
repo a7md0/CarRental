@@ -5,6 +5,7 @@ class SalesInvoiceItem extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'sales_invoice_item';
     protected static $primaryKeys = ['sales_invoice_item_id'];
+    protected static $autoIncrementKey = 'sales_invoice_item_id';
     protected static $properties = ['sales_invoice_item_id', 'sales_invoice_id', 'item', 'price'];
 
     /*

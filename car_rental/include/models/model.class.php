@@ -159,7 +159,7 @@ abstract class Model
         $insertValues = [];
 
         foreach ($models as $model) {
-            $insert = new InsertClause($model->getValues(), $model::primaryKeysColumns());
+            $insert = new InsertClause($model->getValues(), $model::$autoIncrementKey);
             $insertClause = $insert->getSQL();
             $insertTypes .= $insert->getTypes();
             $insertValues += $insert->getValues();

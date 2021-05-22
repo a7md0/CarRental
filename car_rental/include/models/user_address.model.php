@@ -5,6 +5,7 @@ class UserAddress extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user_address';
     protected static $primaryKeys = ['user_address_id'];
+    protected static $autoIncrementKey = 'user_address_id';
     protected static $properties = ['user_address_id', 'user_id', 'type', 'address1', 'address2', 'country', 'city', 'zip_code'];
 
     /*

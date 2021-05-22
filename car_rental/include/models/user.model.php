@@ -5,6 +5,7 @@ class User extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'user';
     protected static $primaryKeys = ['user_id'];
+    protected static $autoIncrementKey = 'user_id';
     protected static $properties = ['user_id', 'user_type_id', 'first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'gender', 'phone'];
 
     /**

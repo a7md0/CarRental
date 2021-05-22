@@ -5,6 +5,7 @@ class CarAccessory extends Model
 {
     protected static $tableName = DB_TABLES_PREFIX . 'car_accessory';
     protected static $primaryKeys = ['car_accessory_id'];
+    protected static $autoIncrementKey = 'car_accessory_id';
     protected static $properties = ['car_accessory_id', 'car_type_id', 'name', 'preview_image', 'charge'];
 
     /**
