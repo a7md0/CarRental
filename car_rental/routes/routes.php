@@ -16,15 +16,14 @@ $requestPage = isset($_GET['page']) ? $_GET['page'] : 'home';
 
 foreach ($ROUTES as $page => $route) {
     if ($page == $requestPage) {
-        /*if ($route instanceof AuthorizedOnlyRoute && notSignedIn) {
+        if ($route instanceof AuthorizedOnlyRoute && $CURRENT_USER == null) {
             $CURRENT_ROUTE = $error401;
-            break;
-        } else if ($route instanceof UnauthorizedOnlyRoute && signedIn) {
+        } else if ($route instanceof UnauthorizedOnlyRoute && $CURRENT_USER != null) {
             $CURRENT_ROUTE = $error401;
-            break;
-        }*/
+        } else {
+            $CURRENT_ROUTE = $route;
+        }
 
-        $CURRENT_ROUTE = $route;
         break;
     }
 }
