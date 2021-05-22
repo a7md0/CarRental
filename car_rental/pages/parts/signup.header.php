@@ -1,6 +1,5 @@
 <?php
 
-$CUSTOM_CLASSES['body'][] = 'text-center';
 $CUSTOM_CLASSES['main'][] = 'form-signup';
 
 $message = '';

@@ -1,6 +1,5 @@
 <?php
 
-$CUSTOM_CLASSES['body'][] = 'text-center';
 $CUSTOM_CLASSES['main'][] = 'form-signin';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
