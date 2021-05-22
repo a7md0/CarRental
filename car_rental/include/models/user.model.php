@@ -222,4 +222,17 @@ parent::setValue('car_id', $value);
 
         return $this;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return UserType
+     */
+    public function getUserType() {
+        if ($this->userType == null) {
+            $this->userType = UserType::findById($this->getUserTypeId());
+        }
+
+        return $this->userType;
+    }
 }
