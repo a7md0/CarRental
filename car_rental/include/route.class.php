@@ -41,6 +41,8 @@ class Route
     public function includeHeader()
     {
         global $CUSTOM_CLASSES, $HIDE_FOOTER;
+        global $CURRENT_USER;
+
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
         if (file_exists($file)) {
@@ -50,11 +52,15 @@ class Route
 
     public function includePage()
     {
+        global $CURRENT_USER;
+
         require_once "$this->pageFolder/$this->pageFile.page.php";
     }
 
     public function includeFooter()
     {
+        global $CURRENT_USER;
+
         $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
 
         if (file_exists($file)) {
