@@ -20,11 +20,11 @@
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
+        <input type="email" class="form-control" id="floatingInput" name="email" value="<?= @$_POST['email'] ?>" placeholder="name@example.com" autocomplete="email" required>
         <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" autocomplete="current-password" required>
         <label for="floatingPassword">Password</label>
     </div>
 
