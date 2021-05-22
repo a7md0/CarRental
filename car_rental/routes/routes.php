@@ -12,7 +12,7 @@ $error404 = new ErrorRoute('Not found', '404');
  */
 $CURRENT_ROUTE = null;
 
-$requestPage = isset($_GET['page']) ? $_GET['page'] : 'home';
+$requestPage = isset($_GET['p']) ? $_GET['p'] : 'home';
 
 foreach ($ROUTES as $page => $route) {
     if ($page == $requestPage) {

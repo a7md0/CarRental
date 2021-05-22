@@ -50,7 +50,7 @@ require_once 'routes/routes.php';
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link<?= $requestPage == 'home' ? ' active' : ''; ?>" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
@@ -62,10 +62,10 @@ require_once 'routes/routes.php';
                     <ul class="navbar-nav">
                         <?php if ($CURRENT_USER == null) { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=sign-in">Sign in</a>
+                            <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="?p=sign-in">Sign in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=signup">Signup</a>
+                            <a class="nav-link<?= $requestPage == 'signup' ? ' active' : ''; ?>" href="?p=signup">Signup</a>
                         </li>
                         <?php } else { ?>
                         <li class="nav-item dropdown">
