@@ -76,7 +76,7 @@ require_once 'routes/routes.php';
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="post(window.location.href, {logout: true});">Logout</a></li>
                             </ul>
                         </li>
                         <?php } ?>
@@ -91,6 +91,7 @@ require_once 'routes/routes.php';
 
 
     </main>
+
     <?php if ($HIDE_FOOTER === false) { ?>
         <footer class="footer mt-auto py-3 bg-dark">
             <div class="container">
@@ -101,7 +102,10 @@ require_once 'routes/routes.php';
             </div>
         </footer>
     <?php } ?>
+
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/index.js"></script>
+
     <?php $CURRENT_ROUTE->includeFooter(); ?>
 </body>
 
