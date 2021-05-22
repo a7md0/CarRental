@@ -1,30 +1,3 @@
-<?php
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $whereClause = new WhereClause();
-    $whereClause->where('email', $email);
-
-    $signInUser = User::findOne($whereClause);
-    if ($signInUser != null) {
-        if (password_verify($password, $signInUser->getPassword())) {
-            $_SESSION['user']['user_id'] = $signInUser->getUserId();
-            $_SESSION['user']['user_type_id'] = $signInUser->getUserTypeId();
-
-            header("Location: /");
-            exit;
-        } else {
-            echo 'The provided password is incorrect.';
-        }
-    } else {
-        echo 'No user was found matching this email address.';
-    }
-}
-
-?>
-
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
