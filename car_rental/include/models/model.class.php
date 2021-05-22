@@ -111,7 +111,23 @@ abstract class Model
 
     function insert()
     {
-        $affectedRows = static::insertMany([$this]);
+        $tblName = static::$tableName;
+
+        $insert = new InsertClause($this->values, static::$autoIncrementKey);
+        $insertClause = $insert->getSQL();
+        $insertTypes = $insert->getTypes();
+        $insertValues = $insert->getValues();
+
+        $query = "INSERT INTO `$tblName`$insertClause;"; // TODO: Insert values multiple time, instead of diff queries
+
+        $stmt = static::executeStatement($query, $insertTypes, $insertValues);
+        $affectedRows = $stmt->affected_rows;
+        if (static::$autoIncrementKey != null) {
+            $this->values[static::$autoIncrementKey] = $stmt->insert_id;
+        }
+
+        $stmt->free_result();
+        $stmt->close();
 
         return $affectedRows == 1;
     }
