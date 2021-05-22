@@ -9,9 +9,12 @@ class WhereClause
     private $values = [];
     private $types = [];
 
-    public function __construct()
+    private $columnPrefix;
+
+    public function __construct($columnPrefix = null)
     {
         $this->predicates[] = new AndPredicate;
+        $this->columnPrefix = $columnPrefix;
     }
 
     public function hasAny()
@@ -38,7 +41,8 @@ class WhereClause
     {
         $last = $this->lastPredicate();
 
-        $last->predicates[] = "`$column` $operator ?";
+        $col = $this->parseColumn($column);
+        $last->predicates[] = "$col $operator ?";
         $this->values[] = $value;
         $this->types[] = $this->typeOfValue($value);
 
@@ -59,8 +63,9 @@ class WhereClause
         $last = $this->lastPredicate();
 
         $prefix = $equal == true ? '' : 'NOT ';
+        $col = $this->parseColumn($column);
 
-        $last->predicates[] = "`$column` " . $prefix . "BETWEEN ? AND ?";
+        $last->predicates[] = "$col " . $prefix . "BETWEEN ? AND ?";
 
         $this->values[] = $minValue;
         $this->types[] = $this->typeOfValue($minValue);
@@ -85,8 +90,9 @@ class WhereClause
 
         $suffix = $equal == true ? '' : 'NOT ';
         $v = $value == null ? 'NULL' : ($value === true ? 'TRUE' : 'FALSE');
+        $col = $this->parseColumn($column);
 
-        $last->predicates[] = "`$column` IS " . $suffix . $v;
+        $last->predicates[] = "$col IS " . $suffix . $v;
 
         return $this;
     }
@@ -122,30 +128,36 @@ class WhereClause
 
         $prefix = $equal == true ? '' : 'NOT ';
         $list = join(", ", $placeholders);
+        $col = $this->parseColumn($column);
 
-        $last->predicates[] = "`$column` " . $prefix . "IN ($list)";
+        $last->predicates[] = "$col " . $prefix . "IN ($list)";
 
         return $this;
     }
 
-    public function whereFullText(array $columns, $query) {
+    public function whereFullText(array $columns, $query, $mode = 'NATURAL LANGUAGE')
+    {
         $last = $this->lastPredicate();
 
-        $last->predicates[] = "MATCH (" . '`'. join('`, `', $columns) . '`' . ") AGAINST (? IN NATURAL LANGUAGE MODE)";
+        $cols = array_map(function($column) {
+            return $this->parseColumn($column);
+        }, $columns);
+
+        $last->predicates[] = "MATCH (" . join(', ', $cols)  . ") AGAINST (? IN $mode MODE)";
         $this->values[] = $query;
         $this->types[] = $this->typeOfValue($query);
 
         return $this;
-
     }
 
-    public function whereColumn($prefix1, $col1, $prefix2, $col2, $operator = '=') {
+    public function whereColumn($column, $column2Prefix, $column2, $operator = '=')
+    {
         $last = $this->lastPredicate();
+        $col = $this->parseColumn($column);
 
-        $last->predicates[] = "$prefix1.`$col1` $operator $prefix2.`$col2`";
+        $last->predicates[] = "$col $operator $prefix2.`$col2`";
 
         return $this;
-
     }
 
     // TODO: Set col prefix ($prefix)
@@ -161,9 +173,9 @@ class WhereClause
         $clause = '';
 
         foreach ($this->predicates as $predicate) {
-            $predicates = $predicate->predicates;
+            if ($predicate->hasAny()) {
+                $predicates = $predicate->predicates;
 
-            if (count($predicates) > 0) {
                 if (strlen($clause) > 0) {
                     $op = $predicate->predicateOperator(); // "AND" or "OR"
                     $clause .= " $op";
@@ -181,7 +193,8 @@ class WhereClause
      *
      * @return string
      */
-    public function getTypes() {
+    public function getTypes()
+    {
         return join('', $this->types);
     }
 
@@ -190,8 +203,25 @@ class WhereClause
      *
      * @return array
      */
-    public function getValues() {
+    public function getValues()
+    {
         return $this->values;
+    }
+
+    /**
+     * Get the value of columnPrefix
+     */
+    public function getColumnPrefix()
+    {
+        return $this->columnPrefix;
+    }
+
+    private function parseColumn($column) {
+        if ($this->columnPrefix == null) {
+            return "`$column`";
+        }
+
+        return "$this->columnPrefix.`$column`";
     }
 
     private function lastPredicate()
@@ -213,7 +243,8 @@ class WhereClause
         }
     }
 
-    public function __clone() {
+    public function __clone()
+    {
         $this->predicates = clone $this->predicates;
         $this->values = clone $this->values;
         $this->types = clone $this->types;
@@ -222,6 +253,7 @@ class WhereClause
 
 abstract class Predicate
 {
+    /** @var string[] */
     public $predicates = [];
 
     abstract function predicateOperator();
