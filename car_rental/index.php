@@ -15,6 +15,7 @@ require_once 'routes/routes.php';
     <title><?= $CURRENT_ROUTE->pageTitle ?> - CRS</title>
 
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -85,16 +86,18 @@ require_once 'routes/routes.php';
     <main class="<?= join(' ', $CUSTOM_CLASSES['main']); ?>">
         <?php $CURRENT_ROUTE->includePage(); ?>
 
-        <?php if ($HIDE_FOOTER === false) { ?>
-            <hr class="featurette-divider">
 
-            <footer class="container">
-                <p class="float-end"><a href="#">Back to top</a></p>
-                <p>&copy; <?= date("Y"); ?> Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-            </footer>
-        <?php } ?>
     </main>
-
+    <?php if ($HIDE_FOOTER === false) { ?>
+        <footer class="footer mt-auto py-3 bg-dark">
+            <div class="container">
+                <p class="float-end"><a href="#">Back to top</a></p>
+                <span class="text-muted">
+                    <p>&copy; <?= date("Y"); ?> Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+                </span>
+            </div>
+        </footer>
+    <?php } ?>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <?php $CURRENT_ROUTE->includeFooter(); ?>
 </body>
