@@ -69,7 +69,7 @@ require_once 'routes/routes.php';
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#" onclick="post(window.location.href, {logout: true});">Logout</a></li>
+                                <li><a class="dropdown-item" onclick="post(window.location.href, {logout: true});">Logout</a></li>
                             </ul>
                         </li>
                         <?php } ?>
