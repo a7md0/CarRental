@@ -1,4 +1,6 @@
 (() => {
+    let currentPage = null;
+
     function checkRange(element) {
         const filterMinElm = document.querySelector(`[name=filter_min_${element}]`);
         const filterMaxElm = document.querySelector(`[name=filter_max_${element}]`);
@@ -39,7 +41,8 @@
     }
 
     function fetchResults(filters) {
-        console.log(filters);
+        const data = {...filters, currentPage};
+        console.log(data);
 
         fetch('lookup-cars-api.php', {
             method: 'POST',
@@ -47,7 +50,7 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(filters)
+            body: JSON.stringify(data)
         }).then(rawResponse => rawResponse.json())
             .then(response => {
                 console.log(response);
