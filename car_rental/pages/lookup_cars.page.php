@@ -37,91 +37,108 @@
     <div class="content">
         <div class="row">
             <div class="col-md-3 filters">
-                <div class="col-12" style="margin-bottom: 1em;">
-                    <input type="search" class="form-control" placeholder="Search..." />
-                </div>
+                <form name="filter_form">
+                    <div style="margin-bottom: 1em;">
+                        <input type="search" name="filter_search" class="form-control" placeholder="Search..." data-trigger-filter="true" />
+                    </div>
 
-                <div class="card">
-                    <article class="card-group-item">
-                        <header class="card-header">
-                            <h6 class="title">Brands</h6>
-                        </header>
-                        <div class="filter-content">
-                            <div class="card-body">
-                                <select id="filter-brands" class="form-select" multiple>
-                                    <?php
-                                    foreach ($availableBrands as $brand) {
-                                        echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="card-group-item">
-                        <header class="card-header">
-                            <h6 class="title">Types</h6>
-                        </header>
-                        <div class="filter-content">
-                            <div class="card-body">
-                                <select id="filter-types" class="form-select" multiple>
-                                    <?php
-                                    foreach ($availableTypes as $carType) {
-                                        echo '<option value="' . $carType->getCarTypeId() . '" selected>' . $carType->getType() . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="card-group-item">
-                        <header class="card-header">
-                            <h6 class="title">Price</h6>
-                        </header>
-                        <div class="filter-content">
-                            <div class="card-body">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">BD</span>
-                                    <input type="number" class="form-control" value="<?= $minDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate - 0.001; ?>" required>
-                                    <span class="input-group-text">-</span>
-                                    <input type="number" class="form-control" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate + 0.001; ?>" max="<?= $maxDailyRentRate; ?>" required>
+                    <div class="card">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Period<span id="reservation-period-in-days"></span></h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="date" class="form-control" name="filter_pickup_date" data-trigger-filter="true" required>
+                                        <span class="input-group-text">-</span>
+                                        <input type="date" class="form-control" name="filter_return_date" data-trigger-filter="true" required>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <article class="card-group-item">
-                        <header class="card-header">
-                            <h6 class="title">Year</h6>
-                        </header>
-                        <div class="filter-content">
-                            <div class="card-body">
-                                <div class="input-group mb-3">
-                                    <input type="number" class="form-control" value="<?= $minYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear - 1; ?>" required>
-                                    <span class="input-group-text">-</span>
-                                    <input type="number" class="form-control" value="<?= $maxYear; ?>" min="<?= $minYear + 1; ?>" max="<?= $maxYear; ?>" required>
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Brands</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
+                                        <?php
+                                        foreach ($availableBrands as $brand) {
+                                            echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <article class="card-group-item">
-                        <header class="card-header">
-                            <h6 class="title">Number of seats</h6>
-                        </header>
-                        <div class="filter-content">
-                            <div class="card-body">
-                                <div class="input-group mb-3">
-                                    <input type="number" class="form-control" value="<?= $minSeats; ?>" min="<?= $minSeats; ?>" max="<?= $maxSeats - 1; ?>" required>
-                                    <span class="input-group-text">-</span>
-                                    <input type="number" class="form-control" value="<?= $maxSeats; ?>" min="<?= $minSeats + 1; ?>" max="<?= $maxSeats; ?>" required>
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Types</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
+                                        <?php
+                                        foreach ($availableTypes as $carType) {
+                                            echo '<option value="' . $carType->getCarTypeId() . '" selected>' . $carType->getType() . '</option>';
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </article>
-                </div> <!-- card.// -->
+                        </article>
+
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Price</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">BD</span>
+                                        <input type="number" class="form-control" name="filter_min_price" value="<?= $minDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
+                                        <span class="input-group-text">-</span>
+                                        <input type="number" class="form-control" name="filter_max_price" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Year</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" name="filter_min_year" value="<?= $minYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
+                                        <span class="input-group-text">-</span>
+                                        <input type="number" class="form-control" name="filter_max_year" value="<?= $maxYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title">Number of seats</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" name="filter_min_seats" value="<?= $minSeats; ?>" min="<?= $minSeats; ?>" max="<?= $maxSeats; ?>" step="1" data-trigger-filter="true" required>
+                                        <span class="input-group-text">-</span>
+                                        <input type="number" class="form-control" name="filter_max_seats" value="<?= $maxSeats; ?>" min="<?= $minSeats; ?>" max="<?= $maxSeats; ?>" step="1" data-trigger-filter="true" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </form>
             </div>
 
             <div class="col-md-9">
