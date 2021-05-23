@@ -26,12 +26,14 @@ var_dump($userModel);
 $cars = Car::count();
 var_dump($cars);
 
+var_dump(CarModel::aggregateValues(['MIN' => 'year', 'MAX' => 'year']));
 
-$where0 = (new WhereClause("C"))->where("x", "123", "=")->whereBetween("y", 1, 5)->whereFullText(['col1', 'col2'], 'query str');
 
-echo $where0->getSQL('ON') . "<br />";
-echo $where0->getTypes() . "<br />";
-print_r($where0->getValues()) . "<br />";
+// $where0 = (new WhereClause("C"))->where("x", "123", "=")->whereBetween("y", 1, 5)->whereFullText(['col1', 'col2'], 'query str');
+
+// echo $where0->getSQL('ON') . "<br />";
+// echo $where0->getTypes() . "<br />";
+// print_r($where0->getValues()) . "<br />";
 
 // $set1 = new SetClause($car->values);
 // echo $set1->getSQL() . "<br />";
