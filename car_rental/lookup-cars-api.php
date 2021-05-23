@@ -4,6 +4,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once 'include/env.php';
     require_once 'include/auto_loader.php';
 
+    /**
+     * @param Car[] $car
+     * @return string
+     */
+    function generateCarsTemplate($cars)
+    {
+        $cards = '';
+
+        foreach ($cars as $car) {
+            $cards .= '<div class="card car-card" style="width: 18rem;">
+            <img src="' . $car->getPreviewImage() . '" class="card-img-top" alt="...">
+            <div class="card-body text-center">
+                <h5 class="card-title">'.$car->getCarModel()->getFullDisplayName() . '</h5>
+                <p class="card-subtitle">'. $car->getDailyRentRate() . ' | '. $car->getColor() . ' </p>
+                <a href="#" class="btn btn-primary">Rent</a>
+            </div>
+            </div>';
+        }
+
+        return $cards;
+    }
+
     $json = file_get_contents('php://input');
     $filters = json_decode($json);
 
@@ -45,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data['matching_results'] = $carsLookup->count();
     if ($data['matching_results'] > 0) {
         $cars = $carsLookup->find();
+        $data['content'] = generateCarsTemplate($cars);
     }
 
     $data['query'] = $carsLookup->query;
 
     exit(json_encode($data));
 }
-?>
