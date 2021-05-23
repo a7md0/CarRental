@@ -439,9 +439,16 @@ abstract class Model
             $whereValues = $where->getValues();
         }
 
-        $selects = array_map(function ($key, $val) {
-            return "$key($val)";
-        }, array_keys($aggregateFuncs), $aggregateFuncs);
+        $selects = [];
+        foreach ($aggregateFuncs as $func => $cols) {
+            if (is_array($cols)) {
+                foreach ($cols as $col) {
+                    $selects[] = "$func($col)";
+                }
+            } else {
+                $selects[] = "$func($cols)";
+            }
+        }
         $selects = join(', ', $selects);
 
         $query = "SELECT $selects FROM `$tblName`$whereClause;";
