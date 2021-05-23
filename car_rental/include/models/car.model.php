@@ -198,7 +198,7 @@ class Car extends Model
     /**
      * Get the value of carModel
      *
-     * @return CarType
+     * @return CarModel
      */
     public function getCarModel()
     {
