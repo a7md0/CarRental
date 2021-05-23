@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         foreach ($cars as $car) {
             $cards .= '<div class="card car-card" style="width: 18rem;">
-            <img src="' . $car->getPreviewImage() . '" class="card-img-top" alt="...">
+            <img src="' . $car->getPreviewImage() . '" loading="lazy" class="card-img-top" alt="...">
             <div class="card-body text-center">
                 <h5 class="card-title">'.$car->getCarModel()->getFullDisplayName() . '</h5>
                 <p class="card-subtitle">BD'. $car->getDailyRentRate() . ' | '. $car->getColor() . ' </p>
