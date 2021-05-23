@@ -12,7 +12,7 @@ class AdvanceCarsLookup
 
     private $whereTypes = '';
     private $whereValues = [];
-    private $query = '';
+    public $query = '';
 
     function __construct($pickupDate, $returnDate)
     {
@@ -57,8 +57,7 @@ class AdvanceCarsLookup
             $this->whereValues += $this->whereCar->getValues();
         }
 
-        $this->query = "SELECT C.*, CM.*
-        FROM `$carTblName` AS C
+        $this->query = " FROM `$carTblName` AS C
 
         LEFT JOIN `$userCarReservationTblName` AS UCR
             $onUserCarReservationClause
@@ -94,8 +93,9 @@ class AdvanceCarsLookup
     public function count()
     {
         $this->buildQuery();
+        $queryPrefix = 'SELECT COUNT(*)';
 
-        $stmt = Database::executeStatement($this->query, $this->whereTypes, $this->whereValues);
+        $stmt = Database::executeStatement($queryPrefix . $this->query, $this->whereTypes, $this->whereValues);
         $count = 0;
 
         if ($result = $stmt->get_result()) {
@@ -120,8 +120,9 @@ class AdvanceCarsLookup
     public function find()
     {
         $this->buildQuery();
+        $queryPrefix = 'SELECT C.*, CM.*';
 
-        $stmt = Database::executeStatement($this->query, $this->whereTypes, $this->whereValues);
+        $stmt = Database::executeStatement($queryPrefix . $this->query, $this->whereTypes, $this->whereValues);
         $models = [];
 
         if ($result = $stmt->get_result()) {
