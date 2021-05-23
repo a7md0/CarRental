@@ -86,6 +86,9 @@ $VALUES += [
             if (filterPickupDateElm.valueAsDate > filterReturnDateElm.valueAsDate) {
                 filterReturnDateElm.valueAsDate = filterPickupDateElm.valueAsDate;
             }
+
+            const days = (filterReturnDateElm.valueAsDate - filterPickupDateElm.valueAsDate)  / (1000 * 3600 * 24) + 1;
+            document.querySelector('#reservation-period-in-days').innerText = ` (${days} days)`;
         }
 
         function fetchResults(filters) {
