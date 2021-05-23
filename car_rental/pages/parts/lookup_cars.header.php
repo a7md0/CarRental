@@ -101,6 +101,8 @@ $VALUES += [
             }).then(rawResponse => rawResponse.json())
             .then(response => {
                 console.log(response);
+                const resultsElement = document.querySelector('#results');
+                resultsElement.innerHTML = response.content;
             });
         }
 
