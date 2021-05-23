@@ -423,7 +423,7 @@ abstract class Model
      *
      * @param array $aggregateFuncs
      * @param WhereClause $where
-     * @return int|float
+     * @return int[]|float[]
      */
     static function aggregateValues(array $aggregateFuncs, WhereClause $where = null)
     {
