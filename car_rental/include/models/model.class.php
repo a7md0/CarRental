@@ -478,7 +478,7 @@ abstract class Model
         $values = [];
 
         if ($result = $stmt->get_result()) {
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_row()) {
                 $values[] = $row[0];
             }
         }
