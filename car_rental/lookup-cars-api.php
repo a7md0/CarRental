@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <img src="' . $car->getPreviewImage() . '" class="card-img-top" alt="...">
             <div class="card-body text-center">
                 <h5 class="card-title">'.$car->getCarModel()->getFullDisplayName() . '</h5>
-                <p class="card-subtitle">'. $car->getDailyRentRate() . ' | '. $car->getColor() . ' </p>
+                <p class="card-subtitle">BD'. $car->getDailyRentRate() . ' | '. $car->getColor() . ' </p>
                 <a href="#" class="btn btn-primary">Rent</a>
             </div>
             </div>';
