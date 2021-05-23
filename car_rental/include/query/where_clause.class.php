@@ -150,7 +150,7 @@ class WhereClause
         return $this;
     }
 
-    public function whereColumn($column, $column2Prefix, $column2 = $column, $operator = '=')
+    public function whereColumn($column, $column2Prefix, $column2, $operator = '=')
     {
         $last = $this->lastPredicate();
         $col = $this->parseColumn($column);
