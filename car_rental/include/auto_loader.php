@@ -27,7 +27,9 @@ $AUTO_LOADER_MAP = [
     'AdminOnlyRoute' => 'include\route.class.php',
     'UnauthorizedOnlyRoute' => 'include\route.class.php',
     'ErrorRoute' => 'include\route.class.php',
-    // '' => '',
+
+    'AdvanceCarsLookup' => 'include\models\advance_cars_lookup.class.php',
+
     // '' => '',
     // '' => '',
 ];
