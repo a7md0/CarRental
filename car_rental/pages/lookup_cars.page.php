@@ -7,45 +7,114 @@
         display: flex;
         align-items: center;
         justify-items: center;
-        justify-content: center;
+        justify-content: start;
         align-content: center;
         flex-direction: row;
         flex-wrap: wrap;
     }
 
-    div.card {
-        margin-right: 3em;
+    div.filters {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: space-evenly;
+        justify-content: normal;
+        align-items: stretch;
+    }
+
+    div.car-card {
+        margin-left: 1em;
+        margin-right: 1em;
         margin-bottom: 2em;
+
+        background-color: white;
     }
 </style>
 
-<div class="content">
+<div class="container-fluid">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-3 filters">
+                <div class="col-12" style="margin-bottom: 1em;">
+                    <input type="search" class="form-control" placeholder="Search..." />
+                </div>
 
-    <div class="input-group">
-        <div class="form-outline">
-            <input type="search" id="form1" class="form-control" />
-            <label class="form-label" for="form1">Search</label>
-        </div>
-        <button type="button" class="btn btn-primary">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Brands</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <select id="filter-brands" class="form-select" multiple>
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="opel">Opel</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                    </article>
 
-    <div id="results">
-        <?php
-        $carsLookup = new AdvanceCarsLookup('2021-05-11', '2021-05-12');
-        $cars = $carsLookup->find();
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Types</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <select id="filter-types" class="form-select" multiple>
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="opel">Opel</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                    </article>
 
-        foreach ($cars as $car) {
-        ?>
-            <div class="card" style="width: 18rem;">
-                <img src="<?= $car->getPreviewImage(); ?>" class="card-img-top" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title"><?= $car->getCarModel()->getFullDisplayName(); ?></h5>
-                    <p class="card-subtitle"><?= $car->getDailyRentRate(); ?> | <?= $car->getColor(); ?></p>
-                    <a href="#" class="btn btn-primary">Rent</a>
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Year</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <div id="filter-years"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Number of seats</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                            <div id="filter-seats"></div>
+                            </div>
+                        </div>
+                    </article>
+                </div> <!-- card.// -->
+            </div>
+
+            <div class="col-md-9">
+                <div id="results">
+                    <?php
+                    $carsLookup = new AdvanceCarsLookup('2021-05-11', '2021-05-12');
+                    $cars = $carsLookup->find();
+
+                    foreach ($cars as $car) {
+                    ?>
+                        <div class="card car-card" style="width: 18rem;">
+                            <img src="<?= $car->getPreviewImage(); ?>" class="card-img-top" alt="...">
+                            <div class="card-body text-center">
+                                <h5 class="card-title"><?= $car->getCarModel()->getFullDisplayName(); ?></h5>
+                                <p class="card-subtitle"><?= $car->getDailyRentRate(); ?> | <?= $car->getColor(); ?></p>
+                                <a href="#" class="btn btn-primary">Rent</a>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
-        <?php } ?>
+        </div>
     </div>
 </div>
