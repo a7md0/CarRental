@@ -151,6 +151,7 @@ $VALUES += [
                 element.addEventListener('change', onFilterChange);
             });
 
+            onFilterChange(null);
         }, false);
     })();
 </script>
