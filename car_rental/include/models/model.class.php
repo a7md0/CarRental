@@ -110,6 +110,15 @@ abstract class Model
         return static::$primaryKeys;
     }
 
+
+    /**
+     * Get the value of tableName
+     */
+    public static function getTableName()
+    {
+        return static::$tableName;
+    }
+
     function insert()
     {
         $tblName = static::$tableName;
@@ -121,7 +130,7 @@ abstract class Model
 
         $query = "INSERT INTO `$tblName`$insertClause;"; // TODO: Insert values multiple time, instead of diff queries
 
-        $stmt = static::executeStatement($query, $insertTypes, $insertValues);
+        $stmt = Database::executeStatement($query, $insertTypes, $insertValues);
         $affectedRows = $stmt->affected_rows;
         if (static::$autoIncrementKey != null) {
             $this->values[static::$autoIncrementKey] = $stmt->insert_id;
@@ -185,7 +194,7 @@ abstract class Model
             $queries .= "INSERT INTO `$tblName`$insertClause; "; // TODO: Insert values multiple time, instead of diff queries
         }
 
-        $stmt = static::executeStatement($queries, $insertTypes, $insertValues);
+        $stmt = Database::executeStatement($queries, $insertTypes, $insertValues);
         $affectedRows = $stmt->affected_rows;
 
         $stmt->free_result();
@@ -222,7 +231,7 @@ abstract class Model
 
         $query = "UPDATE `$tblName`$setClause$whereClause$limitClause;"; // TODO: Set clause
 
-        $stmt = static::executeStatement($query, $setTypes . $whereTypes, array_merge($setValues, $whereValues));
+        $stmt = Database::executeStatement($query, $setTypes . $whereTypes, array_merge($setValues, $whereValues));
         $affectedRows = $stmt->affected_rows;
 
         $stmt->free_result();
@@ -256,7 +265,7 @@ abstract class Model
 
         $query = "DELETE FROM `$tblName`$whereClause$limitClause;"; // TODO: Set clause
 
-        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
         $affectedRows = $stmt->affected_rows;
 
         $stmt->free_result();
@@ -331,7 +340,7 @@ abstract class Model
 
         $query = "SELECT * FROM `$tblName`$whereClause;";
 
-        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
         $models = [];
 
         if ($result = $stmt->get_result()) {
@@ -368,7 +377,7 @@ abstract class Model
 
         $query = "SELECT * FROM `$tblName`$whereClause LIMIT 1;";
 
-        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
         $model = null;
 
         if ($result = $stmt->get_result()) {
@@ -407,7 +416,7 @@ abstract class Model
 
         $query = "SELECT COUNT(*) FROM `$tblName`$whereClause;";
 
-        $stmt = static::executeStatement($query, $whereTypes, $whereValues);
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
         $count = 0;
 
         if ($result = $stmt->get_result()) {
@@ -422,26 +431,5 @@ abstract class Model
         $stmt->close();
 
         return $count;
-    }
-
-    /**
-     * Prepare and execute statements and bind passed types and values.
-     *
-     * @param string $query
-     * @param string $types
-     * @param array $values
-     * @return mysqli_stmt|false
-     */
-    protected static function executeStatement($query, $types, array $values)
-    {
-        $db = Database::getInstance();
-        $stmt = $db->prepare($query);
-
-        if (strlen($types) > 0 && count($values) > 0) {
-            $stmt->bind_param($types, ...$values);
-        }
-        $stmt->execute();
-
-        return $stmt;
     }
 }

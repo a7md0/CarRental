@@ -27,6 +27,28 @@ class Database extends MySQLi
         return self::$instance;
     }
 
+
+    /**
+     * Prepare and execute statements and bind passed types and values.
+     *
+     * @param string $query
+     * @param string $types
+     * @param array $values
+     * @return mysqli_stmt|false
+     */
+    public static function executeStatement($query, $types = '', array $values = [])
+    {
+        $db = static::getInstance();
+        $stmt = $db->prepare($query);
+
+        if (strlen($types) > 0 && count($values) > 0) {
+            $stmt->bind_param($types, ...$values);
+        }
+        $stmt->execute();
+
+        return $stmt;
+    }
+
     public function closeConnection()
     {
         if (self::$instance != null) {
