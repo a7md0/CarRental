@@ -8,6 +8,9 @@ class Car extends Model
     protected static $autoIncrementKey = 'car_id';
     protected static $properties = array('car_id', 'car_model_id', 'color', 'daily_rent_rate', 'license_plate', 'vehicle_identification_number', 'status', 'preview_image');
 
+    /** @var CarModel */
+    protected $carModel = null;
+
     /**
      * Undocumented function
      *
@@ -190,5 +193,32 @@ class Car extends Model
     function getPreviewImage()
     {
         return parent::getValue('preview_image');
+    }
+
+    /**
+     * Get the value of carModel
+     *
+     * @return CarType
+     */
+    public function getCarModel()
+    {
+        if ($this->carModel == null) {
+            $this->carModel = CarModel::findById($this->getCarModelId());
+        }
+
+        return $this->carModel;
+    }
+
+    /**
+     * Set the value of carModel
+     *
+     * @param CarModel $carModel
+     * @return self
+     */
+    public function setCarModel($carModel)
+    {
+        $this->carModel = $carModel;
+
+        return $this;
     }
 }
