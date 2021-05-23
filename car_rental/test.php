@@ -26,7 +26,7 @@ var_dump($userModel);
 $cars = Car::count();
 var_dump($cars);
 
-var_dump(CarModel::aggregateValues(['MIN' => 'year', 'MAX' => 'year']));
+var_dump(CarModel::aggregateValues(['MIN' => ['year', 'number_of_seats'], 'MAX' => ['year', 'number_of_seats']]));
 
 
 // $where0 = (new WhereClause("C"))->where("x", "123", "=")->whereBetween("y", 1, 5)->whereFullText(['col1', 'col2'], 'query str');
