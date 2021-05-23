@@ -7,6 +7,8 @@ $CUSTOM_CLASSES = [
 
 $HIDE_FOOTER = false;
 
+$VALUES = [];
+
 class Route
 {
     /**
@@ -42,6 +44,7 @@ class Route
     {
         global $CUSTOM_CLASSES, $HIDE_FOOTER;
         global $CURRENT_USER;
+        global $VALUES;
 
         $file = "$this->pageFolder/parts/$this->pageFile.header.php";
 
@@ -53,6 +56,7 @@ class Route
     public function includePage()
     {
         global $CURRENT_USER;
+        global $VALUES;
 
         require_once "$this->pageFolder/$this->pageFile.page.php";
     }
@@ -60,6 +64,7 @@ class Route
     public function includeFooter()
     {
         global $CURRENT_USER;
+        global $VALUES;
 
         $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
 
