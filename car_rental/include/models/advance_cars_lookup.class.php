@@ -41,20 +41,20 @@ class AdvanceCarsLookup
 
         $onUserCarReservationClause = $onUserCarReservation->getSQL('ON');
         $this->whereTypes .= $onUserCarReservation->getTypes();
-        $this->whereValues += $onUserCarReservation->getValues();
+        $this->whereValues = array_merge($this->whereValues, $onUserCarReservation->getValues());
 
         $onCarModelClause = '';
         if ($this->whereCarModel->hasAny()) {
             $onCarModelClause = ' ' . $this->whereCarModel->getSQL('AND');
             $this->whereTypes .= $this->whereCarModel->getTypes();
-            $this->whereValues += $this->whereCarModel->getValues();
+            $this->whereValues = array_merge($this->whereValues, $this->whereCarModel->getValues());
         }
 
         $whereCarClause = '';
         if ($this->whereCar->hasAny()) {
             $whereCarClause = ' ' . $this->whereCar->getSQL('AND');
             $this->whereTypes .= $this->whereCar->getTypes();
-            $this->whereValues += $this->whereCar->getValues();
+            $this->whereValues = array_merge($this->whereValues, $this->whereCar->getValues());
         }
 
         $this->query = " FROM `$carTblName` AS C
