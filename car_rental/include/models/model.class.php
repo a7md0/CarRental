@@ -402,6 +402,31 @@ abstract class Model
      */
     static function count(WhereClause $where = null)
     {
+        return static::aggregateValues(['COUNT' => '*'], $where)[0];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $aggregateFunc COUNT, MAX, MIN, AVG, SUM
+     * @param string $column
+     * @param WhereClause $where
+     * @return int|float
+     */
+    static function aggregateValue($aggregateFunc, $column, WhereClause $where = null)
+    {
+        return static::aggregateValues([$aggregateFunc => $column], $where)[0];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $aggregateFuncs
+     * @param WhereClause $where
+     * @return int|float
+     */
+    static function aggregateValues(array $aggregateFuncs, WhereClause $where = null)
+    {
         $tblName = static::$tableName;
 
         $whereClause = '';
@@ -414,22 +439,53 @@ abstract class Model
             $whereValues = $where->getValues();
         }
 
-        $query = "SELECT COUNT(*) FROM `$tblName`$whereClause;";
+        $selects = array_map(function ($key, $val) {
+            return "$key($val)";
+        }, array_keys($aggregateFuncs), $aggregateFuncs);
+        $selects = join(', ', $selects);
+
+        $query = "SELECT $selects FROM `$tblName`$whereClause;";
 
         $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
-        $count = 0;
+        $values = [];
 
         if ($result = $stmt->get_result()) {
             $row = $result->fetch_row();
 
-            if ($row != null) {
-                $count = $row[0];
+            for ($i=0; $i < count($row); $i++) {
+                $values[] = $row[$i];
             }
         }
 
         $stmt->free_result();
         $stmt->close();
 
-        return $count;
+        return $values;
+    }
+
+    /**
+     *
+     *
+     * @return string[]|null
+     */
+    static function uniqueValues($column)
+    {
+        $tblName = static::$tableName;
+
+        $query = "SELECT DISTINCT $column FROM `$tblName`;";
+
+        $stmt = Database::executeStatement($query);
+        $values = [];
+
+        if ($result = $stmt->get_result()) {
+            while ($row = $result->fetch_assoc()) {
+                $values[] = $row[0];
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $values;
     }
 }
