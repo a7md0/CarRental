@@ -122,4 +122,9 @@ class CarModel extends Model
     {
         return parent::getValue('year');
     }
+
+    function getFullDisplayName()
+    {
+        return $this->getBrand() . ' ' . $this->getModel() . ' (' . $this->getYear() . ')';
+    }
 }
