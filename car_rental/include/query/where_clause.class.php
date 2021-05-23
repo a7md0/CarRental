@@ -150,12 +150,12 @@ class WhereClause
         return $this;
     }
 
-    public function whereColumn($column, $column2Prefix, $column2, $operator = '=')
+    public function whereColumn($column, $column2Prefix, $column2 = $column, $operator = '=')
     {
         $last = $this->lastPredicate();
         $col = $this->parseColumn($column);
 
-        $last->predicates[] = "$col $operator $prefix2.`$col2`";
+        $last->predicates[] = "$col $operator $column2Prefix.`$column2`";
 
         return $this;
     }
