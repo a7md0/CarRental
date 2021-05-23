@@ -74,11 +74,31 @@
 
                     <article class="card-group-item">
                         <header class="card-header">
+                            <h6 class="title">Price</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">BD</span>
+                                    <input type="number" class="form-control" value="10" min="1" required>
+                                    <span class="input-group-text">-</span>
+                                    <input type="number" class="form-control" value="20" min="2"required>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card-group-item">
+                        <header class="card-header">
                             <h6 class="title">Year</h6>
                         </header>
                         <div class="filter-content">
                             <div class="card-body">
-                                <div id="filter-years"></div>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" value="2016" min="2000" max="2100" required>
+                                    <span class="input-group-text">-</span>
+                                    <input type="number" class="form-control" value="2020" min="2000" max="2100" required>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -89,7 +109,11 @@
                         </header>
                         <div class="filter-content">
                             <div class="card-body">
-                            <div id="filter-seats"></div>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" value="2" min="2" max="9" required>
+                                    <span class="input-group-text">-</span>
+                                    <input type="number" class="form-control" value="9" min="2" max="9" required>
+                                </div>
                             </div>
                         </div>
                     </article>
