@@ -19,9 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POS
             exit;
         } else {
             echo 'The provided password is incorrect.';
+            http_response_code(401);
         }
     } else {
         echo 'No user was found matching this email address.';
+        http_response_code(401);
     }
 }
 

@@ -18,12 +18,16 @@ foreach ($ROUTES as $page => $route) {
     if ($page == $requestPage) {
         if ($route instanceof AuthorizedOnlyRoute && $CURRENT_USER == null) {
             $CURRENT_ROUTE = $error401;
+            http_response_code(401);
         } else if ($route instanceof UnauthorizedOnlyRoute && $CURRENT_USER != null) {
             $CURRENT_ROUTE = $error401;
+            http_response_code(401);
         } else if ($route instanceof AdminOnlyRoute && $CURRENT_USER == null) {
             $CURRENT_ROUTE = $error401;
+            http_response_code(401);
         }  else if ($route instanceof AdminOnlyRoute && !$route->canAccess($CURRENT_USER)) {
             $CURRENT_ROUTE = $error403;
+            http_response_code(403);
         } else {
             $CURRENT_ROUTE = $route;
         }
