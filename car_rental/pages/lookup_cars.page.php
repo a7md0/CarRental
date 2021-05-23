@@ -1,6 +1,6 @@
 <style>
     div.content {
-        margin: 3rem 10vw 0 10vw;
+        margin: 3rem 2.5vw 0 5vw;
     }
 
     div#results {
