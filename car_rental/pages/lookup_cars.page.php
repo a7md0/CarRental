@@ -45,25 +45,19 @@
                     <div class="card">
                         <article class="card-group-item">
                             <header class="card-header">
-                                <h6 class="title">Period<span id="reservation-period-in-days"></span></h6>
+                                <h6 class="title">Filters</h6>
                             </header>
                             <div class="filter-content">
                                 <div class="card-body">
+                                    <label for="filter-pickup-date" class="form-label">Preferred reservation period<span id="reservation-period-in-days"></span></label>
                                     <div class="input-group mb-3">
-                                        <input type="date" class="form-control" name="filter_pickup_date" data-trigger-filter="true" required>
+                                        <input type="date" class="form-control" name="filter_pickup_date" id="filter-pickup-date" data-trigger-filter="true" required>
                                         <span class="input-group-text">-</span>
                                         <input type="date" class="form-control" name="filter_return_date" data-trigger-filter="true" required>
                                     </div>
-                                </div>
-                            </div>
-                        </article>
 
-                        <article class="card-group-item">
-                            <header class="card-header">
-                                <h6 class="title">Brands</h6>
-                            </header>
-                            <div class="filter-content">
-                                <div class="card-body">
+                                    <label for="" class="form-label">Brands</label>
+                                    <div class="input-group mb-3">
                                     <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
                                         <?php
                                         foreach ($availableBrands as $brand) {
@@ -71,16 +65,10 @@
                                         }
                                         ?>
                                     </select>
-                                </div>
-                            </div>
-                        </article>
+                                    </div>
 
-                        <article class="card-group-item">
-                            <header class="card-header">
-                                <h6 class="title">Types</h6>
-                            </header>
-                            <div class="filter-content">
-                                <div class="card-body">
+                                    <label for="" class="form-label">Types</label>
+                                    <div class="input-group mb-3">
                                     <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
                                         <?php
                                         foreach ($availableTypes as $carType) {
@@ -88,47 +76,25 @@
                                         }
                                         ?>
                                     </select>
-                                </div>
-                            </div>
-                        </article>
+                                    </div>
 
-                        <article class="card-group-item">
-                            <header class="card-header">
-                                <h6 class="title">Price</h6>
-                            </header>
-                            <div class="filter-content">
-                                <div class="card-body">
+                                    <label for="" class="form-label">Price (per day)</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">BD</span>
                                         <input type="number" class="form-control" name="filter_min_price" value="<?= $minDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
                                         <span class="input-group-text">-</span>
                                         <input type="number" class="form-control" name="filter_max_price" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
                                     </div>
-                                </div>
-                            </div>
-                        </article>
 
-                        <article class="card-group-item">
-                            <header class="card-header">
-                                <h6 class="title">Year</h6>
-                            </header>
-                            <div class="filter-content">
-                                <div class="card-body">
+                                    <label for="" class="form-label">Model Year</label>
                                     <div class="input-group mb-3">
                                         <input type="number" class="form-control" name="filter_min_year" value="<?= $minYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
                                         <span class="input-group-text">-</span>
                                         <input type="number" class="form-control" name="filter_max_year" value="<?= $maxYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
                                     </div>
-                                </div>
-                            </div>
-                        </article>
 
-                        <article class="card-group-item">
-                            <header class="card-header">
-                                <h6 class="title">Number of seats</h6>
-                            </header>
-                            <div class="filter-content">
-                                <div class="card-body">
+
+                                    <label for="" class="form-label">Number of seats</label>
                                     <div class="input-group mb-3">
                                         <input type="number" class="form-control" name="filter_min_seats" value="<?= $minSeats; ?>" min="<?= $minSeats; ?>" max="<?= $maxSeats; ?>" step="1" data-trigger-filter="true" required>
                                         <span class="input-group-text">-</span>
