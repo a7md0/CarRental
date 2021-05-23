@@ -58,24 +58,24 @@
 
                                     <label for="" class="form-label">Brands</label>
                                     <div class="input-group mb-3">
-                                    <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
-                                        <?php
-                                        foreach ($availableBrands as $brand) {
-                                            echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                        <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
+                                            <?php
+                                            foreach ($availableBrands as $brand) {
+                                                echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
 
                                     <label for="" class="form-label">Types</label>
                                     <div class="input-group mb-3">
-                                    <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
-                                        <?php
-                                        foreach ($availableTypes as $carType) {
-                                            echo '<option value="' . $carType->getCarTypeId() . '" selected>' . $carType->getType() . '</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                        <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
+                                            <?php
+                                            foreach ($availableTypes as $carType) {
+                                                echo '<option value="' . $carType->getCarTypeId() . '" selected>' . $carType->getType() . '</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
 
                                     <label for="" class="form-label">Price (per day)</label>
@@ -108,25 +108,21 @@
             </div>
 
             <div class="col-md-9">
-                <div id="results">
-                    <?php
-                    // $carsLookup = new AdvanceCarsLookup('2021-05-11', '2021-05-12');
-                    // $cars = $carsLookup->find();
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
 
-                    // foreach ($cars as $car) {
-                    ?>
-                    <!-- <div class="card car-card" style="width: 18rem;">
-                            <img src="<?= $car->getPreviewImage(); ?>" class="card-img-top" alt="...">
-                            <div class="card-body text-center">
-                                <h5 class="card-title"><?= $car->getCarModel()->getFullDisplayName(); ?></h5>
-                                <p class="card-subtitle"><?= $car->getDailyRentRate(); ?> | <?= $car->getColor(); ?></p>
-                                <a href="#" class="btn btn-primary">Rent</a>
-                            </div>
-                        </div> -->
-                    <?php
-                    //}
-                    ?>
-                </div>
+                <div id="results"></div>
             </div>
         </div>
     </div>
