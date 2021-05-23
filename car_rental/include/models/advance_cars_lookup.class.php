@@ -34,7 +34,7 @@ class AdvanceCarsLookup
         $carModelTblName = CarModel::getTableName();
 
         $onUserCarReservation = new WhereClause('UCR');
-        $onUserCarReservation->whereColumn('car_id', $this->whereCar->getColumnPrefix())
+        $onUserCarReservation->whereColumn('car_id', $this->whereCar->getColumnPrefix(), 'car_id')
             ->where('status', 'confirmed')
             ->where('return_date', $this->pickupDate, '>=')
             ->where('pickup_date', $this->returnDate, '<=');
