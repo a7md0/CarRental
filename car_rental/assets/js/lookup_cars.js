@@ -1,5 +1,7 @@
 (() => {
-    let currentPage = null;
+    let currentPage = 1;
+    let filters = null;
+    let pages = null;
 
     function checkRange(element) {
         const filterMinElm = document.querySelector(`[name=filter_min_${element}]`);
@@ -40,8 +42,99 @@
         document.querySelector('#reservation-period-in-days').innerText = ` (${days} days)`;
     }
 
-    function fetchResults(filters) {
-        const data = {...filters, currentPage};
+    function refreshPaginationState() {
+        const paginationElement = document.querySelector('#pagination');
+        const items = Array.from(paginationElement.children);
+        items.forEach((li) => {
+            const href = li.children[0];
+            const pageLink = href.dataset.pageLink;
+
+            if (pageLink == '-') {
+                if (currentPage == 1) {
+                    li.classList.add('disabled');
+                } else {
+                    li.classList.remove('disabled');
+                }
+            } else if (pageLink == '+') {
+                if (currentPage == pages.total || pages.total == 0) {
+                    li.classList.add('disabled');
+                } else {
+                    li.classList.remove('disabled');
+                }
+            } else {
+                if (currentPage == Number(pageLink)) {
+                    li.classList.add('active');
+                } else {
+                    li.classList.remove('active');
+                }
+            }
+        });
+
+    }
+
+    function onPageClick() {
+        const pageLink = this.dataset.pageLink;
+
+        if (pageLink == '-') {
+            currentPage--;
+        } else if (pageLink == '+') {
+            currentPage++;
+        } else {
+            currentPage = Number(pageLink);
+        }
+
+        fetchResults();
+        refreshPaginationState();
+    }
+
+    function generatePaginationItem(pageNo, text) {
+        const previousPageListItem = document.createElement('li');
+        previousPageListItem.classList.add('page-item');
+
+        const previousPageLink = document.createElement('a');
+        previousPageLink.classList.add('page-link');
+        previousPageLink.setAttribute('data-page-link', pageNo);
+        previousPageLink.innerText = text;
+        previousPageLink.addEventListener('click', onPageClick)
+
+        previousPageListItem.appendChild(previousPageLink);
+
+        return previousPageListItem;
+    }
+
+    function setupPagination() {
+        const paginationElement = document.querySelector('#pagination');
+        while (paginationElement.firstChild) {
+            paginationElement.firstChild.remove();
+        }
+
+        const prevCtrl = generatePaginationItem('-', 'Previous');
+        prevCtrl.classList.add('disabled');
+        paginationElement.appendChild(prevCtrl);
+
+        for (let page = 1; page <= pages.total; page++) {
+            const ctrl = generatePaginationItem(`${page}`, `${page}`);
+
+            paginationElement.appendChild(ctrl);
+        }
+
+        const nextCtrl = generatePaginationItem('+', 'Next');
+        paginationElement.appendChild(nextCtrl);
+
+        refreshPaginationState();
+    }
+
+    function handleResponse(response) {
+        console.log(response);
+        const resultsElement = document.querySelector('#results');
+        resultsElement.innerHTML = response.content;
+
+        pages = response.pages;
+        setupPagination();
+    }
+
+    function fetchResults() {
+        const data = { ...filters, currentPage };
         console.log(data);
 
         fetch('lookup-cars-api.php', {
@@ -51,12 +144,9 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(rawResponse => rawResponse.json())
-            .then(response => {
-                console.log(response);
-                const resultsElement = document.querySelector('#results');
-                resultsElement.innerHTML = response.content;
-            });
+        })
+            .then(rawResponse => rawResponse.json())
+            .then(response => handleResponse(response));
     }
 
     function onFilterChange(event) {
@@ -80,9 +170,11 @@
         // }
 
         const filterElements = document.querySelectorAll('[data-trigger-filter=true]');
-        const data = {};
+
+        currentPage = 1;
+        filters = {};
+
         filterElements.forEach(element => {
-            // data[element.name]
             const name = element.name;
             let value = element.value;
 
@@ -90,11 +182,10 @@
                 value = [...element.options].filter((x) => x.selected).map((x) => x.value);
             }
 
-            data[name] = value;
+            filters[name] = value;
         });
 
-        $currentPage = null;
-        fetchResults(data);
+        fetchResults();
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
