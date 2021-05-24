@@ -93,6 +93,16 @@
                                         <input type="number" class="form-control" name="filter_max_year" value="<?= $maxYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
                                     </div>
 
+                                    <label for="filter-colors" class="form-label">Colors</label>
+                                    <div class="input-group mb-3">
+                                        <select id="filter-colors" name="filter_colors" class="form-select" data-trigger-filter="true" multiple required>
+                                            <?php
+                                            foreach ($availableColors as $color) {
+                                                echo '<option value="' . $color . '" selected>' . $color . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
 
                                     <label for="" class="form-label">Number of seats</label>
                                     <div class="input-group mb-3">

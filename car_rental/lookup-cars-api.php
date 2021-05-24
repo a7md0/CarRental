@@ -64,6 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $carsLookup->carWhereClause()->whereBetween('daily_rent_rate', $filters->filter_min_price, $filters->filter_max_price);
     }
 
+    if (isset($filters->filter_colors) && is_array($filters->filter_colors)) {
+        $carsLookup->carWhereClause()->whereIn('color', $filters->filter_colors);
+    }
+
     $data['matching_results'] = $carsLookup->count();
     if ($data['matching_results'] > 0) {
         $cars = $carsLookup->find();
