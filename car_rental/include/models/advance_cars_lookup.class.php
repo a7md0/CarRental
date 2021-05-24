@@ -68,7 +68,7 @@ class AdvanceCarsLookup
             ON C.`car_model_id` = CM.`car_model_id`$onCarModelClause
 
         WHERE C.`status` = 'available'
-            AND UCR.`car_id` IS NULL$whereCarClause;";
+            AND UCR.`car_id` IS NULL$whereCarClause";
     }
 
     /**
@@ -96,8 +96,9 @@ class AdvanceCarsLookup
     {
         $this->buildQuery();
         $queryPrefix = 'SELECT COUNT(*)';
+        $querySuffix = ';';
 
-        $stmt = Database::executeStatement($queryPrefix . $this->query, $this->whereTypes, $this->whereValues);
+        $stmt = Database::executeStatement($queryPrefix . $this->query . $querySuffix, $this->whereTypes, $this->whereValues);
         $count = 0;
 
         if ($result = $stmt->get_result()) {
@@ -123,8 +124,9 @@ class AdvanceCarsLookup
     {
         $this->buildQuery();
         $queryPrefix = 'SELECT C.*, CM.*';
+        $querySuffix = $this->getLimitClause() . ';';
 
-        $stmt = Database::executeStatement($queryPrefix . $this->query, $this->whereTypes, $this->whereValues);
+        $stmt = Database::executeStatement($queryPrefix . $this->query . $querySuffix, $this->whereTypes, $this->whereValues);
         $models = [];
 
         if ($result = $stmt->get_result()) {
