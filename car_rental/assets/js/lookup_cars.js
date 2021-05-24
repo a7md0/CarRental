@@ -191,9 +191,24 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         checkReservationDate();
 
+        // Source: https://codeburst.io/throttling-and-debouncing-in-javascript-646d076d0a44
+        function debounced(delay, fn) {
+            let timerId;
+            return function (...args) {
+                if (timerId) {
+                    clearTimeout(timerId);
+                }
+                timerId = setTimeout(() => {
+                    fn(...args);
+                    timerId = null;
+                }, delay);
+            }
+        }
+
         const filterElements = document.querySelectorAll('[data-trigger-filter=true]');
         filterElements.forEach(element => {
-            element.addEventListener('change', onFilterChange);
+            const dHandler = debounced(300, onFilterChange);
+            element.addEventListener('change', dHandler);
         });
 
         onFilterChange(null);
