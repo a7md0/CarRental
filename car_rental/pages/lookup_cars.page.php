@@ -118,13 +118,14 @@
             </div>
 
             <div class="col-md-9">
+                <!-- TODO: document.querySelectorAll('a[class="page-link"][data-page-link="1"]'); -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true" data-page-link="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" data-page-link="1">1</a></li>
+                        <li class="page-item"><a class="page-link" data-page-link="2">2</a></li>
+                        <li class="page-item"><a class="page-link" data-page-link="3">3</a></li>
+                        <li class="page-item"><a class="page-link" data-page-link="+1">Next</a></li>
                     </ul>
                 </nav>
 
