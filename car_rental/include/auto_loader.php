@@ -30,6 +30,8 @@ $AUTO_LOADER_MAP = [
 
     'AdvanceCarsLookup' => 'include\models\advance_cars_lookup.class.php',
 
+    'Pagination' => 'include/query/pagination.trait.php',
+
     // '' => '',
     // '' => '',
 ];
