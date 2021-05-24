@@ -93,6 +93,7 @@
             data[name] = value;
         });
 
+        $currentPage = null;
         fetchResults(data);
     }
 
