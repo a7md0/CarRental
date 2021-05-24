@@ -120,7 +120,7 @@
             <div class="col-md-9">
                 <!-- TODO: document.querySelectorAll('a[class="page-link"][data-page-link="1"]'); -->
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
+                    <ul id="pagination" class="pagination justify-content-end">
                         <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true" data-page-link="-1">Previous</a></li>
                         <li class="page-item"><a class="page-link" data-page-link="1">1</a></li>
                         <li class="page-item"><a class="page-link" data-page-link="2">2</a></li>
