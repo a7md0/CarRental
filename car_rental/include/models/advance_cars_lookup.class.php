@@ -2,6 +2,8 @@
 
 class AdvanceCarsLookup
 {
+    use Pagination;
+
     /** @var WhereClause */
     private $whereCarModel;
     /** @var WhereClause */
