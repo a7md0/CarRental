@@ -54,3 +54,8 @@ $VALUES += [
     })();
 </script>
 <script src="assets/js/lookup_cars.js"></script>
+<style>
+a.page-link:hover {
+    cursor: pointer;
+}
+</style>
