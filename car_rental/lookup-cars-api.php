@@ -36,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'matching_results' => 0,
         'pages' => [
             'total' => 0,
-            'has_next' => false,
-            'has_previous' => false,
             'current' => $filters->currentPage ?? 1,
         ],
         'query' => $filters->filter_pickup_date
@@ -81,8 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $data['pages']['total'] = $carsLookup->getTotalPages();
-    $data['pages']['has_previous'] = $carsLookup->hasPreviousPage();
-    $data['pages']['has_next'] = $carsLookup->hasNextPage();
     // $data['query'] = $carsLookup->query;
 
     exit(json_encode($data));
