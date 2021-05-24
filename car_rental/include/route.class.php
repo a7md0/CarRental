@@ -58,6 +58,8 @@ class Route
         global $CURRENT_USER;
         global $VALUES;
 
+        extract($VALUES);
+
         require_once "$this->pageFolder/$this->pageFile.page.php";
     }
 
@@ -65,6 +67,8 @@ class Route
     {
         global $CURRENT_USER;
         global $VALUES;
+
+        extract($VALUES);
 
         $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
 

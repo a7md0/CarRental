@@ -1,5 +1,3 @@
-<?php extract($VALUES); ?>
-
 <style>
     div.content {
         margin: 3rem 2.5vw 0 5vw;
