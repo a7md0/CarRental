@@ -4,10 +4,17 @@ trait Pagination
 {
     private $currentPage = 1;
     private $itemsPerPage = 8;
-    private $limitClause = '';
 
     // total records in table
     private $totalRecords = null;
+
+    function getLimitClause()
+    {
+        $itemsPerPage = $this->itemsPerPage;
+        $offset = ($this->currentPage - 1) * $this->itemsPerPage;
+
+        return " LIMIT $offset, $itemsPerPage";
+    }
 
     function getTotalPages()
     {
@@ -18,11 +25,13 @@ trait Pagination
         return ceil($this->totalRecords / $this->itemsPerPage);
     }
 
-    function hasNextPage() {
+    function hasNextPage()
+    {
         return $this->currentPage < $this->getTotalPages();
     }
 
-    function hasPreviousPage() {
+    function hasPreviousPage()
+    {
         return $this->currentPage > 1;
     }
 
