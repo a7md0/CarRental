@@ -56,18 +56,15 @@
                                         <input type="date" class="form-control" name="filter_return_date" data-trigger-filter="true" required>
                                     </div>
 
-                                    <label for="" class="form-label">Brands</label>
+                                    <label for="" class="form-label">Price (per day)</label>
                                     <div class="input-group mb-3">
-                                        <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
-                                            <?php
-                                            foreach ($availableBrands as $brand) {
-                                                echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <span class="input-group-text">BD</span>
+                                        <input type="number" class="form-control" name="filter_min_price" value="<?= $minDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
+                                        <span class="input-group-text">-</span>
+                                        <input type="number" class="form-control" name="filter_max_price" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
                                     </div>
 
-                                    <label for="" class="form-label">Types</label>
+                                    <label for="filter-types" class="form-label">Types</label>
                                     <div class="input-group mb-3">
                                         <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
                                             <?php
@@ -78,12 +75,15 @@
                                         </select>
                                     </div>
 
-                                    <label for="" class="form-label">Price (per day)</label>
+                                    <label for="filter-brands" class="form-label">Brands</label>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">BD</span>
-                                        <input type="number" class="form-control" name="filter_min_price" value="<?= $minDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
-                                        <span class="input-group-text">-</span>
-                                        <input type="number" class="form-control" name="filter_max_price" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
+                                        <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
+                                            <?php
+                                            foreach ($availableBrands as $brand) {
+                                                echo '<option value="' . $brand . '" selected>' . $brand . '</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
 
                                     <label for="" class="form-label">Model Year</label>
