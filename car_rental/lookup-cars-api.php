@@ -32,13 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Content-Type: application/json');
 
     $data = [
-        'content' => '<b></b>',
+        'content' => '<b>No results</b>',
         'matching_results' => 0,
-        'pages' => [],
+        'pages' => [
+            'total' => 0,
+            'has_next' => false,
+            'has_previous' => false,
+            'current' => $filters->currentPage ?? 1,
+        ],
         'query' => $filters->filter_pickup_date
     ];
 
     $carsLookup = new AdvanceCarsLookup($filters->filter_pickup_date, $filters->filter_return_date);
+    $carsLookup->setCurrentPage($filters->currentPage);
 
     if (isset($filters->filter_search) && strlen($filters->filter_search) >= 4) {
         $carsLookup->carModelWhereClause()->whereFullText(['brand', 'model'], $filters->filter_search);
@@ -74,7 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $data['content'] = generateCarsTemplate($cars);
     }
 
-    $data['query'] = $carsLookup->query;
+    $data['pages']['total'] = $carsLookup->getTotalPages();
+    $data['pages']['has_previous'] = $carsLookup->hasPreviousPage();
+    $data['pages']['has_next'] = $carsLookup->hasNextPage();
+    // $data['query'] = $carsLookup->query;
 
     exit(json_encode($data));
 }
