@@ -37,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'pages' => [
             'total' => 0,
             'current' => $filters->currentPage ?? 1,
-        ],
-        'query' => $filters->filter_pickup_date
+        ]
     ];
 
     $carsLookup = new AdvanceCarsLookup($filters->filter_pickup_date, $filters->filter_return_date);
