@@ -190,7 +190,7 @@
 
     function onReserveButtonClick(carId) {
         const params = new URLSearchParams({
-            p: 'reserve-car',
+            p: 'place-reservation',
             carId,
             pickupDate: filters.filter_pickup_date,
             returnDate: filters.filter_return_date,
