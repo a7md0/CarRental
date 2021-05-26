@@ -188,6 +188,17 @@
         fetchResults();
     }
 
+    function onReserveButtonClick(carId) {
+        const params = new URLSearchParams({
+            p: 'reserve-car',
+            carId,
+            pickupDate: filters.filter_pickup_date,
+            returnDate: filters.filter_return_date,
+        });
+
+        window.location.href = `?${params.toString()}`;
+    }
+
     document.addEventListener('DOMContentLoaded', (event) => {
         checkReservationDate();
 
@@ -213,6 +224,14 @@
 
         document.addEventListener('click', (event) => {
             if (event.target) {
+                if (event.target.classList.contains('reserve-car-btn')) {
+                    const carId = event.target.dataset['carId'];
+
+                    if (carId) {
+                        onReserveButtonClick(carId);
+                    }
+                }
+
                 if (event.target.classList.contains('select-all-btn')) {
                     const linkFor = event.target.dataset['linkFor'];
 
