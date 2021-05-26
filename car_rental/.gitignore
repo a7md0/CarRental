@@ -1,2 +1,4 @@
 include/env.php
 /nbproject/private/
+
+.vscode/sftp.json
