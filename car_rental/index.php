@@ -35,7 +35,7 @@ require_once 'routes/routes.php';
     <?php $CURRENT_ROUTE->includeHeader(); ?>
 </head>
 
-<body class="<?= join(' ', $CUSTOM_CLASSES['body']); ?>">
+<body class="bg-light <?= join(' ', $CUSTOM_CLASSES['body']); ?>">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
