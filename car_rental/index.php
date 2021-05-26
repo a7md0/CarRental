@@ -54,24 +54,24 @@ require_once 'routes/routes.php';
                     </ul>
                     <ul class="navbar-nav">
                         <?php if ($CURRENT_USER == null) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="?p=sign-in">Sign in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link<?= $requestPage == 'signup' ? ' active' : ''; ?>" href="?p=signup">Signup</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="?p=sign-in">Sign in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link<?= $requestPage == 'signup' ? ' active' : ''; ?>" href="?p=signup">Signup</a>
+                            </li>
                         <?php } else { ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' '. $CURRENT_USER->getLastName(); ?></a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" onclick="post(window.location.href, {logout: true});">Logout</a></li>
-                            </ul>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' ' . $CURRENT_USER->getLastName(); ?></a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" onclick="post(window.location.href, {logout: true});">Logout</a></li>
+                                </ul>
+                            </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -86,13 +86,8 @@ require_once 'routes/routes.php';
     </main>
 
     <?php if ($HIDE_FOOTER === false) { ?>
-        <footer class="footer mt-auto py-3 bg-dark">
-            <div class="container">
-                <p class="float-end"><a href="#">Back to top</a></p>
-                <span class="text-muted">
-                    <p>&copy; <?= date("Y"); ?> Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-                </span>
-            </div>
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; <?= date("Y"); ?> Company</p>
         </footer>
     <?php } ?>
 
