@@ -62,7 +62,7 @@
                                         <input type="number" class="form-control" name="filter_max_price" value="<?= $maxDailyRentRate; ?>" min="<?= $minDailyRentRate; ?>" max="<?= $maxDailyRentRate; ?>" step="0.001" data-trigger-filter="true" required>
                                     </div>
 
-                                    <label for="filter-types" class="form-label">Types</label>
+                                    <label for="filter-types" class="form-label">Types </label> <a href="javascript:void(0)" class="fw-light fs-6 float-end select-all-btn" data-link-for="filter-types">(Select all)</a>
                                     <div class="input-group mb-3">
                                         <select id="filter-types" name="filter_types" class="form-select" data-trigger-filter="true" multiple required>
                                             <?php
@@ -73,7 +73,7 @@
                                         </select>
                                     </div>
 
-                                    <label for="filter-brands" class="form-label">Brands</label>
+                                    <label for="filter-brands" class="form-label">Brands</label> <a href="javascript:void(0)" class="fw-light fs-6 float-end select-all-btn" data-link-for="filter-brands">(Select all)</a>
                                     <div class="input-group mb-3">
                                         <select id="filter-brands" name="filter_brands" class="form-select" data-trigger-filter="true" multiple required>
                                             <?php
@@ -91,7 +91,7 @@
                                         <input type="number" class="form-control" name="filter_max_year" value="<?= $maxYear; ?>" min="<?= $minYear; ?>" max="<?= $maxYear; ?>" step="1" data-trigger-filter="true" required>
                                     </div>
 
-                                    <label for="filter-colors" class="form-label">Colors</label>
+                                    <label for="filter-colors" class="form-label">Colors</label> <a href="javascript:void(0)" class="fw-light fs-6 float-end select-all-btn" data-link-for="filter-colors">(Select all)</a>
                                     <div class="input-group mb-3">
                                         <select id="filter-colors" name="filter_colors" class="form-select" data-trigger-filter="true" multiple required>
                                             <?php

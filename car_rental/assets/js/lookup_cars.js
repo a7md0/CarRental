@@ -211,6 +211,29 @@
             element.addEventListener('change', dHandler);
         });
 
+        document.addEventListener('click', (event) => {
+            if (event.target) {
+                if (event.target.classList.contains('select-all-btn')) {
+                    const linkFor = event.target.dataset['linkFor'];
+
+                    console.log(event.target.dataset);
+
+                    if (linkFor) {
+                        const targetElement = document.getElementById(linkFor);
+                        if (targetElement) {
+                            const options = Array.from(targetElement.children);
+
+                            options.forEach((option) => {
+                                option.selected = true;
+                            });
+
+                            targetElement.dispatchEvent(new Event('change'));
+                        }
+                    }
+                }
+            }
+        });
+
         onFilterChange(null);
     }, false);
 })();
