@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2021 at 08:59 PM
+-- Generation Time: May 26, 2021 at 06:05 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -57,12 +57,12 @@ INSERT INTO `dbproj_car` (`car_id`, `car_model_id`, `color`, `daily_rent_rate`, 
 (12, 1003, 'Gray', '11.999', '695012', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_gray.jpg'),
 (13, 1003, 'Red', '11.999', '310710', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_red.jpg'),
 (14, 1003, 'Silver', '11.999', '468515', NULL, 'available', 'assets/images/cars/hyundai_accent_2017_silver.jpg'),
-(15, 1010, 'Black', '11.999', '410444', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_black.jpg'),
-(16, 1010, 'White', '11.999', '646678', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_white.jpg'),
-(17, 1010, 'Blue', '11.999', '2057', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_blue.jpg'),
-(18, 1010, 'Gray', '11.999', '70250', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_gray.jpg'),
-(19, 1010, 'Red', '11.999', '345081', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_red.jpg'),
-(20, 1010, 'Silver', '11.999', '514655', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg'),
+(15, 1010, 'Black', '12.999', '410444', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_black.jpg'),
+(16, 1010, 'White', '12.999', '646678', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_white.jpg'),
+(17, 1010, 'Blue', '12.999', '2057', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_blue.jpg'),
+(18, 1010, 'Gray', '12.999', '70250', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_gray.jpg'),
+(19, 1010, 'Red', '12.999', '345081', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_red.jpg'),
+(20, 1010, 'Silver', '12.999', '514655', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg'),
 (21, 1005, 'Black', '11.999', '538033', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_black.jpg'),
 (22, 1005, 'White', '11.999', '146201', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_white.jpg'),
 (23, 1005, 'Blue', '11.999', '116906', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_blue.jpg'),
@@ -148,46 +148,46 @@ CREATE TABLE `dbproj_car_model` (
 --
 
 INSERT INTO `dbproj_car_model` (`car_model_id`, `car_type_id`, `brand`, `model`, `year`, `number_of_seats`) VALUES
-(1000, 100, 'Hyundai', 'Accent', 2020, 4),
-(1001, 100, 'Hyundai', 'Accent', 2019, 4),
-(1002, 100, 'Hyundai', 'Accent', 2018, 4),
-(1003, 100, 'Hyundai', 'Accent', 2017, 4),
-(1004, 100, 'Hyundai', 'Accent', 2016, 4),
-(1005, 100, 'Hyundai', 'Elantra', 2020, 4),
-(1006, 100, 'Hyundai', 'Elantra', 2019, 4),
-(1007, 100, 'Hyundai', 'Elantra', 2018, 4),
-(1008, 100, 'Hyundai', 'Elantra', 2017, 4),
-(1009, 100, 'Hyundai', 'Elantra', 2016, 4),
-(1010, 100, 'Hyundai', 'Sonata', 2020, 4),
-(1011, 100, 'Hyundai', 'Sonata', 2019, 4),
-(1012, 100, 'Hyundai', 'Sonata', 2018, 4),
-(1013, 100, 'Hyundai', 'Sonata', 2017, 4),
-(1014, 100, 'Hyundai', 'Sonata', 2016, 4),
-(1015, 101, 'GMC', 'Yukon', 2020, 4),
-(1016, 101, 'GMC', 'Yukon', 2019, 4),
-(1017, 101, 'GMC', 'Yukon', 2018, 4),
-(1018, 101, 'GMC', 'Yukon', 2017, 4),
-(1019, 101, 'GMC', 'Yukon', 2016, 4),
-(1020, 101, 'GMC', 'Acadia', 2020, 4),
-(1021, 101, 'GMC', 'Acadia', 2019, 4),
-(1022, 101, 'GMC', 'Acadia', 2018, 4),
-(1023, 101, 'GMC', 'Acadia', 2017, 4),
-(1024, 101, 'GMC', 'Acadia', 2016, 4),
-(1025, 101, 'Ford', 'Explorer', 2020, 4),
-(1026, 101, 'Ford', 'Explorer', 2019, 4),
-(1027, 101, 'Ford', 'Explorer', 2018, 4),
-(1028, 101, 'Ford', 'Explorer', 2017, 4),
-(1029, 101, 'Ford', 'Explorer', 2016, 4),
+(1000, 100, 'Hyundai', 'Accent', 2020, 5),
+(1001, 100, 'Hyundai', 'Accent', 2019, 5),
+(1002, 100, 'Hyundai', 'Accent', 2018, 5),
+(1003, 100, 'Hyundai', 'Accent', 2017, 5),
+(1004, 100, 'Hyundai', 'Accent', 2016, 5),
+(1005, 100, 'Hyundai', 'Elantra', 2020, 5),
+(1006, 100, 'Hyundai', 'Elantra', 2019, 5),
+(1007, 100, 'Hyundai', 'Elantra', 2018, 5),
+(1008, 100, 'Hyundai', 'Elantra', 2017, 5),
+(1009, 100, 'Hyundai', 'Elantra', 2016, 5),
+(1010, 100, 'Hyundai', 'Sonata', 2020, 5),
+(1011, 100, 'Hyundai', 'Sonata', 2019, 5),
+(1012, 100, 'Hyundai', 'Sonata', 2018, 5),
+(1013, 100, 'Hyundai', 'Sonata', 2017, 5),
+(1014, 100, 'Hyundai', 'Sonata', 2016, 5),
+(1015, 101, 'GMC', 'Yukon', 2020, 8),
+(1016, 101, 'GMC', 'Yukon', 2019, 8),
+(1017, 101, 'GMC', 'Yukon', 2018, 8),
+(1018, 101, 'GMC', 'Yukon', 2017, 8),
+(1019, 101, 'GMC', 'Yukon', 2016, 8),
+(1020, 101, 'GMC', 'Acadia', 2020, 7),
+(1021, 101, 'GMC', 'Acadia', 2019, 7),
+(1022, 101, 'GMC', 'Acadia', 2018, 7),
+(1023, 101, 'GMC', 'Acadia', 2017, 7),
+(1024, 101, 'GMC', 'Acadia', 2016, 7),
+(1025, 101, 'Ford', 'Explorer', 2020, 7),
+(1026, 101, 'Ford', 'Explorer', 2019, 7),
+(1027, 101, 'Ford', 'Explorer', 2018, 7),
+(1028, 101, 'Ford', 'Explorer', 2017, 7),
+(1029, 101, 'Ford', 'Explorer', 2016, 7),
 (1030, 102, 'Ford', 'Mustang', 2020, 4),
 (1031, 102, 'Ford', 'Mustang', 2019, 4),
 (1032, 102, 'Ford', 'Mustang', 2018, 4),
 (1033, 102, 'Ford', 'Mustang', 2017, 4),
 (1034, 102, 'Ford', 'Mustang', 2016, 4),
-(1035, 100, 'Honda', 'Accord', 2020, 4),
-(1036, 100, 'Honda', 'Accord', 2019, 4),
-(1037, 100, 'Honda', 'Accord', 2018, 4),
-(1038, 100, 'Honda', 'Accord', 2017, 4),
-(1039, 100, 'Honda', 'Accord', 2016, 4);
+(1035, 100, 'Honda', 'Accord', 2020, 5),
+(1036, 100, 'Honda', 'Accord', 2019, 5),
+(1037, 100, 'Honda', 'Accord', 2018, 5),
+(1038, 100, 'Honda', 'Accord', 2017, 5),
+(1039, 100, 'Honda', 'Accord', 2016, 5);
 
 -- --------------------------------------------------------
 
@@ -339,13 +339,13 @@ CREATE TABLE `dbproj_user_car_reservation` (
 --
 
 INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`, `car_id`, `pickup_date`, `return_date`, `status`, `sales_invoice_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, '2021-05-13', '2021-05-16', 'confirmed', NULL, '2021-05-19 20:15:34', '2021-05-19 20:15:34'),
-(2, 1, 7, '2021-05-11', '2021-05-14', 'confirmed', NULL, '2021-05-19 20:15:35', '2021-05-19 20:15:35'),
-(3, 1, 7, '2021-05-18', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:15:36', '2021-05-19 20:15:36'),
-(4, 1, 5, '2021-05-10', '2021-05-20', 'confirmed', NULL, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
-(5, 1, 5, '2021-05-10', '2021-05-12', 'confirmed', NULL, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
-(6, 1, 5, '2021-05-18', '2021-05-18', 'confirmed', NULL, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
-(7, 1, 5, '2021-05-20', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:37:34', '2021-05-19 20:37:34');
+(1, 1, 6, '2021-05-23', '2021-05-26', 'confirmed', NULL, '2021-05-19 20:15:34', '2021-05-19 20:15:34'),
+(2, 1, 7, '2021-05-21', '2021-05-24', 'confirmed', NULL, '2021-05-19 20:15:35', '2021-05-19 20:15:35'),
+(3, 1, 7, '2021-05-28', '2021-05-30', 'confirmed', NULL, '2021-05-19 20:15:36', '2021-05-19 20:15:36'),
+(4, 1, 4, '2021-05-20', '2021-05-30', 'confirmed', NULL, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
+(5, 1, 5, '2021-05-20', '2021-05-22', 'confirmed', NULL, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
+(6, 1, 5, '2021-05-28', '2021-05-28', 'confirmed', NULL, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
+(7, 1, 8, '2021-05-20', '2021-05-21', 'confirmed', NULL, '2021-05-19 20:37:34', '2021-05-19 20:37:34');
 
 -- --------------------------------------------------------
 
@@ -377,6 +377,7 @@ INSERT INTO `dbproj_user_type` (`user_type_id`, `type`, `access_level`) VALUES
 ALTER TABLE `dbproj_car`
   ADD PRIMARY KEY (`car_id`),
   ADD KEY `IXFK_car_car_model` (`car_model_id`);
+ALTER TABLE `dbproj_car` ADD FULLTEXT KEY `color` (`color`,`license_plate`);
 
 --
 -- Indexes for table `dbproj_car_accessory`
