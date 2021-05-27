@@ -16,7 +16,7 @@
                 ?>
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
-                            <h6 class="my-0 text-truncate"><?= $item[0]; ?></h6>
+                            <span class="my-0 text-truncate"><?= $item[0]; ?></span>
                             <small class="text-muted"><?= $item[1]; ?></small>
                         </div>
                         <span class="text-muted">BD<?= $item[2]; ?></span>
@@ -26,7 +26,7 @@
                 ?>
 
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total</span>
+                    <h6 class="my-0 text-truncate">Total</h6>
                     <strong>BD<?= $cartTotal; ?></strong>
                 </li>
             </ul>
