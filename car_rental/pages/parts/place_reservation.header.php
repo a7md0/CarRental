@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+/** @var CarAccessory[] */
 $pickedAccessories = [];
 $sessionPickedAccessories = $_SESSION['place_reservation'][$carId]['picked_accessories'] ?? [];
 foreach ($sessionPickedAccessories as $pickedAccessory) {
@@ -61,12 +62,56 @@ $availableAccessories = array_diff_key($accessories, $pickedAccessories);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['place_reservation'])) {
         // TODO: Check if var is available between pickup&return dates
-        // TODO: Create new user_car_reservation (unconfirmed)
-        // TODO: Create new car_reservation_accessory
+
         // TODO: Create sales invoice (unpaid)
-        // TODO: Create sales invoice item
+        $salesInvoice = new SalesInvoice();
+        $salesInvoice->setStatus('unpaid')->setPaidAmount(0)->setGrandTotal($cartTotal);
+        $salesInvoice->insert();
+
+        // TODO: Create sales invoice items
+        $salesInvoiceItems = [];
+
+        foreach ($cartItems as $item) {
+            $carInvoiceItem = new SalesInvoiceItem();
+            $carInvoiceItem->setSalesInvoiceId($salesInvoice->getSalesInvoiceId())
+                ->setItem($item[0])
+                ->setPrice($item[2]);
+
+            $salesInvoiceItems[] = $carInvoiceItem;
+        }
+
+        SalesInvoiceItem::insertMany($salesInvoiceItems);
+
+        // TODO: Create new user_car_reservation (unconfirmed)
+        $userCarReservation = new UserCarReservation();
+        $userCarReservation->setUserId($_SESSION['user']['user_id'])
+            ->setCarId($carId)
+            ->setPickupDate($pickupDateStr)
+            ->setReturnDate($returnDateStr)
+            ->setStatus('unconfirmed')
+            ->setSalesInvoiceId($salesInvoice->getSalesInvoiceId());
+
+        $userCarReservation->insert();
+
+
+        // TODO: Create new car_reservation_accessory
+        $carReservationAccessories = [];
+
+        foreach ($pickedAccessories as $pickedAccessory) {
+            $carReservationAccessory = new CarReservationAccessory();
+            $carReservationAccessory->setUserCarReservationId($userCarReservation->getUserCarReservationId())
+                ->setCarAccessoryId($pickedAccessory->getCarAccessoryId());
+
+            $carReservationAccessories[] = $carReservationAccessory;
+        }
+
+        if (count($carReservationAccessories) > 0) {
+            CarReservationAccessory::insertMany($carReservationAccessories);
+        }
 
         // TODO: Redirect to confirm reservation page
+        header("Location: ?p=confirm-reservation&reservation_id=" . $userCarReservation->getUserCarReservationId());
+        exit;
     }
 }
 
