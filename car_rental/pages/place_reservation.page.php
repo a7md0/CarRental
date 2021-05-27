@@ -49,7 +49,7 @@
                     <div class="filter-content">
                         <div class="card-body row g-3">
                             <div class="col-md-4">
-                                <img src="assets/images/cars/ford_explorer_2020_black.jpg" class="card-img-top" alt="...">
+                                <img src="<?= $car->getPreviewImage(); ?>" class="card-img-top" alt="...">
                             </div>
 
                             <div class="col-md-1"></div>
@@ -58,19 +58,17 @@
                                 <div class="row">
                                     <div class="col-md-7">
                                         <span class="fw-bold">Car</span><br />
-                                        <span>Hyundai Accent (2020)</span>
+                                        <span><?= $car->getCarModel()->getFullDisplayName(); ?></span>
                                     </div>
                                     <div class="col-md-5">
                                         <span class="fw-bold">Color</span><br />
-                                        <span>Black</span>
+                                        <span><?= $car->getColor(); ?></span>
                                     </div>
                                     <div class="col-md-7">
-                                        <span class="fw-bold">Type</span><br />
-                                        <span>Sedan</span>
                                     </div>
                                     <div class="col-md-5">
                                         <span class="fw-bold">Daily rent rate</span><br />
-                                        <span>BD10.000</span>
+                                        <span>BD<?= $car->getDailyRentRate(); ?></span>
                                     </div>
                                 </div>
                             </div>
