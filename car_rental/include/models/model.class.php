@@ -181,20 +181,22 @@ abstract class Model
     static function insertMany(array $models)
     {
         $tblName = static::$tableName;
-        $queries = '';
+        $insertions = [];
         $insertTypes = '';
         $insertValues = [];
 
         foreach ($models as $model) {
             $insert = new InsertClause($model->getValues(), $model::$autoIncrementKey);
-            $insertClause = $insert->getSQL();
+            $insertions[] = count($insertions) == 0 ? $insert->getSQL() : $insert->getSqlValues();
             $insertTypes .= $insert->getTypes();
-            $insertValues += $insert->getValues();
-
-            $queries .= "INSERT INTO `$tblName`$insertClause; "; // TODO: Insert values multiple time, instead of diff queries
+            $insertValues = array_merge($insertValues, $insert->getValues());
         }
 
-        $stmt = Database::executeStatement($queries, $insertTypes, $insertValues);
+        $query = "INSERT INTO `$tblName` ";
+        $query .= join(", ", $insertions);
+        $query .= ';';
+
+        $stmt = Database::executeStatement($query, $insertTypes, $insertValues);
         $affectedRows = $stmt->affected_rows;
 
         $stmt->free_result();
