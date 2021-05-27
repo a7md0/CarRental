@@ -4,7 +4,7 @@
         <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
     </div>
 
-    <form class="row g-5">
+    <div class="row g-5">
         <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Your cart</span>
@@ -118,8 +118,8 @@
                                     foreach ($pickedAccessories as $accessory) {
                                     ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
-                                            <div class="p-5">
-                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top">
+                                            <div class="p-4">
+                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" style="object-fit: contain; max-width: 6em; max-height: 6em;">
                                             </div>
                                             <div class="p-2 flex-fill align-self-center">
                                                 <h6 class="my-0"><?= $accessory->getName(); ?></h6>
@@ -144,10 +144,10 @@
                                      */
                                     foreach ($availableAccessories as $accessory) {
                                     ?>
-                                        <form method="POST">
+                                        <form action="<?= $_SERVER["PHP_SELF"] .  '?' . http_build_query($_GET); ?>" method="POST">
                                             <input type="hidden" name="accessory_id" value="<?= $accessory->getCarAccessoryId(); ?>" />
                                             <div class="card card-block mx-2" style="min-width: 14rem;">
-                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top">
+                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" />
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?= $accessory->getName(); ?></h5>
                                                     <p class="card-text">BD<?= $accessory->getCharge(); ?></p>
@@ -164,5 +164,5 @@
             </div>
 
         </div>
-    </form>
+    </div>
 </div>

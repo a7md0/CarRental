@@ -29,9 +29,24 @@ foreach (CarAccessory::find($whereAccessories) as $carAccessory) {
     $accessories[$id] = $carAccessory;
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['accessory_id'])) {
+        $accessoryId = intval($_POST['accessory_id']);
+
+        if (!isset($_SESSION['place_reservation'][$carId]['picked_accessories']) || !is_array($_SESSION['place_reservation'][$carId]['picked_accessories'])) {
+            $_SESSION['place_reservation'][$carId]['picked_accessories'] = [];
+        }
+
+        if (!in_array($accessoryId, $_SESSION['place_reservation'][$carId]['picked_accessories'])) {
+            $_SESSION['place_reservation'][$carId]['picked_accessories'][] = $accessoryId;
+        }
+    }
+}
+
 $pickedAccessories = [];
-foreach ($_SESSION['place_reservation']['picked_accessories'] ?? [] as $pickedAccessory) {
-    $pickedAccessories[] = $accessories[$pickedAccessory];
+$sessionPickedAccessories = $_SESSION['place_reservation'][$carId]['picked_accessories'] ?? [];
+foreach ($sessionPickedAccessories as $pickedAccessory) {
+    $pickedAccessories[$pickedAccessory] = $accessories[$pickedAccessory];
 
     $cost = floatval($accessories[$pickedAccessory]->getCharge());
     $cartItems[] = [$accessories[$pickedAccessory]->getName(), "",  $cost];
