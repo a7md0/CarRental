@@ -40,6 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!in_array($accessoryId, $_SESSION['place_reservation'][$carId]['picked_accessories'])) {
             $_SESSION['place_reservation'][$carId]['picked_accessories'][] = $accessoryId;
         }
+    } else if (isset($_POST['cancel'])) {
+        unset($_SESSION['place_reservation'][$carId]);
+        header("Location: ?p=lookup-cars");
+        exit;
     }
 }
 
@@ -53,6 +57,18 @@ foreach ($sessionPickedAccessories as $pickedAccessory) {
     $cartTotal +=  $cost;
 }
 $availableAccessories = array_diff_key($accessories, $pickedAccessories);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['place_reservation'])) {
+        // TODO: Check if var is available between pickup&return dates
+        // TODO: Create new user_car_reservation (unconfirmed)
+        // TODO: Create new car_reservation_accessory
+        // TODO: Create sales invoice (unpaid)
+        // TODO: Create sales invoice item
+
+        // TODO: Redirect to confirm reservation page
+    }
+}
 
 $VALUES += [
     'pickupDate' => $pickupDate,
