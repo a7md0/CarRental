@@ -47,6 +47,16 @@ class InsertClause
     }
 
     /**
+     * Return built string part of the where clause.
+     *
+     * @return string
+     */
+    public function getSqlValues()
+    {
+        return '(' .  join(', ', $this->valuesPlaceholder) . ')';
+    }
+
+    /**
      * Return string representation of current types in one string.
      *
      * @return string
