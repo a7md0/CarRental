@@ -12,17 +12,17 @@
             </h4>
             <ul class="list-group mb-3">
                 <?php
-                    foreach ($cartItems as $item) {
+                foreach ($cartItems as $item) {
                 ?>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0 text-truncate"><?= $item[0]; ?></h6>
-                        <small class="text-muted"><?= $item[1]; ?></small>
-                    </div>
-                    <span class="text-muted">BD<?= $item[2]; ?></span>
-                </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0 text-truncate"><?= $item[0]; ?></h6>
+                            <small class="text-muted"><?= $item[1]; ?></small>
+                        </div>
+                        <span class="text-muted">BD<?= $item[2]; ?></span>
+                    </li>
                 <?php
-                    }
+                }
                 ?>
 
                 <li class="list-group-item d-flex justify-content-between">
@@ -146,14 +146,17 @@
                                      */
                                     foreach ($availableAccessories as $accessory) {
                                     ?>
-                                        <div class="card card-block mx-2" style="min-width: 14rem;">
-                                            <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $accessory->getName(); ?></h5>
-                                                <p class="card-text">BD<?= $accessory->getCharge(); ?></p>
-                                                <a href="#" class="btn btn-primary">Pick accessory</a>
+                                        <form method="POST">
+                                            <input type="hidden" name="accessory_id" value="<?= $accessory->getCarAccessoryId(); ?>" />
+                                            <div class="card card-block mx-2" style="min-width: 14rem;">
+                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?= $accessory->getName(); ?></h5>
+                                                    <p class="card-text">BD<?= $accessory->getCharge(); ?></p>
+                                                    <button type="submit" value="pick_accessory" class="btn btn-primary">Pick accessory</button>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     <?php } ?>
                                 </div>
                             </div>
