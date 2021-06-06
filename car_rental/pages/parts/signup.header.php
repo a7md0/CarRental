@@ -1,6 +1,7 @@
 <?php
 
 $CUSTOM_CLASSES['main'][] = 'form-signup';
+$HIDE_FOOTER = true;
 
 $message = '';
 

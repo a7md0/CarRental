@@ -1,6 +1,7 @@
 <?php
 
 $CUSTOM_CLASSES['main'][] = 'form-signin';
+$HIDE_FOOTER = true;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
