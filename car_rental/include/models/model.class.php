@@ -357,6 +357,37 @@ abstract class Model
         return $models;
     }
 
+    static function findPaginated(WhereClause $where = null, $limit = 10, $offset = 0)
+    {
+        $tblName = static::$tableName;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL();
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "SELECT * FROM `$tblName`$whereClause LIMIT $offset, $limit;";
+
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
+        $models = [];
+
+        if ($result = $stmt->get_result()) {
+            while ($row = $result->fetch_assoc()) {
+                $models[] = static::initializeFromData($row);
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $models;
+    }
+
     /**
      * Find one matching record with the provided condition(s).
      *
