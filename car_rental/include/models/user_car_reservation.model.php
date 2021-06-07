@@ -6,7 +6,7 @@ class UserCarReservation extends Model
     protected static $tableName = DB_TABLES_PREFIX . 'user_car_reservation';
     protected static $primaryKeys = ['user_car_reservation_id'];
     protected static $autoIncrementKey = 'user_car_reservation_id';
-    protected static $properties = ['user_car_reservation_id', 'user_id', 'car_id', 'pickup_date', 'return_date', 'sales_invoice_id', 'status', 'created_at', 'updated_at'];
+    protected static $properties = ['user_car_reservation_id', 'user_id', 'car_id', 'pickup_date', 'return_date', 'sales_invoice_id', 'status', 'is_amended', 'created_at', 'updated_at'];
 
     /*
 return parent::getValue('car_id');
@@ -148,6 +148,26 @@ parent::setValue('car_id', $value);
     public function setStatus($value)
     {
         parent::setValue('status', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of is_amended
+     */
+    public function getIsAmended()
+    {
+        return parent::getValue('is_amended');
+    }
+
+    /**
+     * Set the value of is_amended
+     *
+     * @return self
+     */
+    public function setIsAmended($value)
+    {
+        parent::setValue('is_amended', $value);
 
         return $this;
     }
