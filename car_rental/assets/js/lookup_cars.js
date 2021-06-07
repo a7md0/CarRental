@@ -163,8 +163,8 @@
                 if (response.matching_results > 0) {
                     resultsElement.innerHTML = response.content;
 
-                    pages = response.pages;
-                    setupPagination();
+                    pages = response.pages; // set the pages obj
+                    setupPagination(); // setup pagination for the given results set
 
                     resultsElement.classList.remove('d-none'); // Show the results section
                     resultsFeedbackElement.classList.add('d-none'); // Hide the feedback section (fully)
