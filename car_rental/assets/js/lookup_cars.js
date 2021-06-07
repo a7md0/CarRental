@@ -24,6 +24,10 @@
         const filterPickupDateElm = document.querySelector('[name=filter_pickup_date]');
         const filterReturnDateElm = document.querySelector('[name=filter_return_date]');
 
+        if (filterPickupDateElm === null && filterReturnDateElm === null) {
+            return;
+        }
+
         if (filterPickupDateElm.valueAsDate === null) {
             filterPickupDateElm.valueAsDate = new Date();
         }
@@ -122,12 +126,6 @@
         paginationElement.appendChild(nextCtrl);
 
         refreshPaginationState();
-    }
-
-    function handleResponse(response) {
-        console.log(response);
-        const resultsElement = document.querySelector('#results');
-
     }
 
     function fetchResults() {
