@@ -267,20 +267,21 @@
                 }
 
                 if (event.target.classList.contains('select-all-btn')) {
-                    const linkFor = event.target.dataset['linkFor'];
+                    const linkFor = event.target.dataset['linkFor']; // Get the link for control name
 
                     console.log(event.target.dataset);
 
                     if (linkFor) {
-                        const targetElement = document.getElementById(linkFor);
+                        const targetElement = document.getElementById(linkFor); // find the element that match the control name
                         if (targetElement) {
-                            const options = Array.from(targetElement.children);
+                            const options = Array.from(targetElement.children); // Construct array from the children of the select (options)
 
+                            /// Select all options
                             options.forEach((option) => {
                                 option.selected = true;
                             });
 
-                            targetElement.dispatchEvent(new Event('change'));
+                            targetElement.dispatchEvent(new Event('change')); // Trigger the change for the fetch to occur
                         }
                     }
                 }
