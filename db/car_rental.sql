@@ -32,15 +32,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_reservation` (IN `user_car_r
     
     UPDATE `dbproj_user_car_reservation` AS UCR
     
-	INNER JOIN `dbproj_sales_invoice` AS SI
-		ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
-	LEFT JOIN `dbproj_transaction` AS T
-		ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
-		AND T.`status` = 'completed'
-		
-	SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.paid_amount = 0.000, T.`status` = 'refunded'
+    INNER JOIN `dbproj_sales_invoice` AS SI
+      ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
+    LEFT JOIN `dbproj_transaction` AS T
+      ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
+      AND T.`status` = 'completed'
+      
+    SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.`paid_amount` = 0.000, T.`status` = 'refunded'
 
-	WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
+    WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
     
     
     COMMIT;
