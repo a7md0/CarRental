@@ -46,7 +46,7 @@ class Route
         global $CURRENT_USER;
         global $VALUES;
 
-        $file = "$this->pageFolder/parts/$this->pageFile.header.php";
+        $file = "$this->pageFolder/$this->pageFile.controller.php";
 
         if (file_exists($file)) {
             include_once $file;
@@ -60,7 +60,7 @@ class Route
 
         extract($VALUES);
 
-        require_once "$this->pageFolder/$this->pageFile.page.php";
+        require_once "$this->pageFolder/$this->pageFile.view.php";
     }
 
     public function includeFooter()
@@ -70,7 +70,7 @@ class Route
 
         extract($VALUES);
 
-        $file = "$this->pageFolder/parts/$this->pageFile.footer.php";
+        $file = "$this->pageFolder/$this->pageFile.footer.php";
 
         if (file_exists($file)) {
             include_once $file;
