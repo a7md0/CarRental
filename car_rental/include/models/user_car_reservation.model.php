@@ -191,4 +191,19 @@ parent::setValue('car_id', $value);
 
         return $this;
     }
+
+    public function cancel() {
+        $user_car_reservation_id = $this->getUserCarReservationId();
+        $query = "CALL cancel_reservation(?);"; // TODO: Set clause
+
+        $stmt = Database::executeStatement($query, 'i', [$user_car_reservation_id]);
+        $affectedRows = $stmt->affected_rows;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        echo $affectedRows;
+
+        return $affectedRows > 0;
+    }
 }
