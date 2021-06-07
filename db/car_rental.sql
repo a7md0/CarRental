@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2021 at 11:30 PM
+-- Generation Time: Jun 08, 2021 at 01:53 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -32,18 +32,44 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_reservation` (IN `user_car_r
     
     UPDATE `dbproj_user_car_reservation` AS UCR
     
-    INNER JOIN `dbproj_sales_invoice` AS SI
-      ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
-    LEFT JOIN `dbproj_transaction` AS T
-      ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
-      AND T.`status` = 'completed'
-      
-    SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.`paid_amount` = 0.000, T.`status` = 'refunded'
+	INNER JOIN `dbproj_sales_invoice` AS SI
+		ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
+	LEFT JOIN `dbproj_transaction` AS T
+		ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
+		AND T.`status` = 'completed'
+		
+	SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.paid_amount = 0.000, T.`status` = 'refunded'
 
-    WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
+	WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
     
     
     COMMIT;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_car_reserved` (`carId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
+	DECLARE matches INT;
+    
+	SELECT COUNT(*) INTO matches FROM `dbproj_user_car_reservation`
+		WHERE `car_id`= carId
+		AND `status` = 'confirmed'
+		AND `return_date` >= pickupDate AND `pickup_date` <= returnDate;
+    
+	RETURN matches > 0;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `is_car_reserved_except` (`carId` INT UNSIGNED, `userCarReservationId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
+	DECLARE matches INT;
+    
+	SELECT COUNT(*) INTO matches FROM `dbproj_user_car_reservation`
+		WHERE `car_id`= carId
+        AND `user_car_reservation_id` <> userCarReservationId
+		AND `status` = 'confirmed'
+		AND `return_date` >= pickupDate AND `pickup_date` <= returnDate;
+    
+	RETURN matches > 0;
 END$$
 
 DELIMITER ;
@@ -238,7 +264,9 @@ INSERT INTO `dbproj_car_reservation_accessory` (`user_car_reservation_id`, `car_
 (11, 111),
 (11, 115),
 (12, 100),
-(12, 107);
+(12, 107),
+(1654321, 100),
+(1654321, 107);
 
 -- --------------------------------------------------------
 
@@ -285,7 +313,8 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (14, 'unpaid', '0.000', '62.746', NULL, '2021-05-27 15:02:47', '2021-05-27 15:02:47'),
 (15, 'unpaid', '0.000', '29.598', NULL, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
 (16, 'unpaid', '0.000', '43.748', NULL, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
-(17, 'cancelled', '0.000', '418.566', NULL, '2021-06-07 03:10:57', '2021-06-07 03:10:57');
+(17, 'cancelled', '0.000', '418.566', NULL, '2021-06-07 03:10:57', '2021-06-07 03:10:57'),
+(18, 'unpaid', '0.000', '35.598', NULL, '2021-06-08 02:01:18', '2021-06-08 02:01:18');
 
 -- --------------------------------------------------------
 
@@ -317,7 +346,10 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (13, 16, '\r\nInfant safety seat', '14.450'),
 (14, 17, 'Car rent', '395.967'),
 (15, 17, '\r\nToddler safety seat', '9.999'),
-(16, 17, 'Dash cam', '12.600');
+(16, 17, 'Dash cam', '12.600'),
+(17, 18, 'Car rent', '12.999'),
+(18, 18, '\r\nToddler safety seat', '9.999'),
+(19, 18, 'Dash cam', '12.600');
 
 -- --------------------------------------------------------
 
@@ -433,7 +465,8 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (9, 1, 1, '2021-05-26', '2021-05-28', 'unconfirmed', 0, 14, '2021-05-27 15:02:48', '2021-05-27 15:02:48'),
 (10, 1, 39, '2021-05-28', '2021-05-28', 'unconfirmed', 0, 15, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
 (11, 1, 1, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
-(12, 1, 1, '2021-06-08', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58');
+(12, 1, 1, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
+(1654321, 1, 17, '2021-06-07', '2021-06-07', 'unconfirmed', 0, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18');
 
 -- --------------------------------------------------------
 
@@ -578,13 +611,13 @@ ALTER TABLE `dbproj_car_type`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
 --
 ALTER TABLE `dbproj_sales_invoice`
-  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
@@ -608,7 +641,7 @@ ALTER TABLE `dbproj_user_address`
 -- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
 ALTER TABLE `dbproj_user_car_reservation`
-  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1654321;
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1654322;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_type`
