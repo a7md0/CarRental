@@ -11,6 +11,9 @@ class Car extends Model
     /** @var CarModel */
     protected $carModel = null;
 
+    /** @var CarType */
+    protected $carType = null;
+
     /**
      * Undocumented function
      *
@@ -218,6 +221,20 @@ class Car extends Model
     public function setCarModel($carModel)
     {
         $this->carModel = $carModel;
+
+        return $this;
+    }
+
+
+    /**
+     * Set the value of carType
+     *
+     * @param CarType $carType
+     * @return self
+     */
+    public function setCarType($carType)
+    {
+        $this->carType = $carType;
 
         return $this;
     }
