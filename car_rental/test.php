@@ -28,6 +28,9 @@ var_dump($cars);
 
 var_dump(CarModel::aggregateValues(['MIN' => ['year', 'number_of_seats'], 'MAX' => ['year', 'number_of_seats']]));
 
+$reservation = UserCarReservation::findById(12);
+$reservation->cancel();
+
 
 // $where0 = (new WhereClause("C"))->where("x", "123", "=")->whereBetween("y", 1, 5)->whereFullText(['col1', 'col2'], 'query str');
 
