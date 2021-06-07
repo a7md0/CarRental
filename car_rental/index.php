@@ -86,7 +86,7 @@ require_once 'routes/routes.php';
     </main>
 
     <?php if ($HIDE_FOOTER === false) { ?>
-        <footer class="my-5 pt-5 text-muted text-center text-small">
+        <footer class="pt-5 text-muted text-center text-small">
             <p class="mb-1">&copy; <?= date("Y"); ?> Company</p>
         </footer>
     <?php } ?>
