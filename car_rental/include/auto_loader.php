@@ -1,45 +1,51 @@
 <?php
 
+$CURRENT_PATH = dirname(__FILE__);
+$DIRECTORY_SEPARATOR = DIRECTORY_SEPARATOR;
+
 $AUTO_LOADER_MAP = [
-    'CarAccessory' => 'include/models/car_accessory.model.php',
-    'CarModel' => 'include/models/car_model.model.php',
-    'CarReservationAccessory' => 'include/models/car_reservation_accessory.model.php',
-    'CarType' => 'include/models/car_type.model.php',
-    'Car' => 'include/models/car.model.php',
-    'Model' => 'include/models/model.class.php',
-    'SalesInvoiceItem' => 'include/models/sales_invoice_item.model.php',
-    'SalesInvoice' => 'include/models/sales_invoice.model.php',
-    'Transaction' => 'include/models/transaction.model.php',
-    'UserAddress' => 'include/models/user_address.model.php',
-    'UserCarReservation' => 'include/models/user_car_reservation.model.php',
-    'UserType' => 'include/models/user_type.model.php',
-    'User' => 'include/models/user.model.php',
+    'CarAccessory' => 'models/car_accessory.model.php',
+    'CarModel' => 'models/car_model.model.php',
+    'CarReservationAccessory' => 'models/car_reservation_accessory.model.php',
+    'CarType' => 'models/car_type.model.php',
+    'Car' => 'models/car.model.php',
+    'Model' => 'models/model.class.php',
+    'SalesInvoiceItem' => 'models/sales_invoice_item.model.php',
+    'SalesInvoice' => 'models/sales_invoice.model.php',
+    'Transaction' => 'models/transaction.model.php',
+    'UserAddress' => 'models/user_address.model.php',
+    'UserCarReservation' => 'models/user_car_reservation.model.php',
+    'UserType' => 'models/user_type.model.php',
+    'User' => 'models/user.model.php',
 
-    'InsertClause' => 'include/query/insert_clause.class.php',
-    'SetClause' => 'include/query/set_clause.class.php',
-    'WhereClause' => 'include/query/where_clause.class.php',
+    'InsertClause' => 'query/insert_clause.class.php',
+    'SetClause' => 'query/set_clause.class.php',
+    'WhereClause' => 'query/where_clause.class.php',
 
-    'Database' => 'include/database.class.php',
-    'HTTP2' => 'include/HTTP2.php',
+    'Database' => 'database.class.php',
+    'HTTP2' => 'HTTP2.php',
 
-    'Route' => 'include/route.class.php',
-    'AuthorizedOnlyRoute' => 'include/route.class.php',
-    'AdminOnlyRoute' => 'include/route.class.php',
-    'UnauthorizedOnlyRoute' => 'include/route.class.php',
-    'ErrorRoute' => 'include/route.class.php',
+    'Route' => 'route.class.php',
+    'AuthorizedOnlyRoute' => 'route.class.php',
+    'AdminOnlyRoute' => 'route.class.php',
+    'UnauthorizedOnlyRoute' => 'route.class.php',
+    'ErrorRoute' => 'route.class.php',
 
-    'AdvanceCarsLookup' => 'include/models/advance_cars_lookup.class.php',
+    'AdvanceCarsLookup' => 'models/advance_cars_lookup.class.php',
 
-    'Pagination' => 'include/query/pagination.trait.php',
+    'Pagination' => 'query/pagination.trait.php',
 
     // '' => '',
     // '' => '',
 ];
 
 spl_autoload_register(function ($class_name) {
+    global $CURRENT_PATH, $DIRECTORY_SEPARATOR;
     global $AUTO_LOADER_MAP;
 
     if (array_key_exists($class_name, $AUTO_LOADER_MAP)) {
-        require_once $AUTO_LOADER_MAP[$class_name];
+        $script = "{$CURRENT_PATH}{$DIRECTORY_SEPARATOR}{$AUTO_LOADER_MAP[$class_name]}"; // Construct the absolute path (current auto_loader path + / + the predefined script path)
+
+        require_once $script;
     }
 });
