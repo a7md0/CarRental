@@ -8,5 +8,4 @@ if (ENABLE_APP_DEBUG === true) {
     error_reporting(E_ALL);
 }
 
-require_once 'database.class.php';
 require_once 'authentication.php';
