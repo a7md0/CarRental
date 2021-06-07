@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]
     ];
 
-    $carsLookup = new AdvanceCarsLookup($filters->filter_pickup_date, $filters->filter_return_date);
+    $carsLookup = new AvailableCarsLookup($filters->filter_pickup_date, $filters->filter_return_date);
     $carsLookup->setCurrentPage($filters->currentPage);
 
     if (isset($filters->filter_search) && strlen($filters->filter_search) >= 4) {
