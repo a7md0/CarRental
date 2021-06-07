@@ -91,5 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data['pages']['total'] = $carsLookup->getTotalPages();
     // $data['query'] = $carsLookup->query;
 
+    ob_clean(); // Clean (erase) the output buffer before the JSON [This would help eliminate the JSON parsing errors on the front-end if any warning were shown here]
     exit(json_encode($data));
 }
