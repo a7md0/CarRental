@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Content-Type: application/json');
 
     $data = [
-        'content' => '<b>No results</b>',
+        'content' => '',
         'matching_results' => 0,
         'pages' => [
             'total' => 0,

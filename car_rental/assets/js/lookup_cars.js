@@ -127,15 +127,24 @@
     function handleResponse(response) {
         console.log(response);
         const resultsElement = document.querySelector('#results');
-        resultsElement.innerHTML = response.content;
 
-        pages = response.pages;
-        setupPagination();
     }
 
     function fetchResults() {
         const data = { ...filters, currentPage };
+        const resultsFeedbackElement = document.querySelector("#results-feedback");
+        const resultsElement = document.querySelector("#results");
+        const loadingSpinner = document.querySelector("#loading-spinner");
+        const resultMessage = document.querySelector("#result-message");
         console.log(data);
+
+        resultsElement.classList.add('d-none');
+        resultsFeedbackElement.classList.remove('d-none');
+
+        loadingSpinner.classList.remove('d-none'); // Show the loading spinner
+
+        resultMessage.classList.add('d-none'); // Hide the result message
+        resultMessage.innerText = ''; // Reset the result message
 
         fetch(window.lookup_api, {
             method: 'POST',
@@ -145,8 +154,35 @@
             },
             body: JSON.stringify(data)
         })
-            .then(rawResponse => rawResponse.json())
-            .then(response => handleResponse(response));
+            .then(rawResponse => {
+                if (rawResponse.status >= 400 && rawResponse.status < 600) { // 4xx and 5xx status
+                    throw rawResponse; // throw the response for more handling
+                }
+
+                return rawResponse.json(); // Parse the response
+            })
+            .then(response => { // when parsed response is ready
+                if (response.matching_results > 0) {
+                    resultsElement.innerHTML = response.content;
+
+                    pages = response.pages;
+                    setupPagination();
+
+                    resultsElement.classList.remove('d-none'); // Show the results section
+                    resultsFeedbackElement.classList.add('d-none'); // Hide the feedback section (fully)
+                } else {
+                    resultMessage.classList.remove('d-none'); // Show the result message
+                    resultMessage.innerText = `No matching results, try to change the search filters?`;
+
+                }
+            })
+            .catch(err => {
+                resultMessage.classList.remove('d-none'); // Show the result message
+                resultMessage.innerText = `Something went wrong (${err.statusText ?? err ?? '-'})`; // Set the result message (either the statusText or the fatal error or just dash (-))
+            })
+            .finally(() => { // After everything
+                loadingSpinner.classList.add('d-none'); // Hide the loading spinner
+            });
     }
 
     function onFilterChange(event) {

@@ -119,13 +119,22 @@
                 <!-- TODO: document.querySelectorAll('a[class="page-link"][data-page-link="1"]'); -->
                 <nav aria-label="Page navigation example">
                     <ul id="pagination" class="pagination justify-content-end">
-                        <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true" data-page-link="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" data-page-link="1">1</a></li>
-                        <li class="page-item"><a class="page-link" data-page-link="2">2</a></li>
-                        <li class="page-item"><a class="page-link" data-page-link="3">3</a></li>
-                        <li class="page-item"><a class="page-link" data-page-link="+1">Next</a></li>
                     </ul>
                 </nav>
+
+                <div class="h-75 d-none" id="results-feedback">
+                    <div class="h-100 d-flex">
+                        <div class="d-flex w-100 justify-content-center align-self-center">
+
+                            <div class="spinner-grow text-dark" role="status" id="loading-spinner">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+
+                            <h2 class="lead" id="result-message"></h2>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="results"></div>
             </div>
