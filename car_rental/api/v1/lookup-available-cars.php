@@ -1,8 +1,8 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require_once 'include/env.php';
-    require_once 'include/auto_loader.php';
+    require_once '../../include/env.php';
+    require_once '../../include/auto_loader.php';
 
     /**
      * @param Car[] $car
