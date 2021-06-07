@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $data = [
-        'content' => '<b>No results</b>',
+        'content' => '',
         'matching_results' => 0,
         'pages' => [
             'total' => 0,
