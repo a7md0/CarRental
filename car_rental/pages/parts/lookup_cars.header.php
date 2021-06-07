@@ -37,6 +37,7 @@ $VALUES += [
 
 <script>
     (() => {
+        window.lookup_api = 'lookup-cars-api.php';
         window.lookup_cars_ranges =  {
             'year': {
                 'min': <?= $minYear; ?>,

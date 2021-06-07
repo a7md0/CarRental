@@ -137,7 +137,7 @@
         const data = { ...filters, currentPage };
         console.log(data);
 
-        fetch('lookup-cars-api.php', {
+        fetch(window.lookup_api, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
