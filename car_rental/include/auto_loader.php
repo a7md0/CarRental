@@ -31,7 +31,8 @@ $AUTO_LOADER_MAP = [
     'UnauthorizedOnlyRoute' => 'route.class.php',
     'ErrorRoute' => 'route.class.php',
 
-    'AvailableCarsLookup' => 'models/custom/available_cars_lookup.class.php',
+    'AvailableCarsLookup' => 'custom/available_cars_lookup.class.php',
+    'AdvancedCarsLookup' => 'custom/advanced_cars_lookup.class.php',
 
     'Pagination' => 'query/pagination.trait.php',
 
