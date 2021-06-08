@@ -1,7 +1,7 @@
 <?php
 
 $reservationCode = intval($_GET['reservationCode']);
-$source = $_GET['from'];
+$source = isset($_GET['from']) ? $_GET['from'] : '';
 
 $whereClause = new WhereClause();
 $whereClause->where('reservation_code', $reservationCode)
@@ -11,6 +11,7 @@ $reservation = UserCarReservation::findOne($whereClause);
 
 $paidAmount = 0.000;
 $totalAmount = 0.000;
+$successMessage = '';
 
 if ($reservation != null) {
     if ($source == 'place-reservation') {
