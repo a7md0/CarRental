@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2021 at 08:26 PM
+-- Generation Time: Jun 08, 2021 at 08:44 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGNED, IN `pickupDate` DATE, IN `returnDate` DATE)  BEGIN
+CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGNED, IN `pickupDate` DATE, IN `returnDate` DATE)  BEGIN
 	DECLARE carReservationFee DECIMAL(10, 3);
     
 	START TRANSACTION;
@@ -72,7 +72,7 @@ CREATE PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGN
 	COMMIT;
 END$$
 
-CREATE PROCEDURE `cancel_reservation` (IN `user_car_reservation_id` INT UNSIGNED)  BEGIN
+CREATE DEFINER=`u201700099`@`%` PROCEDURE `cancel_reservation` (IN `user_car_reservation_id` INT UNSIGNED)  BEGIN
 	DECLARE sales_invoice_id INT UNSIGNED;
     
     START TRANSACTION;
@@ -96,7 +96,7 @@ END$$
 --
 -- Functions
 --
-CREATE FUNCTION `is_car_reserved` (`carId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
+CREATE DEFINER=`u201700099`@`%` FUNCTION `is_car_reserved` (`carId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
 	DECLARE matches INT;
     
 	SELECT COUNT(*) INTO matches FROM `dbproj_user_car_reservation`
@@ -107,7 +107,7 @@ CREATE FUNCTION `is_car_reserved` (`carId` INT UNSIGNED, `pickupDate` DATE, `ret
 	RETURN matches > 0;
 END$$
 
-CREATE FUNCTION `is_car_reserved_except` (`carId` INT UNSIGNED, `userCarReservationId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
+CREATE DEFINER=`u201700099`@`%` FUNCTION `is_car_reserved_except` (`carId` INT UNSIGNED, `userCarReservationId` INT UNSIGNED, `pickupDate` DATE, `returnDate` DATE) RETURNS TINYINT(1) BEGIN
 	DECLARE matches INT;
     
 	SELECT COUNT(*) INTO matches FROM `dbproj_user_car_reservation`
@@ -566,7 +566,7 @@ INSERT INTO `dbproj_user_type` (`user_type_id`, `type`, `access_level`) VALUES
 --
 DROP TABLE IF EXISTS `dbproj_car_detail`;
 
-CREATE VIEW `dbproj_car_detail`  AS  (select `c`.`car_id` AS `car_id`,`c`.`car_model_id` AS `car_model_id`,`c`.`color` AS `color`,`c`.`daily_rent_rate` AS `daily_rent_rate`,`c`.`license_plate` AS `license_plate`,`c`.`vehicle_identification_number` AS `vehicle_identification_number`,`c`.`status` AS `status`,`c`.`preview_image` AS `preview_image`,`cm`.`brand` AS `brand`,`cm`.`model` AS `model`,`cm`.`year` AS `year`,`cm`.`number_of_seats` AS `number_of_seats`,`ct`.`car_type_id` AS `car_type_id`,`ct`.`type` AS `type` from ((`dbproj_car` `c` join `dbproj_car_model` `cm` on(`c`.`car_model_id` = `cm`.`car_model_id`)) join `dbproj_car_type` `ct` on(`cm`.`car_type_id` = `ct`.`car_type_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`u201700099`@`%` SQL SECURITY DEFINER VIEW `dbproj_car_detail`  AS  (select `c`.`car_id` AS `car_id`,`c`.`car_model_id` AS `car_model_id`,`c`.`color` AS `color`,`c`.`daily_rent_rate` AS `daily_rent_rate`,`c`.`license_plate` AS `license_plate`,`c`.`vehicle_identification_number` AS `vehicle_identification_number`,`c`.`status` AS `status`,`c`.`preview_image` AS `preview_image`,`cm`.`brand` AS `brand`,`cm`.`model` AS `model`,`cm`.`year` AS `year`,`cm`.`number_of_seats` AS `number_of_seats`,`ct`.`car_type_id` AS `car_type_id`,`ct`.`type` AS `type` from ((`dbproj_car` `c` join `dbproj_car_model` `cm` on(`c`.`car_model_id` = `cm`.`car_model_id`)) join `dbproj_car_type` `ct` on(`cm`.`car_type_id` = `ct`.`car_type_id`))) ;
 
 --
 -- Indexes for dumped tables
