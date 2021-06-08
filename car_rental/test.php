@@ -17,8 +17,8 @@ var_dump($carAccessory);
 $carModel = CarModel::findById(1000);
 var_dump($carModel);
 
-$userModel = User::findById(1);
-var_dump($userModel);
+// $userModel = User::findById(1);
+// var_dump($userModel);
 
 // $cars = Car::find();
 // var_dump($cars);
@@ -28,8 +28,8 @@ var_dump($cars);
 
 var_dump(CarModel::aggregateValues(['MIN' => ['year', 'number_of_seats'], 'MAX' => ['year', 'number_of_seats']]));
 
-$reservation = UserCarReservation::findById(12);
-$reservation->cancel();
+// $reservation = UserCarReservation::findById(12);
+// $reservation->cancel();
 
 
 // $where0 = (new WhereClause("C"))->where("x", "123", "=")->whereBetween("y", 1, 5)->whereFullText(['col1', 'col2'], 'query str');
@@ -42,3 +42,6 @@ $reservation->cancel();
 // echo $set1->getSQL() . "<br />";
 // echo $set1->getTypes() . "<br />";
 // print_r($set1->getValues()) . "<br />";
+
+$car2 = CarDetail::findById(1);
+var_dump($car2);
