@@ -6,7 +6,7 @@ class Transaction extends Model
     protected static $tableName = DB_TABLES_PREFIX . 'transaction';
     protected static $primaryKeys = ['transaction_id'];
     protected static $autoIncrementKey = 'transaction_id';
-    protected static $properties = ['transaction_id', 'sales_invoice_id', 'amount', 'method', 'remark', 'created_at'];
+    protected static $properties = ['transaction_id', 'sales_invoice_id', 'user_address_id', 'amount', 'method', 'remark', 'status', 'created_at', 'updated_at'];
 
     /*
 return parent::getValue('car_id');
@@ -49,6 +49,26 @@ parent::setValue('car_id', $value);
     public function setSalesInvoiceId($value)
     {
         parent::setValue('sales_invoice_id', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of user_address_id
+     */
+    public function getUserAddressId()
+    {
+        return parent::getValue('user_address_id');
+    }
+
+    /**
+     * Set the value of user_address_id
+     *
+     * @return self
+     */
+    public function setUserAddressId($value)
+    {
+        parent::setValue('user_address_id', $value);
 
         return $this;
     }
@@ -109,6 +129,26 @@ parent::setValue('car_id', $value);
     public function setRemark($value)
     {
         parent::setValue('remark', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */
+    public function getStatus()
+    {
+        return parent::getValue('status');
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return self
+     */
+    public function setStatus($value)
+    {
+        parent::setValue('status', $value);
 
         return $this;
     }
