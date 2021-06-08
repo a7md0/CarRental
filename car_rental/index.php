@@ -51,6 +51,11 @@ require_once 'routes/routes.php';
                         <li class="nav-item">
                             <a class="nav-link<?= $requestPage == 'lookup-cars' ? ' active' : ''; ?>" href="?p=lookup-cars">Lookup cars</a>
                         </li>
+                        <?php if ($CURRENT_USER != null) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link<?= $requestPage == 'view-reservation' ? ' active' : ''; ?>" href="?p=view-reservation">View reservation</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                     <ul class="navbar-nav">
                         <?php if ($CURRENT_USER == null) { ?>
@@ -64,11 +69,11 @@ require_once 'routes/routes.php';
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' ' . $CURRENT_USER->getLastName(); ?></a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <!-- <li><a class="dropdown-item" href="#">Action</a></li>
                                     <li><a class="dropdown-item" href="#">Another action</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
-                                    </li>
+                                    </li> -->
                                     <li><a class="dropdown-item" onclick="post(window.location.href, {logout: true});">Logout</a></li>
                                 </ul>
                             </li>
