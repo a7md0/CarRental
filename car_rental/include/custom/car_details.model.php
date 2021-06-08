@@ -2,7 +2,7 @@
 
 class CarDetail extends Model
 {
-    protected static $tableName = 'cars_details';
+    protected static $tableName = DB_TABLES_PREFIX . 'car_detail';
     protected static $primaryKeys = ['car_id'];
     protected static $autoIncrementKey = 'car_id';
     protected static $properties = array('car_id', 'car_model_id', 'color', 'daily_rent_rate', 'license_plate', 'vehicle_identification_number', 'status', 'preview_image');
