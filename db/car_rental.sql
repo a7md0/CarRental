@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2021 at 01:53 AM
+-- Generation Time: Jun 08, 2021 at 02:47 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -73,6 +73,29 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `is_car_reserved_except` (`carId` INT
 END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cars_details`
+-- (See below for the actual view)
+--
+CREATE TABLE `cars_details` (
+`car_id` int(10) unsigned
+,`car_model_id` int(10) unsigned
+,`color` varchar(50)
+,`daily_rent_rate` decimal(10,3) unsigned
+,`license_plate` varchar(50)
+,`vehicle_identification_number` varchar(50)
+,`status` enum('available','unavailable','servicing','repairing','sold','destroyed','stolen')
+,`preview_image` varchar(50)
+,`brand` varchar(50)
+,`model` varchar(50)
+,`year` year(4)
+,`number_of_seats` int(11)
+,`car_type_id` int(10) unsigned
+,`type` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -487,6 +510,15 @@ CREATE TABLE `dbproj_user_type` (
 INSERT INTO `dbproj_user_type` (`user_type_id`, `type`, `access_level`) VALUES
 (1, 'User', 0),
 (2, 'Admin', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cars_details`
+--
+DROP TABLE IF EXISTS `cars_details`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cars_details`  AS  (select `c`.`car_id` AS `car_id`,`c`.`car_model_id` AS `car_model_id`,`c`.`color` AS `color`,`c`.`daily_rent_rate` AS `daily_rent_rate`,`c`.`license_plate` AS `license_plate`,`c`.`vehicle_identification_number` AS `vehicle_identification_number`,`c`.`status` AS `status`,`c`.`preview_image` AS `preview_image`,`cm`.`brand` AS `brand`,`cm`.`model` AS `model`,`cm`.`year` AS `year`,`cm`.`number_of_seats` AS `number_of_seats`,`ct`.`car_type_id` AS `car_type_id`,`ct`.`type` AS `type` from ((`dbproj_car` `c` join `dbproj_car_model` `cm` on(`c`.`car_model_id` = `cm`.`car_model_id`)) join `dbproj_car_type` `ct` on(`cm`.`car_type_id` = `ct`.`car_type_id`))) ;
 
 --
 -- Indexes for dumped tables
