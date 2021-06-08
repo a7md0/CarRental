@@ -247,6 +247,19 @@ class CarDetail extends Model
         return $this;
     }
 
+    /**
+     * Get the value of carType
+     *
+     * @return CarType
+     */
+    public function getCarType()
+    {
+        if ($this->carType == null) {
+            $this->carType = CarType::findById($this->getCarModel()->getCarTypeId());
+        }
+
+        return $this->carType;
+    }
 
     /**
      * Set the value of carType
