@@ -83,9 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         SalesInvoiceItem::insertMany($salesInvoiceItems);
 
         // TODO: Create new user_car_reservation (unconfirmed)
+        $reservationCode = rand(12345678, 99999999);
+
         $userCarReservation = new UserCarReservation();
         $userCarReservation->setUserId($_SESSION['user']['user_id'])
             ->setCarId($carId)
+            ->setReservationCode($reservationCode)
             ->setPickupDate($pickupDateStr)
             ->setReturnDate($returnDateStr)
             ->setStatus('unconfirmed')
@@ -110,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // TODO: Redirect to confirm reservation page
-        header("Location: ?p=confirm-reservation&reservation_id=" . $userCarReservation->getUserCarReservationId());
+        header("Location: ?p=checkout&reservationCode={$userCarReservation->getReservationCode()}&from=place-reservation");
         exit;
     }
 }
