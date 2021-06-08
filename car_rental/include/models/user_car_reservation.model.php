@@ -6,7 +6,7 @@ class UserCarReservation extends Model
     protected static $tableName = DB_TABLES_PREFIX . 'user_car_reservation';
     protected static $primaryKeys = ['user_car_reservation_id'];
     protected static $autoIncrementKey = 'user_car_reservation_id';
-    protected static $properties = ['user_car_reservation_id', 'user_id', 'car_id', 'pickup_date', 'return_date', 'sales_invoice_id', 'status', 'is_amended', 'created_at', 'updated_at'];
+    protected static $properties = ['user_car_reservation_id', 'user_id', 'car_id', 'reservation_code', 'pickup_date', 'return_date', 'sales_invoice_id', 'status', 'is_amended', 'created_at', 'updated_at'];
 
     /*
 return parent::getValue('car_id');
@@ -52,6 +52,7 @@ parent::setValue('car_id', $value);
 
         return $this;
     }
+
     /**
      * Get the value of car_id
      */
@@ -68,6 +69,26 @@ parent::setValue('car_id', $value);
     public function setCarId($value)
     {
         parent::setValue('car_id', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reservation_code
+     */
+    public function getReservationCode()
+    {
+        return parent::getValue('reservation_code');
+    }
+
+    /**
+     * Set the value of reservation_code
+     *
+     * @return self
+     */
+    public function setReservationCode($value)
+    {
+        parent::setValue('reservation_code', $value);
 
         return $this;
     }
@@ -212,7 +233,8 @@ parent::setValue('car_id', $value);
         return $this;
     }
 
-    public function cancel() {
+    public function cancel()
+    {
         $user_car_reservation_id = $this->getUserCarReservationId();
         $query = "CALL cancel_reservation(?);"; // TODO: Set clause
 
