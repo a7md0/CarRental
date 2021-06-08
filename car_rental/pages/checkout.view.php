@@ -344,7 +344,7 @@
 
                     <div class="col-md-3">
                         <label for="cc-expiration" class="form-label">Expiration</label>
-                        <input type="text" class="form-control" name="cc_expiration" placeholder="MM/YY" autocomplete="cc-exp" required>
+                        <input type="text" class="form-control" name="cc_expiration" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})" autocomplete="cc-exp" required>
                         <div class="invalid-feedback">
                             Expiration date required
                         </div>
