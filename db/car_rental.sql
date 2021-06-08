@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2021 at 02:47 AM
+-- Generation Time: Jun 08, 2021 at 05:21 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -25,6 +25,53 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGNED, IN `pickupDate` DATE, IN `returnDate` DATE)  BEGIN
+	DECLARE carReservationFee DECIMAL(10, 3);
+    
+	START TRANSACTION;
+    
+    SELECT @daysDifference := (UCR.`pickup_date` - CURRENT_DATE),
+			@carId:=UCR.`car_id`,
+            @isAmended:=UCR.`is_amended`,
+            @salesInvoiceId:=UCR.`sales_invoice_id`,
+            @dailyRentRate:=C.`daily_rent_rate`
+            
+		FROM `dbproj_user_car_reservation` AS UCR
+		
+		INNER JOIN `dbproj_car` AS C
+			ON UCR.`car_id` = C.`car_id`
+			
+		WHERE `user_car_reservation_id` = userCarReservationId;
+    
+    IF @isAmended = true THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation have been already amended before';
+    END IF;
+    
+    IF @daysDifference < 0 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is already due';
+	ELSEIF @daysDifference < 2 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is due in less than two days';
+    END IF;
+    
+    IF is_car_reserved_except(@carId, userCarReservationId, pickupDate, returnDate) = true THEN
+		SET @errMsg = CONCAT('Car is not available between ', pickupDate, ' and ', returnDate);
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = @errMsg;
+    END IF;
+    
+    SET @reservationPeriod = (returnDate - pickupDate) + 1;
+    SET carReservationFee = @reservationPeriod * @dailyRentRate;
+    
+    UPDATE `dbproj_user_car_reservation` AS UCR
+		INNER JOIN `dbproj_sales_invoice_item` AS SII
+			ON UCR.`sales_invoice_id` = SII.`sales_invoice_id` AND SII.item = 'Car rent'
+		SET UCR.`pickup_date` = pickupDate, UCR.`return_date` = returnDate, UCR.`is_amended` = true, SII.`price` = carReservationFee
+		WHERE UCR.`user_car_reservation_id` = userCarReservationId;
+        
+	INSERT INTO `dbproj_sales_invoice_item`(`sales_invoice_id`, `item`, `price`) VALUES (@salesInvoiceId, 'Amendation fees', 12.6);
+        
+	COMMIT;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_reservation` (IN `user_car_reservation_id` INT UNSIGNED)  BEGIN
 	DECLARE sales_invoice_id INT UNSIGNED;
     
@@ -489,7 +536,7 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (10, 1, 39, '2021-05-28', '2021-05-28', 'unconfirmed', 0, 15, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
 (11, 1, 1, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (12, 1, 1, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
-(1654321, 1, 17, '2021-06-07', '2021-06-07', 'unconfirmed', 0, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18');
+(1654321, 1, 17, '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18');
 
 -- --------------------------------------------------------
 
@@ -649,7 +696,7 @@ ALTER TABLE `dbproj_sales_invoice`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
