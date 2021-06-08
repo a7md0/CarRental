@@ -33,11 +33,11 @@
 
 
             <div class="justify-content-center">
-                <form action="<?= $_SERVER["PHP_SELF"] .  '?' . http_build_query($_GET); ?>" method="POST" style="margin-bottom: 1em;">
+                <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST" style="margin-bottom: 1em;">
                     <input type="hidden" name="place_reservation" />
                     <button type="submit" class="w-100 btn btn-primary btn-lg" type="submit">Place reservation</button>
                 </form>
-                <form action="<?= $_SERVER["PHP_SELF"] .  '?' . http_build_query($_GET); ?>" method="POST" style="text-align: center;">
+                <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST" style="text-align: center;">
                     <input type="hidden" name="cancel" />
                     <button type="submit" class="w-50 text-center btn btn-danger btn-sm">Cancel and return</button>
                 </form>
@@ -149,7 +149,7 @@
                                      */
                                     foreach ($availableAccessories as $accessory) {
                                     ?>
-                                        <form action="<?= $_SERVER["PHP_SELF"] .  '?' . http_build_query($_GET); ?>" method="POST">
+                                        <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
                                             <input type="hidden" name="accessory_id" value="<?= $accessory->getCarAccessoryId(); ?>" />
                                             <div class="card card-block mx-2" style="min-width: 14rem;">
                                                 <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" />
