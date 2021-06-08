@@ -36,6 +36,8 @@ $AUTO_LOADER_MAP = [
 
     'Pagination' => 'query/pagination.trait.php',
 
+    'CarDetail' => 'custom/car_details.model.php',
+
     // '' => '',
     // '' => '',
 ];
