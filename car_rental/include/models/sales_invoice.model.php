@@ -74,6 +74,19 @@ parent::setValue('car_id', $value);
     }
 
     /**
+     * Increase the value of paid_amount
+     *
+     * @return self
+     */
+    public function increasePaidAmount($value)
+    {
+        $paidAmount = parent::getValue('paid_amount');
+        parent::setValue('paid_amount', $paidAmount + $value);
+
+        return $this;
+    }
+
+    /**
      * Get the value of grand_total
      */
     public function getGrandTotal()
