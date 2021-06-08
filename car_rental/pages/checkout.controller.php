@@ -27,7 +27,8 @@ if ($reservation != null) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userAddress = new UserAddress();
-        $userAddress->setType('billing')
+        $userAddress->setUserId($CURRENT_USER->getUserId())
+            ->setType('billing')
             ->setAddress1($_POST['address1'])
             ->setAddress2($_POST['address2'])
             ->setCountry($_POST['country'])

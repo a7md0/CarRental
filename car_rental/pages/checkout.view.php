@@ -1,4 +1,3 @@
-<?= $_GET['reservationCode'] ?>
 <div class="container" style="max-width: 1080px;">
     <div class="py-5 text-center">
         <h2>Checkout</h2>
