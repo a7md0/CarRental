@@ -45,3 +45,7 @@ var_dump(CarModel::aggregateValues(['MIN' => ['year', 'number_of_seats'], 'MAX' 
 
 $car2 = CarDetail::findById(1);
 var_dump($car2);
+
+
+$acs = CarAccessory::findJoined('car_reservation_accessory', 'car_accessory_id', (new WhereClause())->where('user_car_reservation_id', 10));
+var_dump($acs);
