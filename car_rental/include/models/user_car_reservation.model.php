@@ -244,8 +244,6 @@ parent::setValue('car_id', $value);
         $stmt->free_result();
         $stmt->close();
 
-        echo $affectedRows;
-
         return $affectedRows > 0;
     }
 }
