@@ -357,6 +357,46 @@ abstract class Model
         return $models;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $joinTable
+     * @param string $joinColumn
+     * @param WhereClause $where
+     * @return static[]|null
+     */
+    static function findJoined($joinTable, $joinColumn, WhereClause $where = null)
+    {
+        $tblName = static::$tableName;
+        $joinTblName = DB_TABLES_PREFIX . $joinTable;
+
+        $whereClause = '';
+        $whereTypes = '';
+        $whereValues = [];
+
+        if (isset($where) && $where->hasAny()) {
+            $whereClause = ' ' . $where->getSQL('AND');
+            $whereTypes = $where->getTypes();
+            $whereValues = $where->getValues();
+        }
+
+        $query = "SELECT T.* FROM `$tblName` T INNER JOIN `$joinTblName` J ON J.`$joinColumn` = T.`$joinColumn`$whereClause;";
+
+        $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
+        $models = [];
+
+        if ($result = $stmt->get_result()) {
+            while ($row = $result->fetch_assoc()) {
+                $models[] = static::initializeFromData($row);
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $models;
+    }
+
     static function findPaginated(WhereClause $where = null, $limit = 10, $offset = 0)
     {
         $tblName = static::$tableName;
