@@ -15,11 +15,6 @@
         <h2>View reservation</h2>
     </div>
 
-    <?php if (isset($successMessage) && strlen($successMessage) > 0) { ?>
-        <div class="alert alert-success" role="alert">
-            <?= $successMessage ?>
-        </div>
-    <?php } ?>
     <div class="row g-5">
         <div class="col-md-12">
             <div class="row">
@@ -34,119 +29,127 @@
                 <div class="col-md-4"></div>
             </div>
 
+            <?php if (isset($successMessage) && strlen($successMessage) > 0) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?= $successMessage ?>
+                </div>
+            <?php } ?>
+
             <?php if (isset($reservationCode)) { ?>
-            <div class="card">
-                <article class="card-group-item">
-                    <h5 class="card-header d-flex justify-content-between align-items-center">
-                        View reservation (#<?= $reservationCode ?>)
-                        <div>
-                            <button type="button" class="btn btn-sm btn-warning">Amend</button>
-                            <button type="button" class="btn btn-sm btn-danger">Cancel</button>
-                        </div>
-                    </h5>
-
-
-                    <div class="card-body m-3">
-                        <?php
-                        if (isset($reservation)) { ?>
-                            <h4 class="mb-3">Reservation details</h4>
-
-                            <div class="row d-flex align-items-center text-center mb-4">
-                                <div class="col-md-4 mb-2">
-                                    <h6>Pickup date</h6>
-                                    <span><?= $reservation->getPickupDate() ?></span>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <h6>Return date</h6>
-                                    <span><?= $reservation->getReturnDate() ?></span>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <h6>Status</h6>
-                                    <span><?= $reservation->getStatus() ?></span>
-                                </div>
-
-                                <div class="col-md-4 mb-2">
-                                    <h6>Total amount</h6>
-                                    <span>BD<?= $totalAmount ?></span>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <h6>Paid amount</h6>
-                                    <span>BD<?= $paidAmount ?></span>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <h6>Due amount</h6>
-                                    <span>BD<?= $dueAmount ?></span>
-                                </div>
+                <div class="card">
+                    <article class="card-group-item">
+                        <h5 class="card-header d-flex justify-content-between align-items-center">
+                            View reservation (#<?= $reservationCode ?>)
+                            <div>
+                                <button type="button" class="btn btn-sm btn-warning" id="amend-button">Amend</button>
+                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button" <?php if ($reservation->getStatus() == 'cancelled') {
+                                                                                                            echo ' disabled';
+                                                                                                        } ?>>Cancel</button>
                             </div>
-                        <?php } ?>
+                        </h5>
 
-                        <?php if (isset($carDetails)) { ?>
-                            <h4 class="mb-3">Car details</h4>
 
-                            <div class="row mb-4">
-                                <div class="col-md-4">
-                                    <img src="<?= $carDetails->getPreviewImage(); ?>" class="card-img-top" alt="...">
+                        <div class="card-body m-3">
+                            <?php
+                            if (isset($reservation)) { ?>
+                                <h4 class="mb-3">Reservation details</h4>
+
+                                <div class="row d-flex align-items-center text-center mb-4">
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Pickup date</h6>
+                                        <span><?= $reservation->getPickupDate() ?></span>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Return date</h6>
+                                        <span><?= $reservation->getReturnDate() ?></span>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Status</h6>
+                                        <span><?= $reservation->getStatus() ?></span>
+                                    </div>
+
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Total amount</h6>
+                                        <span>BD<?= $totalAmount ?></span>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Paid amount</h6>
+                                        <span>BD<?= $paidAmount ?></span>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <h6>Due amount</h6>
+                                        <span>BD<?= $dueAmount ?></span>
+                                    </div>
                                 </div>
+                            <?php } ?>
 
-                                <!-- <div class="col-md-1"></div> -->
+                            <?php if (isset($carDetails)) { ?>
+                                <h4 class="mb-3">Car details</h4>
 
-                                <div class="col-md-8">
-                                    <div class="row align-items-center text-center mb-4">
-                                        <div class="col-md-6 mb-2">
-                                            <h6>Car</h6>
-                                            <span><?= $carDetails->getCarModel()->getFullDisplayName() ?></span>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <h6>Color</h6>
-                                            <span><?= $carDetails->getColor() ?></span>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <h6>Type</h6>
-                                            <span><?= $carDetails->getCarType()->getType() ?></span>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <h6>Daily rent rate</h6>
-                                            <span>BD<?= $carDetails->getDailyRentRate() ?></span>
+                                <div class="row mb-4">
+                                    <div class="col-md-4">
+                                        <img src="<?= $carDetails->getPreviewImage(); ?>" class="card-img-top" alt="...">
+                                    </div>
+
+                                    <!-- <div class="col-md-1"></div> -->
+
+                                    <div class="col-md-8">
+                                        <div class="row align-items-center text-center mb-4">
+                                            <div class="col-md-6 mb-2">
+                                                <h6>Car</h6>
+                                                <span><?= $carDetails->getCarModel()->getFullDisplayName() ?></span>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <h6>Color</h6>
+                                                <span><?= $carDetails->getColor() ?></span>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <h6>Type</h6>
+                                                <span><?= $carDetails->getCarType()->getType() ?></span>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <h6>Daily rent rate</h6>
+                                                <span>BD<?= $carDetails->getDailyRentRate() ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        <?php } ?>
+                            <?php } ?>
 
-                        <?php if (isset($accessories)) { ?>
-                            <div class="col-md-12">
-                                <!-- <h5 class="mb-3">Accessories</h5> -->
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span>Accessories</span>
-                                    <span class="badge bg-secondary rounded-pill"><?= count($accessories); ?></span>
-                                </h4>
+                            <?php if (isset($accessories)) { ?>
+                                <div class="col-md-12">
+                                    <!-- <h5 class="mb-3">Accessories</h5> -->
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span>Accessories</span>
+                                        <span class="badge bg-secondary rounded-pill"><?= count($accessories); ?></span>
+                                    </h4>
 
-                                <ul class="list-group mb-3">
-                                    <?php foreach ($accessories as $accessory) { ?>
-                                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                                            <div class="p-4">
-                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" style="object-fit: contain; max-width: 6em; max-height: 6em;">
-                                            </div>
-                                            <div class="p-2 flex-fill align-self-center">
-                                                <h6 class="my-0"><?= $accessory->getName(); ?></h6>
-                                                <!-- <small class="text-muted">Brief description</small> -->
-                                            </div>
-                                            <div class="p-2 align-self-center">
-                                                <span class="text-muted">BD<?= $accessory->getCharge(); ?></span>
-                                            </div>
-                                        </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </div>
-                        <?php } ?>
+                                    <ul class="list-group mb-3">
+                                        <?php foreach ($accessories as $accessory) { ?>
+                                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                                <div class="p-4">
+                                                    <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" style="object-fit: contain; max-width: 6em; max-height: 6em;">
+                                                </div>
+                                                <div class="p-2 flex-fill align-self-center">
+                                                    <h6 class="my-0"><?= $accessory->getName(); ?></h6>
+                                                    <!-- <small class="text-muted">Brief description</small> -->
+                                                </div>
+                                                <div class="p-2 align-self-center">
+                                                    <span class="text-muted">BD<?= $accessory->getCharge(); ?></span>
+                                                </div>
+                                            </li>
+                                        <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                            <?php } ?>
 
-                    </div>
+                        </div>
 
-                </article>
-            </div>
+                    </article>
+                </div>
             <?php } ?>
         </div>
     </div>
@@ -161,4 +164,19 @@
             reservationCode: reservationCodeElement.value
         });
     });
+
+    const cancelButton = document.querySelector("#cancel-button");
+    if (cancelButton) {
+        cancelButton.addEventListener('click', (event) => {
+            const isConfirmed = window.confirm(`Are you sure about cancelling this reservation? This action cannot be undone.`);
+
+            if (isConfirmed === true) {
+                post(window.location, {
+                        reservationCode: '<?= @$reservationCode ?>',
+                        cancelReservation: true
+                    },
+                    'post');
+            }
+        });
+    }
 </script>

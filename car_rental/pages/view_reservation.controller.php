@@ -17,6 +17,13 @@ if (isset($_GET['reservationCode'])) {
             $successMessage = "Your reservation have been confirmed successfully.";
         }
 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $reservation->getStatus() != 'cancelled') {
+            $reservation->cancel();
+
+            $successMessage = 'Your reservation have been cancelled successfully, the amount have been refunded to the original payment method.';
+            $reservation = UserCarReservation::findOne($whereClause);
+        }
+
         $carDetails = CarDetail::findById($reservation->getCarId());
 
         $salesInvoice = SalesInvoice::findById($reservation->getSalesInvoiceId());
