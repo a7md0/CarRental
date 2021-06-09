@@ -468,6 +468,17 @@ abstract class Model
     }
 
     /**
+     * Calculate column for matching rows and return sum.
+     *
+     * @param WhereClause $where
+     * @return int
+     */
+    static function sum($columnName, WhereClause $where = null)
+    {
+        return static::aggregateValues(['SUM' => $columnName], $where)[0];
+    }
+
+    /**
      * Count matching rows and return count.
      *
      * @param WhereClause $where
