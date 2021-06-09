@@ -33,6 +33,10 @@
 
 <div class="container-fluid">
     <div class="content">
+        <div class="py-1 text-center">
+            <h2>Lookup cars</h2>
+        </div>
+
         <div class="row">
             <div class="col-md-3 filters">
                 <form name="filter_form">
