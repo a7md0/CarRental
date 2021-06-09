@@ -127,4 +127,45 @@ class CarModel extends Model
     {
         return $this->getBrand() . ' ' . $this->getModel() . ' (' . $this->getYear() . ')';
     }
+
+    /**
+     * Query the most popular reserved cars models
+     *
+     * @return array|null
+     */
+    public static function populateReservedModels()
+    {
+
+        $ucrTblName = UserCarReservation::getTableName();
+        $carTblName = Car::getTableName();
+        $carModelTblName = static::getTableName();
+
+        $carPK = Car::primaryKeysColumns()[0]; // car_id
+        $carModelPK = static::primaryKeysColumns()[0]; // car_model_id
+
+        $query = "SELECT CM.*, COUNT(UCR.`$carPK`) AS times
+                    FROM `$ucrTblName` UCR
+
+                    INNER JOIN `$carTblName` AS C ON UCR.`$carPK` = C.`$carPK`
+                    INNER JOIN `$carModelTblName` AS CM ON C.`$carModelPK` = CM.`$carModelPK`
+
+                    GROUP BY C.`$carModelPK`
+                    ORDER BY times DESC;";
+
+        $stmt = Database::executeStatement($query, '', []);
+        $models = [];
+
+        if ($result = $stmt->get_result()) {
+            while ($row = $result->fetch_assoc()) {
+                $carModel = static::initializeFromData($row);
+
+                $models[] = [$row['times'], $carModel];
+            }
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $models;
+    }
 }
