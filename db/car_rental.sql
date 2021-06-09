@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2021 at 06:31 AM
+-- Generation Time: Jun 09, 2021 at 06:46 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -93,6 +93,22 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `cancel_reservation` (IN `user_car_res
 
 	WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
     
+    
+    COMMIT;
+END$$
+
+CREATE DEFINER=`u201700099`@`%` PROCEDURE `update_sales_invoice` (IN `salesInvoiceId` INT UNSIGNED)  BEGIN
+	START TRANSACTION;
+    
+    SELECT @totalAmount:=COALESCE(SUM(SII.`price`), 0), @paidAmount:=SI.`paid_amount`
+    FROM `dbproj_sales_invoice` AS SI
+		INNER JOIN `dbproj_sales_invoice_item` AS SII
+			ON SI.`sales_invoice_id` = SII.`sales_invoice_id`
+		WHERE SI.`sales_invoice_id` = salesInvoiceId;
+    
+    UPDATE `dbproj_sales_invoice`
+		SET `grand_total` = @totalAmount, `status` = if(@paidAmount >= @totalAmount, 'paid', 'unpaid')
+		WHERE `sales_invoice_id` = salesInvoiceId;
     
     COMMIT;
 END$$
@@ -391,7 +407,7 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (16, 'unpaid', '0.000', '43.748', NULL, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (17, 'cancelled', '0.000', '418.566', NULL, '2021-06-07 03:10:57', '2021-06-07 03:10:57'),
 (18, 'unpaid', '0.000', '35.598', NULL, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(19, 'paid', '16.998', '16.998', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(19, 'paid', '1218.598', '1218.598', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
 
 -- --------------------------------------------------------
 
@@ -427,8 +443,9 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (17, 18, 'Car rent', '12.999'),
 (18, 18, '\r\nToddler safety seat', '9.999'),
 (19, 18, 'Dash cam', '12.600'),
-(21, 19, 'Car rent', '11.999'),
-(22, 19, 'Navigation System', '4.999');
+(21, 19, 'Car rent', '1211.899'),
+(22, 19, 'Navigation System', '4.999'),
+(23, 19, 'Amendation fees', '1.700');
 
 -- --------------------------------------------------------
 
@@ -553,7 +570,7 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (11, 1, 1, 98765432, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (12, 1, 1, 98765321, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
 (13, 1, 17, 159, '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(14, 1, 1, 35755856, '2021-06-11', '2021-06-11', 'confirmed', 0, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(14, 1, 1, 35755856, '2021-06-11', '2021-07-11', 'confirmed', 1, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
 
 -- --------------------------------------------------------
 
@@ -713,7 +730,7 @@ ALTER TABLE `dbproj_sales_invoice`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
