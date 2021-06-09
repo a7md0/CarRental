@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2021 at 05:13 AM
+-- Generation Time: Jun 09, 2021 at 06:31 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -34,12 +34,16 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
 			@carId:=UCR.`car_id`,
             @isAmended:=UCR.`is_amended`,
             @salesInvoiceId:=UCR.`sales_invoice_id`,
-            @dailyRentRate:=C.`daily_rent_rate`
+            @dailyRentRate:=C.`daily_rent_rate`,
+            @grandTotal:=SI.`grand_total`
             
 		FROM `dbproj_user_car_reservation` AS UCR
 		
 		INNER JOIN `dbproj_car` AS C
 			ON UCR.`car_id` = C.`car_id`
+		
+		INNER JOIN `dbproj_sales_invoice` AS SI
+			ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
 			
 		WHERE `user_car_reservation_id` = userCarReservationId;
     
@@ -48,7 +52,7 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
     END IF;
     
     IF @daysDifference < 0 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is already due';
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is already passed';
 	ELSEIF @daysDifference < 2 THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is due in less than two days';
     END IF;
@@ -61,14 +65,14 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
     SET @reservationPeriod = (returnDate - pickupDate) + 1;
     SET carReservationFee = @reservationPeriod * @dailyRentRate;
     
+    INSERT INTO `dbproj_sales_invoice_item`(`sales_invoice_id`, `item`, `price`) VALUES (@salesInvoiceId, 'Amendation fees', @grandTotal * 0.10);
+    
     UPDATE `dbproj_user_car_reservation` AS UCR
 		INNER JOIN `dbproj_sales_invoice_item` AS SII
 			ON UCR.`sales_invoice_id` = SII.`sales_invoice_id` AND SII.item = 'Car rent'
 		SET UCR.`pickup_date` = pickupDate, UCR.`return_date` = returnDate, UCR.`is_amended` = true, SII.`price` = carReservationFee
 		WHERE UCR.`user_car_reservation_id` = userCarReservationId;
-        
-	INSERT INTO `dbproj_sales_invoice_item`(`sales_invoice_id`, `item`, `price`) VALUES (@salesInvoiceId, 'Amendation fees', 12.6);
-        
+
 	COMMIT;
 END$$
 
@@ -387,7 +391,7 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (16, 'unpaid', '0.000', '43.748', NULL, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (17, 'cancelled', '0.000', '418.566', NULL, '2021-06-07 03:10:57', '2021-06-07 03:10:57'),
 (18, 'unpaid', '0.000', '35.598', NULL, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(19, 'cancelled', '0.000', '16.998', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(19, 'paid', '16.998', '16.998', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
 
 -- --------------------------------------------------------
 
@@ -549,7 +553,7 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (11, 1, 1, 98765432, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (12, 1, 1, 98765321, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
 (13, 1, 17, 159, '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(14, 1, 1, 35755856, '2021-06-08', '2021-06-08', 'cancelled', 0, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(14, 1, 1, 35755856, '2021-06-11', '2021-06-11', 'confirmed', 0, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
 
 -- --------------------------------------------------------
 
