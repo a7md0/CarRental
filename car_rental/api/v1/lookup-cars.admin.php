@@ -21,8 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="card-body text-center">
                 <h5 class="card-title">' . $car->getCarModel()->getFullDisplayName() . '</h5>
                 <p class="card-subtitle">BD' . $car->getDailyRentRate() . ' | ' . $car->getColor() . ' </p>
-                <a href="javascript:void(0)" class="btn btn-primary reserve-car-btn" data-car-id="' . $car->getCarId() . '">Reserve</a>
+                <a href="javascript:void(0)" class="edit-car-btn" data-car-id="' . $car->getCarId() . '">Edit</a>
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+            </ul>
             </div>';
         }
 
