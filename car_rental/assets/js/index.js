@@ -29,3 +29,20 @@ function post(path, params, method = 'post') {
     document.body.appendChild(form);
     form.submit();
 }
+
+function submit_get(params) {
+    const url = new URL(document.location);
+
+    const entries = url.searchParams.entries();
+    const currentParams = paramsToObject(entries);
+
+    post(url.pathname, {...currentParams, ...params}, 'get');
+}
+
+function paramsToObject(entries) { // https://stackoverflow.com/a/52539264/1738413
+    const result = {}
+    for (const [key, value] of entries) { // each 'entry' is a [key, value] tupple
+        result[key] = value;
+    }
+    return result;
+}
