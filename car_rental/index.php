@@ -3,6 +3,9 @@ require_once 'include/auto_loader.php';
 require_once 'include/head.php';
 require_once 'routes/routes.php';
 
+/**
+ * @var User $CURRENT_USER
+ */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,12 +71,13 @@ require_once 'routes/routes.php';
                         <?php } else { ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' ' . $CURRENT_USER->getLastName(); ?></a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <!-- <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <?php if ($CURRENT_USER->getUserType()->getAccessLevel() > 0) { ?>
+                                    <li><a class="dropdown-item" href="admin.php">Administration System</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
-                                    </li> -->
+                                    </li>
+                                    <?php } ?>
                                     <li><a class="dropdown-item" onclick="post(window.location.href, {logout: true});">Logout</a></li>
                                 </ul>
                             </li>

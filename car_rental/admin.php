@@ -69,7 +69,7 @@ require_once 'routes/routes.php';
                         <?php } else { ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' ' . $CURRENT_USER->getLastName(); ?></a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="index.php">Back to portal</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
