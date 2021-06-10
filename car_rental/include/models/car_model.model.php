@@ -6,15 +6,22 @@ class CarModel extends Model
     protected static $tableName = DB_TABLES_PREFIX . 'car_model';
     protected static $primaryKeys = ['car_model_id'];
     protected static $autoIncrementKey = 'car_model_id';
-    protected static $properties = ['car_model_id', 'car_type_id', 'brand', 'model', 'year'];
+    protected static $properties = ['car_model_id', 'car_type_id', 'brand', 'model', 'year', 'number_of_seats'];
 
     /**
-     * Undocumented function
-     *
-     * @param int $value
-     * @return self
+     * Get the value of car_model_id
      */
-    function setCarModelId($value)
+    public function getCarModelId()
+    {
+        return parent::getValue('car_model_id');
+    }
+
+    /**
+     * Set the value of car_model_id
+     *
+     * @return  self
+     */
+    public function setCarModelId($value)
     {
         parent::setValue('car_model_id', $value);
 
@@ -22,22 +29,19 @@ class CarModel extends Model
     }
 
     /**
-     * Undocumented function
-     *
-     * @return int
+     * Get the value of car_type_id
      */
-    function getCarModelId()
+    public function getCarTypeId()
     {
-        return parent::getValue('car_model_id');
+        return parent::getValue('car_type_id');
     }
 
     /**
-     * Undocumented function
+     * Set the value of car_type_id
      *
-     * @param int $value
-     * @return self
+     * @return  self
      */
-    function setCarTypeId($value)
+    public function setCarTypeId($value)
     {
         parent::setValue('car_type_id', $value);
 
@@ -45,22 +49,19 @@ class CarModel extends Model
     }
 
     /**
-     * Undocumented function
-     *
-     * @return int
+     * Get the value of brand
      */
-    function getCarTypeId()
+    public function getBrand()
     {
-        return parent::getValue('car_type_id');
+        return parent::getValue('brand');
     }
 
     /**
-     * Undocumented function
+     * Set the value of brand
      *
-     * @param string $value
-     * @return self
+     * @return  self
      */
-    function setBrand($value)
+    public function setBrand($value)
     {
         parent::setValue('brand', $value);
 
@@ -68,22 +69,19 @@ class CarModel extends Model
     }
 
     /**
-     * Undocumented function
-     *
-     * @return string
+     * Get the value of model
      */
-    function getBrand()
+    public function getModel()
     {
-        return parent::getValue('brand');
+        return parent::getValue('model');
     }
 
     /**
-     * Undocumented function
+     * Set the value of model
      *
-     * @param string $value
-     * @return self
+     * @return  self
      */
-    function setModel($value)
+    public function setModel($value)
     {
         parent::setValue('model', $value);
 
@@ -91,22 +89,19 @@ class CarModel extends Model
     }
 
     /**
-     * Undocumented function
-     *
-     * @return string
+     * Get the value of year
      */
-    function getModel()
+    public function getYear()
     {
-        return parent::getValue('model');
+        return parent::getValue('year');
     }
 
     /**
-     * Undocumented function
+     * Set the value of year
      *
-     * @param int $value
-     * @return self
+     * @return  self
      */
-    function setYear($value)
+    public function setYear($value)
     {
         parent::setValue('year', $value);
 
@@ -114,13 +109,23 @@ class CarModel extends Model
     }
 
     /**
-     * Undocumented function
-     *
-     * @return int
+     * Get the value of number_of_seats
      */
-    function getYear()
+    public function getNumberOfSeats()
     {
-        return parent::getValue('year');
+        return parent::getValue('number_of_seats');
+    }
+
+    /**
+     * Set the value of number_of_seats
+     *
+     * @return  self
+     */
+    public function setNumberOfSeats($value)
+    {
+        parent::setValue('number_of_seats', $value);
+
+        return $this;
     }
 
     function getFullDisplayName()
