@@ -18,7 +18,13 @@
         <div class="col-md-12">
             <?php if (isset($successMessage) && strlen($successMessage) > 0) { ?>
                 <div class="alert alert-success" role="alert">
-                    $successMessage
+                    <?= $successMessage ?>
+                </div>
+            <?php } ?>
+
+            <?php if (isset($errorMessage) && strlen($errorMessage) > 0) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $errorMessage ?>
                 </div>
             <?php } ?>
 

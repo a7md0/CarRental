@@ -18,6 +18,10 @@ function handleUpload(Car $c)
     }
 }
 
+if (isset($_GET['successMessage'])) {
+    $VALUES['successMessage'] = $_GET['successMessage'];
+}
+
 if (isset($_GET['carId'])) {
     $carId = intval($_GET['carId']);
     $car = Car::findById($carId);
@@ -38,7 +42,12 @@ if (isset($_GET['carId'])) {
                 ->setDailyRentRate($_POST['daily_rent_fees'])
                 ->setStatus($_POST['status']);
 
-            $car->update();
+            if ($car->update()) {
+                header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20updated%20successfully");
+                exit;
+            } else {
+                $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
+            }
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -54,8 +63,10 @@ if (isset($_GET['carId'])) {
         ->setStatus($_POST['status']);
 
     if ($car->insert()) {
-        header("Location: ?p=car-form&carId={$car->getCarId()}");
+        header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20added%20successfully");
         exit;
+    } else {
+        $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
     }
 }
 
