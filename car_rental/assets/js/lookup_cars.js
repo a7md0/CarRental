@@ -266,6 +266,19 @@
                     }
                 }
 
+                if (event.target.classList.contains('edit-button')) {
+                    const carId = event.target.dataset['carId'];
+
+                    if (carId) {
+                        const params = new URLSearchParams({
+                            p: 'edit-car',
+                            carId,
+                        });
+
+                        window.location.href = `?${params.toString()}`;
+                    }
+                }
+
                 if (event.target.classList.contains('select-all-btn')) {
                     const linkFor = event.target.dataset['linkFor']; // Get the link for control name
 
