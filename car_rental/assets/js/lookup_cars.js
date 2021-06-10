@@ -271,7 +271,7 @@
 
                     if (carId) {
                         const params = new URLSearchParams({
-                            p: 'edit-car',
+                            p: 'car-form',
                             carId,
                         });
 
