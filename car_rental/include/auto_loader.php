@@ -35,6 +35,7 @@ $AUTO_LOADER_MAP = [
     'AdvancedCarsLookup' => 'custom/advanced_cars_lookup.class.php',
 
     'Pagination' => 'query/pagination.trait.php',
+    'Upload' => 'upload.class.php',
 
     'CarDetail' => 'custom/car_details.model.php',
 
