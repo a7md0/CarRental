@@ -19,14 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $cards .= '<div class="card car-card" style="width: 18rem;">
             <img src="' . $car->getPreviewImage() . '" loading="lazy" class="card-img-top" alt="' . $car->getCarModel()->getFullDisplayName() . ' Image">
             <div class="card-body text-center">
-                <h5 class="card-title">' . $car->getCarModel()->getFullDisplayName() . '</h5>
-                <p class="card-subtitle">BD' . $car->getDailyRentRate() . ' | ' . $car->getColor() . ' </p>
-                <a href="javascript:void(0)" class="edit-car-btn" data-car-id="' . $car->getCarId() . '">Edit</a>
+                <h5 class="card-title"><a href="javascript:void(0)" class="edit-button" data-car-id="' . $car->getCarId() . '">' . $car->getCarModel()->getFullDisplayName() . '</a></h5>
+                <p class="card-subtitle"></p>
             </div>
+
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
+                <li class="list-group-item"><b>Car type</b>: ' . $car->getCarType()->getType() . '</li>
+                <li class="list-group-item"><b>Number of seats</b>: ' . $car->getCarModel()->getNumberOfSeats() . '</li>
+                <li class="list-group-item"><b>License plate:</b> ' . $car->getLicensePlate() . '</li>
+                <li class="list-group-item"><b>Color:</b> ' . $car->getColor() . '</li>
+                <li class="list-group-item"><b>Daily price:</b> BD' . $car->getDailyRentRate() . '</li>
             </ul>
             </div>';
         }
