@@ -48,24 +48,29 @@ require_once 'routes/routes.php';
                         <li class="nav-item">
                             <a class="nav-link<?= $requestPage == 'home' ? ' active' : ''; ?>" href="">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link<?= $requestPage == 'lookup-cars' ? ' active' : ''; ?>" href="?p=lookup-cars">Lookup cars</a>
-                        </li>
+                        <?php if ($CURRENT_USER != null) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link<?= $requestPage == 'cars' ? ' active' : ''; ?>" href="?p=cars">Cars</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle<?= in_array($requestPage, ['popular-reserved-cars', 'sales-revenue']) ? ' active' : '' ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item<?= $requestPage == 'popular-reserved-cars' ? ' active' : ''; ?>" href="?p=popular-reserved-cars">Most popular reserved cars</a></li>
+                                    <li><a class="dropdown-item<?= $requestPage == 'sales-revenue' ? ' active' : ''; ?>" href="?p=sales-revenue">Sales revenue</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                     </ul>
                     <ul class="navbar-nav">
                         <?php if ($CURRENT_USER == null) { ?>
                             <li class="nav-item">
-                                <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="?p=sign-in">Sign in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link<?= $requestPage == 'signup' ? ' active' : ''; ?>" href="?p=signup">Signup</a>
+                                <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="index.php?p=sign-in">Sign in</a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $CURRENT_USER->getFirstName() . ' ' . $CURRENT_USER->getLastName(); ?></a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="index.php">Back to portal</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
