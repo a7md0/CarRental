@@ -23,7 +23,11 @@ if (isset($_GET['reservationCode'])) {
             $successMessage = "Your reservation have been confirmed successfully.";
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $reservation->canCancel()) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['amendReservation']) && $_POST['amendReservation'] == 'true' && $canAmend) {
+
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $canCancel) {
             $reservation->cancel();
 
             $successMessage = 'Your reservation have been cancelled successfully, the amount have been refunded to the original payment method.';
