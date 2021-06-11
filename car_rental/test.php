@@ -56,5 +56,5 @@ $can = $res->canAmend($why);
 var_dump($can);
 echo "$why";
 var_dump($res->canCancel());
-$res->amend('2021-06-15', '2021-06-17');
+$res->amend('2021-06-15', '2021-06-17', $err);
 
