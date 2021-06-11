@@ -261,7 +261,7 @@ parent::setValue('car_id', $value);
         $remainingDays = $pickupDate->diff($now)->days + 1;
 
         if ($remainingDays <= 2) {
-            $why = 'Pickup date is due in less than two days';
+            $why = 'Pickup date is due in two or less days';
             return false;
         }
 
@@ -273,9 +273,10 @@ parent::setValue('car_id', $value);
      *
      * @return boolean
      */
-    public function canCancel()
+    public function canCancel(&$why)
     {
         if ($this->getStatus() == 'cancelled') {
+            $why = 'Already cancelled';
             return false;
         }
 
@@ -283,6 +284,7 @@ parent::setValue('car_id', $value);
         $pickupDate = date_create($this->getPickupDate());
 
         if ($pickupDate <= $now) {
+            $why = 'Pickup date already passed';
             return false;
         }
 
