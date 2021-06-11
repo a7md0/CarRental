@@ -290,6 +290,29 @@ parent::setValue('car_id', $value);
     }
 
     /**
+     * Amend reservation
+     *
+     * @param string $pickupDate
+     * @param string $returnDate
+     * @return boolean
+     */
+    public function amend($pickupDate, $returnDate, &$error)
+    {
+        $user_car_reservation_id = $this->getUserCarReservationId();
+        $query = "CALL amend_reservation_dates(?, ?, ?);";
+
+        $stmt = Database::executeStatement($query, 'iss', [$user_car_reservation_id, $pickupDate, $returnDate]);
+        $affectedRows = $stmt->affected_rows;
+
+        $error = $stmt->error;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $affectedRows > 0;
+    }
+
+    /**
      * Cancel reservation
      *
      * @return boolean
