@@ -1,8 +1,15 @@
 <?php
 
-$carId = intval($_GET['carId']);
+
 $pickupDate = date_create($_GET['pickupDate']);
 $returnDate = date_create($_GET['returnDate']);
+
+if (!isset($_GET['carId']) || !is_numeric($_GET['carId']) || $pickupDate === false || $returnDate === false) {
+    header("Location: ?p=lookup-cars");
+    exit;
+}
+
+$carId = intval($_GET['carId']);
 
 $pickupDateStr = date_format($pickupDate, 'Y-m-d');
 $returnDateStr = date_format($returnDate, 'Y-m-d');
