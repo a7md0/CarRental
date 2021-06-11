@@ -11,13 +11,19 @@ if (isset($_GET['reservationCode'])) {
     $reservation = UserCarReservation::findOne($whereClause);
 
     $successMessage = '';
+    $canAmend = false;
+    $cannotAmendMessage = '';
+    $canCancel = false;
 
     if ($reservation != null) {
+        $canAmend = $reservation->canAmend($cannotAmendMessage);
+        $canCancel = $reservation->canCancel();
+
         if ($source == 'checkout') {
             $successMessage = "Your reservation have been confirmed successfully.";
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $reservation->getStatus() != 'cancelled') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $reservation->canCancel()) {
             $reservation->cancel();
 
             $successMessage = 'Your reservation have been cancelled successfully, the amount have been refunded to the original payment method.';
@@ -49,5 +55,8 @@ if (isset($_GET['reservationCode'])) {
         'paidAmount' => $paidAmount,
         'totalAmount' => $totalAmount,
         'dueAmount' => $dueAmount,
+        'canAmend' => $canAmend,
+        'cannotAmendMessage' => $cannotAmendMessage,
+        'canCancel' => $canCancel,
     ];
 }

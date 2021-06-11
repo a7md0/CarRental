@@ -41,8 +41,10 @@
                         <h5 class="card-header d-flex justify-content-between align-items-center">
                             View reservation (#<?= $reservationCode ?>)
                             <div>
-                                <button type="button" class="btn btn-sm btn-warning" id="amend-button">Amend</button>
-                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button" <?php if ($reservation->getStatus() == 'cancelled') {
+                                <button type="button" class="btn btn-sm btn-warning" id="amend-button"<?php if (!$canAmend) {
+                                                                                                            echo ' disabled';
+                                                                                                        } ?>>Amend</button>
+                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button"<?php if (!$canCancel) {
                                                                                                             echo ' disabled';
                                                                                                         } ?>>Cancel</button>
                             </div>
