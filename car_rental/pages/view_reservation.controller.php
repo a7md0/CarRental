@@ -10,7 +10,6 @@ if (isset($_GET['reservationCode'])) {
 
     $reservation = UserCarReservation::findOne($whereClause);
 
-    $successMessage = '';
     $canAmend = false;
     $cannotAmendMessage = '';
     $canCancel = false;
@@ -20,7 +19,7 @@ if (isset($_GET['reservationCode'])) {
         $canCancel = $reservation->canCancel();
 
         if ($source == 'checkout') {
-            $successMessage = "Your reservation have been confirmed successfully.";
+            $VALUES['successMessage'] = 'Your reservation have been confirmed successfully.';
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['amendReservation']) && $_POST['amendReservation'] == 'true' && $canAmend) {
@@ -29,23 +28,26 @@ if (isset($_GET['reservationCode'])) {
             if ($returnDate < $pickupDate) {
                 $VALUES['errorMessage'] = 'Return date should not be before the pickup date!';
             } else {
-                $wasAmended = $reservation->amend($_POST['pickup_date'], $_POST['return_date'], $amendError);
+                $reservation->amend($_POST['pickup_date'], $_POST['return_date'], $amendError);
 
-                if ($wasAmended) {
-                    $reservation = UserCarReservation::findOne($whereClause);
-                    $successMessage = 'Your reservation have been amended successfully, ???.';
-                } else {
+                if (isset($amendError)) {
                     $VALUES['errorMessage'] = $amendError;
+                } else {
+                    $reservation = UserCarReservation::findOne($whereClause);
+                    $VALUES['successMessage'] = 'Your reservation have been amended successfully, ???.';
                 }
             }
-
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelReservation']) && $_POST['cancelReservation'] == 'true' && $canCancel) {
-            $reservation->cancel();
+            $reservation->cancel($cancelError);
 
-            $successMessage = 'Your reservation have been cancelled successfully, the amount have been refunded to the original payment method.';
-            $reservation = UserCarReservation::findOne($whereClause);
+            if (isset($cancelError)) {
+                $VALUES['errorMessage'] = $cancelError;
+            } else {
+                $VALUES['successMessage'] = 'Your reservation have been cancelled successfully, the amount have been refunded to the original payment method.';
+                $reservation = UserCarReservation::findOne($whereClause);
+            }
         }
 
         $carDetails = CarDetail::findById($reservation->getCarId());
@@ -61,20 +63,21 @@ if (isset($_GET['reservationCode'])) {
         $paidAmount = $salesInvoice->getPaidAmount();
         $totalAmount = $salesInvoice->getGrandTotal();
         $dueAmount = $totalAmount - $paidAmount;
+
+        $VALUES['reservation'] = $reservation;
+        $VALUES['carDetails'] = $carDetails;
+
+        $VALUES['salesInvoice'] = $salesInvoice;
+        $VALUES['accessories'] = $accessories;
+
+        $VALUES['paidAmount'] = $paidAmount;
+        $VALUES['totalAmount'] = $totalAmount;
+        $VALUES['dueAmount'] = $dueAmount;
     }
 
-    $VALUES += [
-        'reservationCode' => $reservationCode,
-        'successMessage' => $successMessage,
-        'reservation' => $reservation,
-        'carDetails' => $carDetails,
-        'salesInvoice' => $salesInvoice,
-        'accessories' => $accessories,
-        'paidAmount' => $paidAmount,
-        'totalAmount' => $totalAmount,
-        'dueAmount' => $dueAmount,
-        'canAmend' => $canAmend,
-        'cannotAmendMessage' => $cannotAmendMessage,
-        'canCancel' => $canCancel,
-    ];
+    $VALUES['reservationCode'] = $reservationCode;
+
+    $VALUES['canAmend'] = $canAmend;
+    $VALUES['cannotAmendMessage'] = $cannotAmendMessage;
+    $VALUES['canCancel'] = $canCancel;
 }
