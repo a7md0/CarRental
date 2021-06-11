@@ -294,7 +294,6 @@ parent::setValue('car_id', $value);
      *
      * @param string $pickupDate
      * @param string $returnDate
-     * @return boolean
      */
     public function amend($pickupDate, $returnDate, &$error)
     {
@@ -308,14 +307,11 @@ parent::setValue('car_id', $value);
 
         $stmt->free_result();
         $stmt->close();
-
-        return $affectedRows > 0;
     }
 
     /**
      * Cancel reservation
      *
-     * @return boolean
      */
     public function cancel()
     {
@@ -327,7 +323,5 @@ parent::setValue('car_id', $value);
 
         $stmt->free_result();
         $stmt->close();
-
-        return $affectedRows > 0;
     }
 }
