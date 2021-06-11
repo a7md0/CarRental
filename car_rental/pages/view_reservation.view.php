@@ -23,7 +23,7 @@
                     <label for="reservation-code" class="form-label">Reservation code</label>
                     <div class="input-group mb-3">
                         <input type="text" id="reservation-code" class="form-control" placeholder="Reservation code" value="<?= isset($_GET['reservationCode']) ? $_GET['reservationCode'] : '' ?>" aria-describedby="view-button">
-                        <button class="btn btn-secondary" type="submit" id="view-button">Lookup</button>
+                        <button class="btn btn-secondary" type="button" id="view-button">Lookup</button>
                     </div>
                 </div>
                 <div class="col-md-4"></div>
@@ -41,55 +41,60 @@
                 </div>
             <?php } ?>
 
-            <?php if (isset($reservationCode)) { ?>
+            <?php if (isset($reservation)) { ?>
                 <div class="card">
                     <article class="card-group-item">
                         <h5 class="card-header d-flex justify-content-between align-items-center">
                             View reservation (#<?= $reservationCode ?>)
                             <div>
-                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#amendModal" <?php if (!$canAmend) {
-                                                                                                                                                echo ' disabled';
-                                                                                                                                            } ?>>Amend</button>
-                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button" <?php if (!$canCancel) {
-                                                                                                            echo ' disabled';
-                                                                                                        } ?>>Cancel</button>
+                                <span class="tool-tip" <?php if (!$canAmend) {
+                                                            echo 'data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reservation cannot be amended (' . $cannotAmendMessage . ')"';
+                                                        } ?>>
+                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#amendModal" <?php if (!$canAmend) {
+                                                                                                                                                    echo ' disabled';
+                                                                                                                                                } ?>>Amend</button>
+                                </span>
+                                <span class="tool-tip" <?php if (!$canCancel) {
+                                                            echo 'data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reservation cannot be canceled (' . $cannotCancelMessage . ')"';
+                                                        } ?>>
+                                    <button type="button" class="btn btn-sm btn-danger" id="cancel-button" <?php if (!$canCancel) {
+                                                                                                                echo ' disabled';
+                                                                                                            } ?>>Cancel</button>
+                                </span>
                             </div>
                         </h5>
 
 
                         <div class="card-body m-3">
-                            <?php
-                            if (isset($reservation)) { ?>
-                                <h4 class="mb-3">Reservation details</h4>
+                            <h4 class="mb-3">Reservation details</h4>
 
-                                <div class="row d-flex align-items-center text-center mb-4">
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Pickup date</h6>
-                                        <span><?= $reservation->getPickupDate() ?></span>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Return date</h6>
-                                        <span><?= $reservation->getReturnDate() ?></span>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Placed at</h6>
-                                        <span><?= $reservation->getCreatedAt() ?></span>
-                                    </div>
-
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Total amount</h6>
-                                        <span>BD<?= $totalAmount ?></span>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Paid amount</h6>
-                                        <span>BD<?= $paidAmount ?></span>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <h6>Status</h6>
-                                        <span><?= $reservation->getStatus() ?></span>
-                                    </div>
+                            <div class="row d-flex align-items-center text-center mb-4">
+                                <div class="col-md-4 mb-2">
+                                    <h6>Pickup date</h6>
+                                    <span><?= $reservation->getPickupDate() ?></span>
                                 </div>
-                            <?php } ?>
+                                <div class="col-md-4 mb-2">
+                                    <h6>Return date</h6>
+                                    <span><?= $reservation->getReturnDate() ?></span>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <h6>Placed at</h6>
+                                    <span><?= $reservation->getCreatedAt() ?></span>
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+                                    <h6>Total amount</h6>
+                                    <span>BD<?= $totalAmount ?></span>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <h6>Paid amount</h6>
+                                    <span>BD<?= $paidAmount ?></span>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <h6>Status</h6>
+                                    <span><?= $reservation->getStatus() ?></span>
+                                </div>
+                            </div>
 
                             <?php if (isset($carDetails)) { ?>
                                 <h4 class="mb-3">Car details</h4>
@@ -158,41 +163,41 @@
 
                     </article>
                 </div>
-            <?php } ?>
-        </div>
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="amendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="modal-content" action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Amend reservation dates</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6 mb-2">
-                        <label for="pickup_date" class="form-label h6">Pickup date</label>
-                        <input type="date" class="form-control" name="pickup_date" value="<?= $reservation->getPickupDate() ?>" required>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <label for="return_date" class="form-label h6">Return date</label>
-                        <input type="date" class="form-control" name="return_date" value="<?= $reservation->getReturnDate() ?>" required>
-                    </div>
+                <!-- Modal -->
+                <div class="modal fade" id="amendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <form class="modal-content" action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Amend reservation dates</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <label for="pickup_date" class="form-label h6">Pickup date</label>
+                                        <input type="date" class="form-control" name="pickup_date" value="<?= $reservation->getPickupDate() ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="return_date" class="form-label h6">Return date</label>
+                                        <input type="date" class="form-control" name="return_date" value="<?= $reservation->getReturnDate() ?>" required>
+                                    </div>
 
-                    <div class="col-md-12 mt-2">
-                        <input class="form-check-input me-1" type="checkbox" name="amendReservation" value="true" required>
-                        I acknowledge that amending this reservation will incur a 10% fees, and I would not be able to amend this reservation again.
+                                    <div class="col-md-12 mt-2">
+                                        <input class="form-check-input me-1" type="checkbox" name="amendReservation" value="true" required>
+                                        I acknowledge that amending this reservation will incur a 10% fees, and I would not be able to amend this reservation again.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Amend</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Amend</button>
-            </div>
-        </form>
+            <?php } ?>
+        </div>
     </div>
 </div>
 

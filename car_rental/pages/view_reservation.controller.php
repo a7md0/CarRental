@@ -13,10 +13,11 @@ if (isset($_GET['reservationCode'])) {
     $canAmend = false;
     $cannotAmendMessage = '';
     $canCancel = false;
+    $cannotCancelMessage = '';
 
     if ($reservation != null) {
         $canAmend = $reservation->canAmend($cannotAmendMessage);
-        $canCancel = $reservation->canCancel();
+        $canCancel = $reservation->canCancel($cannotCancelMessage);
 
         if ($source == 'checkout') {
             $VALUES['successMessage'] = 'Your reservation have been confirmed successfully.';
@@ -60,6 +61,9 @@ if (isset($_GET['reservationCode'])) {
         $accessoriesWhereClause = (new WhereClause())->where('user_car_reservation_id', $reservation->getUserCarReservationId());
         $accessories = CarAccessory::findJoined('car_reservation_accessory', 'car_accessory_id', $accessoriesWhereClause);
 
+        $canAmend = $reservation->canAmend($cannotAmendMessage);
+        $canCancel = $reservation->canCancel($cannotCancelMessage);
+
         $paidAmount = $salesInvoice->getPaidAmount();
         $totalAmount = $salesInvoice->getGrandTotal();
         $dueAmount = $totalAmount - $paidAmount;
@@ -73,11 +77,13 @@ if (isset($_GET['reservationCode'])) {
         $VALUES['paidAmount'] = $paidAmount;
         $VALUES['totalAmount'] = $totalAmount;
         $VALUES['dueAmount'] = $dueAmount;
+
+        $VALUES['cannotAmendMessage'] = $cannotAmendMessage;
+        $VALUES['cannotCancelMessage'] = $cannotCancelMessage;
     }
 
     $VALUES['reservationCode'] = $reservationCode;
 
     $VALUES['canAmend'] = $canAmend;
-    $VALUES['cannotAmendMessage'] = $cannotAmendMessage;
     $VALUES['canCancel'] = $canCancel;
 }
