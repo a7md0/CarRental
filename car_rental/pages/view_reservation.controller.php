@@ -24,6 +24,20 @@ if (isset($_GET['reservationCode'])) {
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['amendReservation']) && $_POST['amendReservation'] == 'true' && $canAmend) {
+            $pickupDate = date_create($_POST['pickup_date']);
+            $returnDate = date_create($_POST['return_date']);
+            if ($rd < $pd) {
+                $VALUES['errorMessage'] = 'Return date should not be before the pickup date!';
+            } else {
+                $wasAmended = $reservation->amend($_POST['pickup_date'], $_POST['return_date'], $amendError);
+
+                if ($wasAmended) {
+                    $reservation = UserCarReservation::findOne($whereClause);
+                    $successMessage = 'Your reservation have been amended successfully, ???.';
+                } else {
+                    $VALUES['errorMessage'] = $amendError;
+                }
+            }
 
         }
 
