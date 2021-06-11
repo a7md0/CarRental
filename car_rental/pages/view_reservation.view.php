@@ -41,10 +41,10 @@
                         <h5 class="card-header d-flex justify-content-between align-items-center">
                             View reservation (#<?= $reservationCode ?>)
                             <div>
-                                <button type="button" class="btn btn-sm btn-warning" id="amend-button"<?php if (!$canAmend) {
+                                <button type="button" class="btn btn-sm btn-warning" id="amend-button" <?php if (!$canAmend) {
                                                                                                             echo ' disabled';
                                                                                                         } ?>>Amend</button>
-                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button"<?php if (!$canCancel) {
+                                <button type="button" class="btn btn-sm btn-danger" id="cancel-button" <?php if (!$canCancel) {
                                                                                                             echo ' disabled';
                                                                                                         } ?>>Cancel</button>
                             </div>
@@ -58,12 +58,12 @@
 
                                 <div class="row d-flex align-items-center text-center mb-4">
                                     <div class="col-md-4 mb-2">
-                                        <h6>Pickup date</h6>
-                                        <span><?= $reservation->getPickupDate() ?></span>
+                                        <label for="pickup_date" class="form-label h6">Pickup date</label>
+                                        <input type="date" class="form-control" name="pickup_date" value="<?= $reservation->getPickupDate() ?>" required>
                                     </div>
                                     <div class="col-md-4 mb-2">
-                                        <h6>Return date</h6>
-                                        <span><?= $reservation->getReturnDate() ?></span>
+                                        <label for="return_date" class="form-label h6">Return date</label>
+                                        <input type="date" class="form-control" name="return_date" value="<?= $reservation->getReturnDate() ?>" required>
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <h6>Status</h6>
