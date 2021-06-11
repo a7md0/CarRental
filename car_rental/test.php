@@ -49,3 +49,11 @@ var_dump($car2);
 
 $acs = CarAccessory::findJoined('car_reservation_accessory', 'car_accessory_id', (new WhereClause())->where('user_car_reservation_id', 10));
 var_dump($acs);
+
+
+$res = UserCarReservation::findById(15);
+$can = $res->canAmend($why);
+var_dump($can);
+echo "$why";
+var_dump($res->canCancel());
+
