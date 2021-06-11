@@ -301,9 +301,10 @@ parent::setValue('car_id', $value);
         $query = "CALL amend_reservation_dates(?, ?, ?);";
 
         $stmt = Database::executeStatement($query, 'iss', [$user_car_reservation_id, $pickupDate, $returnDate]);
-        $affectedRows = $stmt->affected_rows;
 
-        $error = $stmt->error;
+        if($stmt->errno) {
+            $error = $stmt->error;
+        }
 
         $stmt->free_result();
         $stmt->close();
@@ -313,13 +314,16 @@ parent::setValue('car_id', $value);
      * Cancel reservation
      *
      */
-    public function cancel()
+    public function cancel(&$error)
     {
         $user_car_reservation_id = $this->getUserCarReservationId();
         $query = "CALL cancel_reservation(?);"; // TODO: Set clause
 
         $stmt = Database::executeStatement($query, 'i', [$user_car_reservation_id]);
-        $affectedRows = $stmt->affected_rows;
+
+        if($stmt->errno) {
+            $error = $stmt->error;
+        }
 
         $stmt->free_result();
         $stmt->close();
