@@ -251,4 +251,28 @@ class Car extends Model
 
         return $this;
     }
+
+    /**
+     * Check if car is reserved
+     *
+     * @param string $pickupDate
+     * @param string $returnDate
+     *
+     * @return boolean
+     */
+    public function isReserved($pickupDate, $returnDate)
+    {
+        $car_id = $this->getCarId();
+        $query = "SELECT is_car_reserved(?, ?, ?);";
+
+        $stmt = Database::executeStatement($query, 'iss', [$car_id, $pickupDate, $returnDate]);
+
+        $result = $stmt->get_result();
+        $value = $result->fetch_row()[0] ?? 1;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $value == 0 ? false : true;
+    }
 }
