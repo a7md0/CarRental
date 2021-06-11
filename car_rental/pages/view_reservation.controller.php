@@ -80,6 +80,8 @@ if (isset($_GET['reservationCode'])) {
 
         $VALUES['cannotAmendMessage'] = $cannotAmendMessage;
         $VALUES['cannotCancelMessage'] = $cannotCancelMessage;
+    } else {
+        $VALUES['warningMessage'] = "No matching reservation is found!";
     }
 
     $VALUES['reservationCode'] = $reservationCode;
