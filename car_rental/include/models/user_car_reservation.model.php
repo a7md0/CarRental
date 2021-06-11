@@ -95,6 +95,8 @@ parent::setValue('car_id', $value);
 
     /**
      * Get the value of pickup_date
+     *
+     * @return string
      */
     public function getPickupDate()
     {
@@ -115,6 +117,8 @@ parent::setValue('car_id', $value);
 
     /**
      * Get the value of return_date
+     *
+     * @return string
      */
     public function getReturnDate()
     {
@@ -233,6 +237,63 @@ parent::setValue('car_id', $value);
         return $this;
     }
 
+    /**
+     * Indicate whether the customer can amend the reservation or not.
+     *
+     * @param string $why Output for why the customer cannot amend
+     * @return boolean
+     */
+    public function canAmend(&$why)
+    {
+        if ($this->getIsAmended() == true) {
+            $why = 'Already amended before';
+            return false;
+        }
+
+        $now = new DateTime();
+        $pickupDate = date_create($this->getPickupDate());
+
+        if ($pickupDate <= $now) {
+            $why = 'Pickup date is already passed';
+            return false;
+        }
+
+        $remainingDays = $pickupDate->diff($now)->days + 1;
+
+        if ($remainingDays <= 2) {
+            $why = 'Pickup date is due in less than two days';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Indicate whether the customer can cancel the reservation or not.
+     *
+     * @return boolean
+     */
+    public function canCancel()
+    {
+        if ($this->getStatus() == 'cancelled') {
+            return false;
+        }
+
+        $now = new DateTime();
+        $pickupDate = date_create($this->getPickupDate());
+
+        if ($pickupDate <= $now) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Cancel reservation
+     *
+     * @return boolean
+     */
     public function cancel()
     {
         $user_car_reservation_id = $this->getUserCarReservationId();
