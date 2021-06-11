@@ -66,8 +66,8 @@
                                         <input type="date" class="form-control" name="return_date" value="<?= $reservation->getReturnDate() ?>" required>
                                     </div>
                                     <div class="col-md-4 mb-2">
-                                        <h6>Status</h6>
-                                        <span><?= $reservation->getStatus() ?></span>
+                                        <h6>Placed at</h6>
+                                        <span><?= $reservation->getCreatedAt() ?></span>
                                     </div>
 
                                     <div class="col-md-4 mb-2">
@@ -79,8 +79,8 @@
                                         <span>BD<?= $paidAmount ?></span>
                                     </div>
                                     <div class="col-md-4 mb-2">
-                                        <h6>Due amount</h6>
-                                        <span>BD<?= $dueAmount ?></span>
+                                        <h6>Status</h6>
+                                        <span><?= $reservation->getStatus() ?></span>
                                     </div>
                                 </div>
                             <?php } ?>
