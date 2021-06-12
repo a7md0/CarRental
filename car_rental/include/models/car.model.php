@@ -275,4 +275,29 @@ class Car extends Model
 
         return $value == 0 ? false : true;
     }
+
+    /**
+     * Check if car is reserved (exclude for given reservation)
+     *
+     * @param int $reservationId
+     * @param string $pickupDate
+     * @param string $returnDate
+     *
+     * @return boolean
+     */
+    public function isReservedExcept($reservationId, $pickupDate, $returnDate)
+    {
+        $car_id = $this->getCarId();
+        $query = "SELECT is_car_reserved_except(?, ?, ?, ?);";
+
+        $stmt = Database::executeStatement($query, 'iiss', [$car_id, $reservationId, $pickupDate, $returnDate]);
+
+        $result = $stmt->get_result();
+        $value = $result->fetch_row()[0] ?? 1;
+
+        $stmt->free_result();
+        $stmt->close();
+
+        return $value == 0 ? false : true;
+    }
 }
