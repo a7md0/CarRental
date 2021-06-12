@@ -49,8 +49,14 @@ require_once 'routes/routes.php';
                             <a class="nav-link<?= $requestPage == 'home' ? ' active' : ''; ?>" href="?p=home">Home</a>
                         </li>
                         <?php if ($CURRENT_USER != null) { ?>
-                            <li class="nav-item">
-                                <a class="nav-link<?= $requestPage == 'cars' ? ' active' : ''; ?>" href="?p=cars">Cars</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle<?= in_array($requestPage, ['cars', 'car']) ? ' active' : '' ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cars</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item<?= $requestPage == 'cars' ? ' active' : ''; ?>" href="?p=cars">Cars list</a></li>
+                                    <li><a class="dropdown-item<?= $requestPage == 'car-form' ? ' active' : ''; ?>" href="?p=car-form">Add car</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item<?= $requestPage == 'car-model-form' ? ' active' : ''; ?>" href="?p=car-model-form">Add car</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle<?= in_array($requestPage, ['popular-reserved-cars', 'sales-revenue']) ? ' active' : '' ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
