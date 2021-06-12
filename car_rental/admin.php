@@ -55,7 +55,7 @@ require_once 'routes/routes.php';
                                     <li><a class="dropdown-item<?= $requestPage == 'cars' ? ' active' : ''; ?>" href="?p=cars">Cars list</a></li>
                                     <li><a class="dropdown-item<?= $requestPage == 'car-form' ? ' active' : ''; ?>" href="?p=car-form">Add car</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item<?= $requestPage == 'car-model-form' ? ' active' : ''; ?>" href="?p=car-model-form">Add car</a></li>
+                                    <li><a class="dropdown-item<?= $requestPage == 'car-model-form' ? ' active' : ''; ?>" href="?p=car-model-form">Car model</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
