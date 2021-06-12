@@ -39,7 +39,7 @@ require_once 'routes/routes.php';
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Carousel</a>
+                <span class="navbar-brand">Administration system</span>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -92,7 +92,7 @@ require_once 'routes/routes.php';
 
     <?php if ($HIDE_FOOTER === false) { ?>
         <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">&copy; <?= date("Y"); ?> Company</p>
+            <p class="mb-1">&copy; <?= date("Y"); ?> Cars4U</p>
         </footer>
     <?php } ?>
 
