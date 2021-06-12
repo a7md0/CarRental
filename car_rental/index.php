@@ -15,7 +15,7 @@ require_once 'routes/routes.php';
     <!-- <base href="/car_rental/"> -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $CURRENT_ROUTE->pageTitle ?> - CRS</title>
+    <title><?= $CURRENT_ROUTE->pageTitle ?> - Cars4U</title>
 
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/index.css" rel="stylesheet">
