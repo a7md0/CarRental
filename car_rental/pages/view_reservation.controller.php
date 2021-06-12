@@ -29,13 +29,20 @@ if (isset($_GET['reservationCode'])) {
             if ($returnDate < $pickupDate) {
                 $VALUES['errorMessage'] = 'Return date should not be before the pickup date!';
             } else {
-                $reservation->amend($_POST['pickup_date'], $_POST['return_date'], $amendError);
+                $car = (new Car())->setCarId($reservation->getCarId());
+                $isCarReserved = $car->isReservedExcept($reservation->getUserCarReservationId(), $_POST['pickup_date'], $_POST['return_date']);
 
-                if (isset($amendError)) {
-                    $VALUES['errorMessage'] = $amendError;
+                if ($isCarReserved === false) {
+                    $reservation->amend($_POST['pickup_date'], $_POST['return_date'], $amendError);
+
+                    if (isset($amendError)) {
+                        $VALUES['errorMessage'] = $amendError;
+                    } else {
+                        $reservation = UserCarReservation::findOne($whereClause);
+                        $VALUES['successMessage'] = 'Your reservation have been amended successfully, ???.';
+                    }
                 } else {
-                    $reservation = UserCarReservation::findOne($whereClause);
-                    $VALUES['successMessage'] = 'Your reservation have been amended successfully, ???.';
+                    $VALUES['errorMessage'] = "The car is not available between {$_POST['pickup_date']} and {$_POST['return_date']}";
                 }
             }
         }
