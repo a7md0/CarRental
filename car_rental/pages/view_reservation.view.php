@@ -28,7 +28,7 @@
                 <div class="col-md-4 text-center">
                     <label for="reservation-code" class="form-label">Reservation code</label>
                     <div class="input-group mb-3">
-                        <input type="text" id="reservation-code" class="form-control" placeholder="Reservation code" value="<?= isset($_GET['reservationCode']) ? $_GET['reservationCode'] : '' ?>" aria-describedby="view-button">
+                        <input type="text" id="reservation-code" name="reservation-code" class="form-control" placeholder="Reservation code" value="<?= isset($_GET['reservationCode']) ? $_GET['reservationCode'] : '' ?>" aria-describedby="view-button">
                         <button class="btn btn-secondary" type="button" id="view-button">Lookup</button>
                     </div>
                 </div>
