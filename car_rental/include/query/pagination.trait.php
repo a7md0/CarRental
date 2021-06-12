@@ -35,18 +35,6 @@ trait Pagination
         return $this->currentPage > 1;
     }
 
-    function getReturnDescription()
-    { /*2*/
-    }
-
-    /**
-     * Get the value of currentPage
-     */
-    public function getCurrentPage()
-    {
-        return $this->currentPage;
-    }
-
     /**
      * Set the value of currentPage
      *
@@ -57,6 +45,26 @@ trait Pagination
         if ($currentPage !=  null) {
             $this->currentPage = $currentPage;
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of itemsPerPage
+     */
+    public function getItemsPerPage()
+    {
+        return $this->itemsPerPage;
+    }
+
+    /**
+     * Set the value of itemsPerPage
+     *
+     * @return  self
+     */
+    public function setItemsPerPage($itemsPerPage)
+    {
+        $this->itemsPerPage = $itemsPerPage;
 
         return $this;
     }
