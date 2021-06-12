@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2021 at 06:50 AM
+-- Generation Time: Jun 12, 2021 at 01:58 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -30,9 +30,7 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
     
 	START TRANSACTION;
     
-    SELECT @daysDifference := (UCR.`pickup_date` - CURRENT_DATE),
-			@carId:=UCR.`car_id`,
-            @isAmended:=UCR.`is_amended`,
+    SELECT @carId:=UCR.`car_id`,
             @salesInvoiceId:=UCR.`sales_invoice_id`,
             @dailyRentRate:=C.`daily_rent_rate`,
             @grandTotal:=SI.`grand_total`
@@ -46,16 +44,6 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
 			ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
 			
 		WHERE `user_car_reservation_id` = userCarReservationId;
-    
-    IF @isAmended = true THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation have been already amended before';
-    END IF;
-    
-    IF @daysDifference < 0 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is already passed';
-	ELSEIF @daysDifference < 2 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Reservation pickup date is due in less than two days';
-    END IF;
     
     IF is_car_reserved_except(@carId, userCarReservationId, pickupDate, returnDate) = true THEN
 		SET @errMsg = CONCAT('Car is not available between ', pickupDate, ' and ', returnDate);
@@ -157,7 +145,7 @@ CREATE TABLE `dbproj_car` (
   `license_plate` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `vehicle_identification_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('available','unavailable','servicing','repairing','sold','destroyed','stolen') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `preview_image` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `preview_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -165,7 +153,7 @@ CREATE TABLE `dbproj_car` (
 --
 
 INSERT INTO `dbproj_car` (`car_id`, `car_model_id`, `color`, `daily_rent_rate`, `license_plate`, `vehicle_identification_number`, `status`, `preview_image`) VALUES
-(1, 1000, 'Black', '11.999', '478415', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_black.jpg'),
+(1, 1000, 'Black', '11.999', '478415', 'XYZ', 'available', 'assets/images/cars/hyundai_accent_2020_black.jpg'),
 (2, 1000, 'White', '11.999', '409310', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_white.jpg'),
 (3, 1000, 'Beige', '11.999', '611306', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_beige.jpg'),
 (4, 1000, 'Blue', '11.999', '828601', NULL, 'available', 'assets/images/cars/hyundai_accent_2020_blue.jpg'),
@@ -184,7 +172,7 @@ INSERT INTO `dbproj_car` (`car_id`, `car_model_id`, `color`, `daily_rent_rate`, 
 (17, 1010, 'Blue', '12.999', '2057', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_blue.jpg'),
 (18, 1010, 'Gray', '12.999', '70250', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_gray.jpg'),
 (19, 1010, 'Red', '12.999', '345081', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_red.jpg'),
-(20, 1010, 'Silver', '12.999', '514655', NULL, 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg'),
+(20, 1010, 'Silver', '15.999', '514655', '4', 'available', 'assets/images/cars/hyundai_sonata_2020_silver.jpg'),
 (21, 1005, 'Black', '11.999', '538033', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_black.jpg'),
 (22, 1005, 'White', '11.999', '146201', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_white.jpg'),
 (23, 1005, 'Blue', '11.999', '116906', NULL, 'available', 'assets/images/cars/hyundai_elantra_2020_blue.jpg'),
@@ -262,7 +250,7 @@ CREATE TABLE `dbproj_car_detail` (
 ,`license_plate` varchar(50)
 ,`vehicle_identification_number` varchar(50)
 ,`status` enum('available','unavailable','servicing','repairing','sold','destroyed','stolen')
-,`preview_image` varchar(50)
+,`preview_image` varchar(255)
 ,`brand` varchar(50)
 ,`model` varchar(50)
 ,`year` year(4)
@@ -360,7 +348,10 @@ INSERT INTO `dbproj_car_reservation_accessory` (`user_car_reservation_id`, `car_
 (13, 100),
 (13, 107),
 (14, 102),
-(14, 113);
+(14, 113),
+(15, 104),
+(15, 109),
+(16, 101);
 
 -- --------------------------------------------------------
 
@@ -406,10 +397,12 @@ CREATE TABLE `dbproj_sales_invoice` (
 INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`, `grand_total`, `remark`, `created_at`, `updated_at`) VALUES
 (14, 'unpaid', '0.000', '62.746', NULL, '2021-05-27 15:02:47', '2021-05-27 15:02:47'),
 (15, 'unpaid', '0.000', '29.598', NULL, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
-(16, 'unpaid', '0.000', '43.748', NULL, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
+(16, 'unpaid', '0.000', '43.748', NULL, '2021-05-31 23:59:59', '2021-05-31 00:33:39'),
 (17, 'cancelled', '0.000', '418.566', NULL, '2021-06-07 03:10:57', '2021-06-07 03:10:57'),
 (18, 'unpaid', '0.000', '35.598', NULL, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(19, 'paid', '1218.598', '43.053', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(19, 'paid', '43.053', '43.053', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
+(20, 'cancelled', '0.000', '82.625', NULL, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
+(21, 'paid', '21.998', '21.998', NULL, '2021-06-12 14:48:26', '2021-06-12 14:48:26');
 
 -- --------------------------------------------------------
 
@@ -447,7 +440,19 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (19, 18, 'Dash cam', '12.600'),
 (21, 19, 'Car rent', '23.998'),
 (22, 19, 'Navigation System', '4.999'),
-(25, 19, 'Amendation fees', '14.056');
+(25, 19, 'Amendation fees', '14.056'),
+(26, 20, 'Car rent', '23.998'),
+(27, 20, 'Dash cam', '12.600'),
+(28, 20, 'Navigation System', '4.999'),
+(29, 20, 'Amendation fees', '2.960'),
+(30, 20, 'Amendation fees', '5.656'),
+(31, 20, 'Amendation fees', '6.221'),
+(32, 20, 'Amendation fees', '5.643'),
+(33, 20, 'Amendation fees', '6.208'),
+(34, 20, 'Amendation fees', '6.829'),
+(35, 20, 'Amendation fees', '7.511'),
+(36, 21, 'Car rent', '11.999'),
+(37, 21, '\r\nToddler safety seat', '9.999');
 
 -- --------------------------------------------------------
 
@@ -475,7 +480,9 @@ INSERT INTO `dbproj_transaction` (`transaction_id`, `sales_invoice_id`, `user_ad
 (2, 17, 1, '1.000', NULL, NULL, 'completed', '2021-06-07 23:50:14.8977', '2021-06-07 23:50:14.8977'),
 (16, 19, 15, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:40.9806', '2021-06-08 23:53:40.9806'),
 (17, 19, 16, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:55.0293', '2021-06-08 23:53:55.0293'),
-(18, 19, 17, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:54:08.5461', '2021-06-08 23:54:08.5461');
+(18, 19, 17, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:54:08.5461', '2021-06-08 23:54:08.5461'),
+(19, 20, 18, '29.598', 'Credit-card', NULL, 'refunded', '2021-06-11 08:12:23.6056', '2021-06-11 08:12:23.6056'),
+(20, 21, 19, '21.998', 'Credit-card', NULL, 'completed', '2021-06-12 14:48:40.4122', '2021-06-12 14:48:40.4122');
 
 -- --------------------------------------------------------
 
@@ -533,7 +540,9 @@ INSERT INTO `dbproj_user_address` (`user_address_id`, `user_id`, `type`, `addres
 (1, 1, 'billing', NULL, NULL, NULL, NULL, NULL, '2021-06-07 23:50:10', '2021-06-07 23:50:10'),
 (15, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:53:40', '2021-06-08 23:53:40'),
 (16, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:53:54', '2021-06-08 23:53:54'),
-(17, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:54:08', '2021-06-08 23:54:08');
+(17, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:54:08', '2021-06-08 23:54:08'),
+(18, 1, 'billing', '11111', NULL, 'Bahrain', NULL, NULL, '2021-06-11 08:12:23', '2021-06-11 08:12:23'),
+(19, 1, 'billing', '1234', NULL, 'Bahrain', NULL, NULL, '2021-06-12 14:48:40', '2021-06-12 14:48:40');
 
 -- --------------------------------------------------------
 
@@ -572,7 +581,9 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (11, 1, 1, 98765432, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
 (12, 1, 1, 98765321, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
 (13, 1, 17, 159, '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(14, 1, 1, 35755856, '2021-06-11', '2021-06-12', 'confirmed', 1, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26');
+(14, 1, 1, 35755856, '2021-06-11', '2021-06-12', 'confirmed', 1, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
+(15, 1, 41, 27918841, '2021-06-11', '2021-06-16', 'confirmed', 0, 20, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
+(16, 1, 34, 63902707, '2021-06-12', '2021-06-12', 'confirmed', 0, 21, '2021-06-12 14:48:26', '2021-06-12 14:48:26');
 
 -- --------------------------------------------------------
 
@@ -702,7 +713,7 @@ ALTER TABLE `dbproj_user_type`
 -- AUTO_INCREMENT for table `dbproj_car`
 --
 ALTER TABLE `dbproj_car`
-  MODIFY `car_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `car_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `dbproj_car_accessory`
@@ -726,19 +737,19 @@ ALTER TABLE `dbproj_car_type`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
 --
 ALTER TABLE `dbproj_sales_invoice`
-  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
 --
 ALTER TABLE `dbproj_transaction`
-  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user`
@@ -750,13 +761,13 @@ ALTER TABLE `dbproj_user`
 -- AUTO_INCREMENT for table `dbproj_user_address`
 --
 ALTER TABLE `dbproj_user_address`
-  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
 ALTER TABLE `dbproj_user_car_reservation`
-  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_type`
