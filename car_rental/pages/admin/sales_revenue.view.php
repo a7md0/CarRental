@@ -44,9 +44,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><?= $totalAmount ?></td>
-                        <td><?= $paidAmount ?></td>
-                        <td><?= $owedAmount ?></td>
+                        <td>BD<?= $totalAmount ?></td>
+                        <td>BD<?= $paidAmount ?></td>
+                        <td>BD<?= $owedAmount ?></td>
                     </tr>
                 </tbody>
 
