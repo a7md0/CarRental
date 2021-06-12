@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2021 at 01:58 PM
+-- Generation Time: Jun 12, 2021 at 03:52 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -387,7 +387,7 @@ CREATE TABLE `dbproj_sales_invoice` (
   `grand_total` decimal(10,3) UNSIGNED DEFAULT 0.000,
   `remark` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -468,8 +468,8 @@ CREATE TABLE `dbproj_transaction` (
   `method` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remark` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('completed','refunded','declined') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime(4) NOT NULL DEFAULT current_timestamp(4),
-  `updated_at` datetime(4) NOT NULL DEFAULT current_timestamp(4)
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -477,12 +477,12 @@ CREATE TABLE `dbproj_transaction` (
 --
 
 INSERT INTO `dbproj_transaction` (`transaction_id`, `sales_invoice_id`, `user_address_id`, `amount`, `method`, `remark`, `status`, `created_at`, `updated_at`) VALUES
-(2, 17, 1, '1.000', NULL, NULL, 'completed', '2021-06-07 23:50:14.8977', '2021-06-07 23:50:14.8977'),
-(16, 19, 15, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:40.9806', '2021-06-08 23:53:40.9806'),
-(17, 19, 16, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:55.0293', '2021-06-08 23:53:55.0293'),
-(18, 19, 17, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:54:08.5461', '2021-06-08 23:54:08.5461'),
-(19, 20, 18, '29.598', 'Credit-card', NULL, 'refunded', '2021-06-11 08:12:23.6056', '2021-06-11 08:12:23.6056'),
-(20, 21, 19, '21.998', 'Credit-card', NULL, 'completed', '2021-06-12 14:48:40.4122', '2021-06-12 14:48:40.4122');
+(2, 17, 1, '1.000', NULL, NULL, 'completed', '2021-06-07 23:50:14', '2021-06-07 23:50:14'),
+(16, 19, 15, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:40', '2021-06-08 23:53:40'),
+(17, 19, 16, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:55', '2021-06-08 23:53:55'),
+(18, 19, 17, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:54:08', '2021-06-08 23:54:08'),
+(19, 20, 18, '29.598', 'Credit-card', NULL, 'refunded', '2021-06-11 08:12:23', '2021-06-11 08:12:23'),
+(20, 21, 19, '21.998', 'Credit-card', NULL, 'completed', '2021-06-12 14:48:40', '2021-06-12 14:48:40');
 
 -- --------------------------------------------------------
 
@@ -502,7 +502,7 @@ CREATE TABLE `dbproj_user` (
   `gender` enum('male','female') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -529,7 +529,7 @@ CREATE TABLE `dbproj_user_address` (
   `city` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `zip_code` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -561,7 +561,7 @@ CREATE TABLE `dbproj_user_car_reservation` (
   `is_amended` tinyint(1) NOT NULL DEFAULT 0,
   `sales_invoice_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
