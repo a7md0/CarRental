@@ -305,16 +305,9 @@ parent::setValue('car_id', $value);
     public function amend($pickupDate, $returnDate, &$error)
     {
         $user_car_reservation_id = $this->getUserCarReservationId();
-        $query = "CALL amend_reservation_dates(?, ?, ?);";
+        $query = "CALL amend_reservation_dates({$user_car_reservation_id}, {$pickupDate}, {$returnDate});";
 
-        $stmt = Database::executeStatement($query, 'iss', [$user_car_reservation_id, $pickupDate, $returnDate]);
-
-        if($stmt->errno) {
-            $error = $stmt->error;
-        }
-
-        $stmt->free_result();
-        $stmt->close();
+        Database::getInstance()->query($query);
     }
 
     /**
