@@ -267,7 +267,7 @@
         <!-- Row -->
 
         <div class="col-md-12">
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
         </div>
     </div>
 </form>
