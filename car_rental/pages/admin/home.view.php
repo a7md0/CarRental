@@ -12,7 +12,7 @@
                 <div class="col-lg-3">
                     <h2>Add new car</h2>
                     <p>Add a new car to the system and make it available for rent.</p>
-                    <p><a class="btn btn-secondary" href="?p=car">Add car &raquo;</a></p>
+                    <p><a class="btn btn-secondary" href="?p=car-form">Add car &raquo;</a></p>
                 </div>
                 <div class="col-lg-3">
                     <h2>Most popular car</h2>
