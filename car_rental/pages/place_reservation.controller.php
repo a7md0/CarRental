@@ -1,10 +1,25 @@
 <?php
 
+if (
+    !isset($_GET['pickupDate']) ||
+    !isset($_GET['returnDate']) ||
+    empty($_GET['pickupDate']) ||
+    empty($_GET['returnDate'])
+) {
+    header("Location: ?p=lookup-cars");
+    exit;
+}
 
 $pickupDate = date_create($_GET['pickupDate']);
 $returnDate = date_create($_GET['returnDate']);
 
-if (!isset($_GET['carId']) || !is_numeric($_GET['carId']) || $pickupDate === false || $returnDate === false) {
+if (
+    !isset($_GET['carId']) ||
+    !is_numeric($_GET['carId']) ||
+    $pickupDate === false ||
+    $returnDate === false ||
+    $pickupDate > $returnDate
+) {
     header("Location: ?p=lookup-cars");
     exit;
 }
@@ -17,6 +32,12 @@ $returnDateStr = date_format($returnDate, 'Y-m-d');
 $reservationDays = $pickupDate->diff($returnDate)->days + 1;
 
 $car = Car::findById($carId);
+
+if (is_null($car) || $car->isReserved($pickupDateStr, $returnDateStr)) {
+    header("Location: ?p=lookup-cars");
+    exit;
+}
+
 $carModel = $car->getCarModel();
 
 $whereAccessories = new WhereClause();
