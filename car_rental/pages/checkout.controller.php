@@ -1,6 +1,6 @@
 <?php
 
-$reservationCode = intval($_GET['reservationCode']);
+$reservationCode = $_GET['reservationCode'];
 $source = isset($_GET['from']) ? $_GET['from'] : '';
 
 $whereClause = new WhereClause();
