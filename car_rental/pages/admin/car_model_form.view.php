@@ -73,7 +73,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="year" class="form-label">Manufacture year</label>
-                                        <input type="number" class="form-control" name="year" min="1" value="<?= isset($carModel) ? $carModel->getYear() : '' ?>" required>
+                                        <input type="number" class="form-control" name="year" min="1900" value="<?= isset($carModel) ? $carModel->getYear() : '' ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

@@ -33,7 +33,7 @@ if (isset($_GET['carModelId']) && !empty($_GET['carModelId'])) {
             }
         }
     }
-} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_GET['carModelId'])) {
     $carModel = new CarModel();
 
     $carModel->setCarTypeId($_POST['car_type_id'])
