@@ -39,7 +39,7 @@ if (isset($_GET['reservationCode'])) {
                         $VALUES['errorMessage'] = $amendError;
                     } else {
                         $reservation = UserCarReservation::findOne($whereClause);
-                        $VALUES['successMessage'] = 'Your reservation have been amended successfully, ???.';
+                        $VALUES['successMessage'] = 'Your reservation have been amended successfully.';
                     }
                 } else {
                     $VALUES['errorMessage'] = "The car is not available between {$_POST['pickup_date']} and {$_POST['return_date']}";
@@ -84,7 +84,7 @@ if (isset($_GET['reservationCode'])) {
         $dueAmount = $totalAmount - $paidAmount;
 
         if ($dueAmount > 0.000 && $reservation->getStatus() != 'cancelled') {
-            $VALUES['infoMessages'][] = "You have an outstanding place of $dueAmount, please <a href=\"?p=checkout\">click here</a> to pay now.<br />";
+            $VALUES['infoMessages'][] = "You have an outstanding balance of BD$dueAmount, please <a href=\"?p=checkout&reservationCode={$reservation->getReservationCode()}\">click here</a> to pay now.<br />";
         }
 
         $VALUES['reservation'] = $reservation;
