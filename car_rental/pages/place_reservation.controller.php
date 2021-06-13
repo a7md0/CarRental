@@ -68,6 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!in_array($accessoryId, $_SESSION['place_reservation'][$carId]['picked_accessories'])) {
             $_SESSION['place_reservation'][$carId]['picked_accessories'][] = $accessoryId;
         }
+    } else if (isset($_POST['deleteAccessory']) && is_numeric($_POST['deleteAccessory'])) {
+        if (($key = array_search($_POST['deleteAccessory'], $_SESSION['place_reservation'][$carId]['picked_accessories'])) !== false) {
+            unset($_SESSION['place_reservation'][$carId]['picked_accessories'][$key]);
+        }
     } else if (isset($_POST['cancel'])) {
         unset($_SESSION['place_reservation'][$carId]);
         header("Location: ?p=lookup-cars");

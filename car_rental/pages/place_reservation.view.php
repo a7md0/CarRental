@@ -127,7 +127,7 @@
                                             </div>
                                             <div class="p-2 flex-fill align-self-center">
                                                 <h6 class="my-0"><?= $accessory->getName(); ?></h6>
-                                                <!-- <small class="text-muted">Brief description</small> -->
+                                                <small class="link-danger" style="cursor: pointer" onclick="post(window.location.href, { deleteAccessory: <?= $accessory->getCarAccessoryId() ?> })">Delete</small>
                                             </div>
                                             <div class="p-2 align-self-center">
                                                 <span class="text-muted">BD<?= $accessory->getCharge(); ?></span>
