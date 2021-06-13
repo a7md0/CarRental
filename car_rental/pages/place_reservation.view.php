@@ -151,8 +151,8 @@
                                     ?>
                                         <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
                                             <input type="hidden" name="accessory_id" value="<?= $accessory->getCarAccessoryId(); ?>" />
-                                            <div class="card card-block mx-2" style="min-width: 14rem;">
-                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" />
+                                            <div class="card card-block mx-2 text-center" style="min-width: 14rem;">
+                                                <img src="<?= $accessory->getPreviewImage(); ?>" class="card-img-top" style="object-fit: contain; max-width: 10em; max-height: 10em; margin: 0 auto;" />
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?= $accessory->getName(); ?></h5>
                                                     <p class="card-text">BD<?= $accessory->getCharge(); ?></p>
