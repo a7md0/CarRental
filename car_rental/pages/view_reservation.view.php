@@ -47,7 +47,7 @@
                 </div>
             <?php } ?>
 
-            <?php foreach ($infoMessages as $infoMessage) { ?>
+            <?php foreach ($infoMessages ?? [] as $infoMessage) { ?>
                 <div class="alert alert-info" role="alert">
                     <?= $infoMessage ?>
                 </div>
