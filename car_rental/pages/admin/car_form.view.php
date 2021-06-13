@@ -91,7 +91,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="preview_image" class="form-label">Preview image</label>
-                                        <input type="file" class="form-control" name="preview_image">
+                                        <input type="file" class="form-control" name="preview_image" accept="image/*">
                                     </div>
                                 </div>
 
