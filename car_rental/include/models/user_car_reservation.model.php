@@ -304,10 +304,61 @@ parent::setValue('car_id', $value);
      */
     public function amend($pickupDate, $returnDate, &$error)
     {
-        $user_car_reservation_id = $this->getUserCarReservationId();
-        $query = "CALL amend_reservation_dates({$user_car_reservation_id}, {$pickupDate}, {$returnDate});";
+        $ucrTblName = UserCarReservation::getTableName();
+        $carTblName = Car::getTableName();
+        $siTblName = SalesInvoice::getTableName();
 
-        Database::getInstance()->query($query);
+        $query = "SELECT UCR.`car_id`, UCR.`sales_invoice_id`, C.`daily_rent_rate`, SI.`grand_total`
+
+                        FROM `$ucrTblName` AS UCR
+
+                        INNER JOIN `$carTblName` AS C
+                            ON UCR.`car_id` = C.`car_id`
+
+                        INNER JOIN `$siTblName` AS SI
+                            ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
+
+                        WHERE UCR.`user_car_reservation_id` = ?;";
+
+        $stmt = Database::executeStatement($query, 's', [$this->getUserCarReservationId()]);
+
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $stmt->free_result();
+        $stmt->close();
+
+        $car = (new Car())->setCarId($data['car_id']);
+        if ($car->isReservedExcept($this->getUserCarReservationId(), $pickupDate, $returnDate)) {
+            $error = "Car is not available between $pickupDate and $returnDate";
+            return;
+        }
+
+        $pickupDateObj = date_create($pickupDate);
+        $returnDateObj = date_create($returnDate);
+
+        $reservationDays = $pickupDateObj->diff($returnDateObj)->days + 1;
+
+        Database::getInstance()->query( "CALL apply_amend_fees(" . $this->getSalesInvoiceId() . ");");
+        Database::getInstance()->closeConnection();
+
+        $query = "UPDATE `dbproj_user_car_reservation` AS UCR
+                    INNER JOIN `dbproj_sales_invoice_item` AS SII
+                        ON UCR.`sales_invoice_id` = SII.`sales_invoice_id` AND SII.`item` = 'Car rent'
+                    SET UCR.`pickup_date` = ?, UCR.`return_date` = ?, UCR.`is_amended` = true, SII.`price` = (? * ?)
+                    WHERE UCR.`user_car_reservation_id` = ?;";
+        $stmt = Database::executeStatement($query, 'ssids', [$pickupDate, $returnDate, $reservationDays, $data['daily_rent_rate'], $this->getUserCarReservationId()]);
+
+        $stmt->free_result();
+        $stmt->close();
+
+        $this->updateInvoice();
+    }
+
+    private function updateInvoice()
+    {
+        Database::getInstance()->query("CALL update_sales_invoice(" . $this->getSalesInvoiceId() . ");");
+        Database::getInstance()->closeConnection();
     }
 
     /**
@@ -321,7 +372,7 @@ parent::setValue('car_id', $value);
 
         $stmt = Database::executeStatement($query, 'i', [$user_car_reservation_id]);
 
-        if($stmt->errno) {
+        if ($stmt->errno) {
             $error = $stmt->error;
         }
 
