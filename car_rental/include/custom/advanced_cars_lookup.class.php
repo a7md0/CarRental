@@ -53,7 +53,7 @@ class AdvancedCarsLookup
 
         $whereCarClause
 
-         ORDER BY c.`car_id` ASC";
+         ORDER BY C.`car_id` ASC";
     }
 
     /**
