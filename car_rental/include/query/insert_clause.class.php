@@ -19,7 +19,7 @@ class InsertClause
                 continue;
             }
 
-            if ($value == null) {
+            if ($value === null) {
                 continue;
             }
 

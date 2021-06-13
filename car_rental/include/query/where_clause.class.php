@@ -89,7 +89,7 @@ class WhereClause
         $last = $this->lastPredicate();
 
         $suffix = $equal == true ? '' : 'NOT ';
-        $v = $value == null ? 'NULL' : ($value === true ? 'TRUE' : 'FALSE');
+        $v = $value === null ? 'NULL' : ($value === true ? 'TRUE' : 'FALSE');
         $col = $this->parseColumn($column);
 
         $last->predicates[] = "$col IS " . $suffix . $v;
@@ -217,7 +217,7 @@ class WhereClause
     }
 
     private function parseColumn($column) {
-        if ($this->columnPrefix == null) {
+        if ($this->columnPrefix === null) {
             return "`$column`";
         }
 

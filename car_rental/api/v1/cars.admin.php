@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     header('Content-Type: application/json');
 
-    if ($CURRENT_USER == null || ($CURRENT_USER != null && $CURRENT_USER->getUserType()->getAccessLevel() < 1)) {
-        http_response_code($CURRENT_USER == null ? 401 : 403); // Response code to be either 401 or 403
+    if ($CURRENT_USER === null || ($CURRENT_USER !== null && $CURRENT_USER->getUserType()->getAccessLevel() < 1)) {
+        http_response_code($CURRENT_USER === null ? 401 : 403); // Response code to be either 401 or 403
 
         exit('{}');
     }

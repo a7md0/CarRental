@@ -54,14 +54,14 @@ require_once 'routes/routes.php';
                         <li class="nav-item">
                             <a class="nav-link<?= $requestPage == 'lookup-cars' ? ' active' : ''; ?>" href="?p=lookup-cars">Lookup cars</a>
                         </li>
-                        <?php if ($CURRENT_USER != null) { ?>
+                        <?php if ($CURRENT_USER !== null) { ?>
                             <li class="nav-item">
                                 <a class="nav-link<?= $requestPage == 'view-reservation' ? ' active' : ''; ?>" href="?p=view-reservation">View reservation</a>
                             </li>
                         <?php } ?>
                     </ul>
                     <ul class="navbar-nav">
-                        <?php if ($CURRENT_USER == null) { ?>
+                        <?php if ($CURRENT_USER === null) { ?>
                             <li class="nav-item">
                                 <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="?p=sign-in">Sign in</a>
                             </li>

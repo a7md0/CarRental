@@ -26,7 +26,7 @@ if (isset($_GET['carId'])) {
     $carId = intval($_GET['carId']);
     $car = Car::findById($carId);
 
-    if ($car != null) {
+    if ($car !== null) {
         $isAdding = false;
         $VALUES['car'] = $car;
 

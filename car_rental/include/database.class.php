@@ -20,7 +20,7 @@ class Database extends MySQLi
      */
     public static function getInstance()
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new self(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
         }
 
@@ -51,7 +51,7 @@ class Database extends MySQLi
 
     public function closeConnection()
     {
-        if (self::$instance != null) {
+        if (self::$instance !== null) {
             parent::close();
             self::$instance = null;
         }

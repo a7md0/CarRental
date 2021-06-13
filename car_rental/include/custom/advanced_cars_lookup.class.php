@@ -89,7 +89,7 @@ class AdvancedCarsLookup
         if ($result = $stmt->get_result()) {
             $row = $result->fetch_row();
 
-            if ($row != null) {
+            if ($row !== null) {
                 $count = $row[0];
             }
         }

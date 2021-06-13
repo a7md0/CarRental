@@ -3,7 +3,7 @@
 $CUSTOM_CLASSES['main'][] = 'form-signin';
 $HIDE_FOOTER = true;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POST['email']) && isset($_POST['password'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null && isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null && isset($_POS
     $whereClause->where('email', $email);
 
     $signInUser = User::findOne($whereClause);
-    if ($signInUser != null) {
+    if ($signInUser !== null) {
         if (password_verify($password, $signInUser->getPassword())) {
             $_SESSION['user']['user_id'] = $signInUser->getUserId();
             $_SESSION['user']['user_type_id'] = $signInUser->getUserTypeId();

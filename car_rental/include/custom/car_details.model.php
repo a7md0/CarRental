@@ -227,7 +227,7 @@ class CarDetail extends Model
      */
     public function getCarModel()
     {
-        if ($this->carModel == null) {
+        if ($this->carModel === null) {
             $this->carModel = CarModel::findById($this->getCarModelId());
         }
 
@@ -254,7 +254,7 @@ class CarDetail extends Model
      */
     public function getCarType()
     {
-        if ($this->carType == null) {
+        if ($this->carType === null) {
             $this->carType = CarType::findById($this->getCarModel()->getCarTypeId());
         }
 

@@ -132,7 +132,7 @@ abstract class Model
 
         $stmt = Database::executeStatement($query, $insertTypes, $insertValues);
         $affectedRows = $stmt->affected_rows;
-        if (static::$autoIncrementKey != null) {
+        if (static::$autoIncrementKey !== null) {
             $this->values[static::$autoIncrementKey] = $stmt->insert_id;
         }
 
@@ -223,7 +223,7 @@ abstract class Model
         $whereTypes = '';
         $whereValues = [];
 
-        $limitClause = $limit == null ? '' : " LIMIT $limit";
+        $limitClause = $limit === null ? '' : " LIMIT $limit";
 
         if (isset($where) && $where->hasAny()) {
             $whereClause = ' ' . $where->getSQL();
@@ -257,7 +257,7 @@ abstract class Model
         $whereTypes = '';
         $whereValues = [];
 
-        $limitClause = $limit == null ? '' : " LIMIT $limit";
+        $limitClause = $limit === null ? '' : " LIMIT $limit";
 
         if (isset($where) && $where->hasAny()) {
             $whereClause = ' ' . $where->getSQL();
@@ -313,7 +313,7 @@ abstract class Model
 
         $model = static::findOne($whereClause);
 
-        if ($model == null) {
+        if ($model === null) {
             throw new Exception("No record is matching the provided identifiers", 404);
         }
 
@@ -456,7 +456,7 @@ abstract class Model
         if ($result = $stmt->get_result()) {
             $row = $result->fetch_assoc();
 
-            if ($row != null) {
+            if ($row !== null) {
                 $model = static::initializeFromData($row);
             }
         }

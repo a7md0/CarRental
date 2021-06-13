@@ -17,7 +17,7 @@
 
             <div class="container">
                 <div class="carousel-caption text-start">
-                    <?php if ($CURRENT_USER == null) { ?>
+                    <?php if ($CURRENT_USER === null) { ?>
                         <h1>Create new account</h1>
                         <p>Create your account today and start reserving your car immediately.</p>
                         <p><a class="btn btn-lg btn-primary" href="?p=signup">Sign up today</a></p>
@@ -36,7 +36,7 @@
 
             <div class="container">
                 <div class="carousel-caption text-end">
-                    <?php if ($CURRENT_USER == null) { ?>
+                    <?php if ($CURRENT_USER === null) { ?>
                         <h1>Lookup cars</h1>
                         <p>Start your reservation process now and pick your preferred car.</p>
                         <p><a class="btn btn-lg btn-primary" href="?p=lookup-cars">Lookup car</a></p>

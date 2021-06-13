@@ -15,7 +15,7 @@ if (isset($_GET['reservationCode'])) {
     $canCancel = false;
     $cannotCancelMessage = '';
 
-    if ($reservation != null) {
+    if ($reservation !== null) {
         $canAmend = $reservation->canAmend($cannotAmendMessage);
         $canCancel = $reservation->canCancel($cannotCancelMessage);
 

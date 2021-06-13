@@ -229,7 +229,7 @@ parent::setValue('car_id', $value);
      * @return UserType
      */
     public function getUserType() {
-        if ($this->userType == null) {
+        if ($this->userType === null) {
             $this->userType = UserType::findById($this->getUserTypeId());
         }
 

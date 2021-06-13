@@ -18,7 +18,7 @@ trait Pagination
 
     function getTotalPages()
     {
-        if ($this->totalRecords == null) {
+        if ($this->totalRecords === null) {
             $this->totalRecords = $this->count();
         }
 

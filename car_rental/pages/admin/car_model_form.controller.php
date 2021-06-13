@@ -12,7 +12,7 @@ if (isset($_GET['carModelId']) && !empty($_GET['carModelId'])) {
     $carModelId = intval($_GET['carModelId']);
     $carModel = CarModel::findById($carModelId);
 
-    if ($carModel != null) {
+    if ($carModel !== null) {
         $isAdding = false;
         $VALUES['carModel'] = $carModel;
 

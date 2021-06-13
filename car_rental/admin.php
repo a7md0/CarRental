@@ -48,7 +48,7 @@ require_once 'routes/routes.php';
                         <li class="nav-item">
                             <a class="nav-link<?= $requestPage == 'home' ? ' active' : ''; ?>" href="?p=home">Home</a>
                         </li>
-                        <?php if ($CURRENT_USER != null) { ?>
+                        <?php if ($CURRENT_USER !== null) { ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle<?= in_array($requestPage, ['cars', 'car']) ? ' active' : '' ?>" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cars</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -68,7 +68,7 @@ require_once 'routes/routes.php';
                         <?php } ?>
                     </ul>
                     <ul class="navbar-nav">
-                        <?php if ($CURRENT_USER == null) { ?>
+                        <?php if ($CURRENT_USER === null) { ?>
                             <li class="nav-item">
                                 <a class="nav-link<?= $requestPage == 'sign-in' ? ' active' : ''; ?>" href="index.php?p=sign-in">Sign in</a>
                             </li>

@@ -13,7 +13,7 @@ $paidAmount = 0.000;
 $totalAmount = 0.000;
 $successMessage = '';
 
-if ($reservation != null) {
+if ($reservation !== null) {
     if ($source == 'place-reservation') {
         $successMessage = "Your reservation #{$reservationCode} have been placed successfully. The reservation is still unconfirmed, please complete the checkout process to confirm your reservation.";
     }

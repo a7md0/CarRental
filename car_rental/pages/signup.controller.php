@@ -5,7 +5,7 @@ $HIDE_FOOTER = true;
 
 $message = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER == null) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null) {
     $first_name = $_POST['first_name']; // >2 char
     $last_name = $_POST['last_name']; // >2 char
     $email = $_POST['email']; // valid mail

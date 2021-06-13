@@ -82,7 +82,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <?php if (isset($car) && $car->getPreviewImage() != null && strlen($car->getPreviewImage()) > 0) { ?>
+                                    <?php if (isset($car) && $car->getPreviewImage() !== null && strlen($car->getPreviewImage()) > 0) { ?>
                                         <img src="<?= $car->getPreviewImage() ?>" class="card-img-top">
                                     <?php } ?>
                                 </div>
