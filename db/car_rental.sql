@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2021 at 03:09 AM
+-- Generation Time: Jun 13, 2021 at 04:05 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -351,7 +351,13 @@ INSERT INTO `dbproj_car_reservation_accessory` (`user_car_reservation_id`, `car_
 (14, 113),
 (15, 104),
 (15, 109),
-(16, 101);
+(16, 101),
+(18, 101),
+(18, 103),
+(18, 108),
+(18, 112),
+(18, 114),
+(18, 116);
 
 -- --------------------------------------------------------
 
@@ -402,7 +408,12 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (18, 'unpaid', '0.000', '35.598', NULL, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
 (19, 'paid', '43.053', '43.053', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
 (20, 'cancelled', '0.000', '82.625', NULL, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
-(21, 'paid', '21.998', '21.998', NULL, '2021-06-12 14:48:26', '2021-06-12 14:48:26');
+(21, 'paid', '21.998', '21.998', NULL, '2021-06-12 14:48:26', '2021-06-12 14:48:26'),
+(22, 'paid', '78.097', '78.097', NULL, '2021-06-13 04:15:43', '2021-06-13 04:16:04'),
+(23, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:18:24', '2021-06-13 04:18:24'),
+(24, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:19:08', '2021-06-13 04:19:08'),
+(25, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
+(26, 'paid', '12.999', '12.999', NULL, '2021-06-13 04:25:31', '2021-06-13 04:26:04');
 
 -- --------------------------------------------------------
 
@@ -452,7 +463,18 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (34, 20, 'Amendation fees', '6.829'),
 (35, 20, 'Amendation fees', '7.511'),
 (36, 21, 'Car rent', '11.999'),
-(37, 21, '\r\nToddler safety seat', '9.999');
+(37, 21, '\r\nToddler safety seat', '9.999'),
+(38, 22, 'Car rent', '11.999'),
+(39, 22, '\r\nToddler safety seat', '9.999'),
+(40, 22, 'Navigation System', '4.999'),
+(41, 22, 'Dash cam', '12.600'),
+(42, 22, 'Backup Camera', '7.300'),
+(43, 22, 'Entertainment System', '16.750'),
+(44, 22, '\r\nInfant safety seat', '14.450'),
+(45, 23, 'Car rent', '12.999'),
+(46, 24, 'Car rent', '12.999'),
+(47, 25, 'Car rent', '12.999'),
+(48, 26, 'Car rent', '12.999');
 
 -- --------------------------------------------------------
 
@@ -482,7 +504,13 @@ INSERT INTO `dbproj_transaction` (`transaction_id`, `sales_invoice_id`, `user_ad
 (17, 19, 16, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:53:55', '2021-06-08 23:53:55'),
 (18, 19, 17, '0.000', 'Credit-card', NULL, 'refunded', '2021-06-08 23:54:08', '2021-06-08 23:54:08'),
 (19, 20, 18, '29.598', 'Credit-card', NULL, 'refunded', '2021-06-11 08:12:23', '2021-06-11 08:12:23'),
-(20, 21, 19, '21.998', 'Credit-card', NULL, 'completed', '2021-06-12 14:48:40', '2021-06-12 14:48:40');
+(20, 21, 19, '21.998', 'Credit-card', NULL, 'completed', '2021-06-12 14:48:40', '2021-06-12 14:48:40'),
+(21, 22, 20, '78.097', 'Credit-card', NULL, 'completed', '2021-06-13 04:16:03', '2021-06-13 04:16:03'),
+(22, 22, 21, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:18:36', '2021-06-13 04:18:36'),
+(23, 22, 22, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:21:19', '2021-06-13 04:21:19'),
+(24, 22, 23, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:24:37', '2021-06-13 04:24:37'),
+(25, 22, 24, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
+(26, 26, 25, '12.999', 'Credit-card', NULL, 'completed', '2021-06-13 04:26:03', '2021-06-13 04:26:03');
 
 -- --------------------------------------------------------
 
@@ -542,7 +570,13 @@ INSERT INTO `dbproj_user_address` (`user_address_id`, `user_id`, `type`, `addres
 (16, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:53:54', '2021-06-08 23:53:54'),
 (17, 1, 'billing', '3123', NULL, 'Belarus', NULL, NULL, '2021-06-08 23:54:08', '2021-06-08 23:54:08'),
 (18, 1, 'billing', '11111', NULL, 'Bahrain', NULL, NULL, '2021-06-11 08:12:23', '2021-06-11 08:12:23'),
-(19, 1, 'billing', '1234', NULL, 'Bahrain', NULL, NULL, '2021-06-12 14:48:40', '2021-06-12 14:48:40');
+(19, 1, 'billing', '1234', NULL, 'Bahrain', NULL, NULL, '2021-06-12 14:48:40', '2021-06-12 14:48:40'),
+(20, 1, 'billing', 'Aaa', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:16:03', '2021-06-13 04:16:03'),
+(21, 1, 'billing', '1111114', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:18:36', '2021-06-13 04:18:36'),
+(22, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:21:19', '2021-06-13 04:21:19'),
+(23, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:24:37', '2021-06-13 04:24:37'),
+(24, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
+(25, 1, 'billing', '134', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:26:03', '2021-06-13 04:26:03');
 
 -- --------------------------------------------------------
 
@@ -554,7 +588,7 @@ CREATE TABLE `dbproj_user_car_reservation` (
   `user_car_reservation_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `car_id` int(10) UNSIGNED NOT NULL,
-  `reservation_code` int(11) NOT NULL,
+  `reservation_code` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pickup_date` date NOT NULL,
   `return_date` date NOT NULL,
   `status` enum('confirmed','unconfirmed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -569,22 +603,27 @@ CREATE TABLE `dbproj_user_car_reservation` (
 --
 
 INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`, `car_id`, `reservation_code`, `pickup_date`, `return_date`, `status`, `is_amended`, `sales_invoice_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 220, 123, '2021-05-23', '2021-05-26', 'confirmed', 0, 14, '2021-05-19 20:15:34', '2021-05-19 20:15:34'),
-(2, 1, 517, 1234, '2021-05-21', '2021-05-24', 'confirmed', 0, 14, '2021-05-19 20:15:35', '2021-05-19 20:15:35'),
-(3, 1, 517, 12345, '2021-05-28', '2021-05-30', 'confirmed', 0, 14, '2021-05-19 20:15:36', '2021-05-19 20:15:36'),
-(4, 1, 694, 123456, '2021-05-20', '2021-05-30', 'confirmed', 0, 14, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
-(5, 1, 860, 1234567, '2021-05-20', '2021-05-22', 'confirmed', 0, 14, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
-(6, 1, 860, 12345689, '2021-05-28', '2021-05-28', 'confirmed', 0, 14, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
-(7, 1, 925, 98765, '2021-05-20', '2021-05-21', 'confirmed', 0, 14, '2021-05-19 20:37:34', '2021-05-19 20:37:34'),
-(9, 1, 817, 987654, '2021-05-26', '2021-05-28', 'unconfirmed', 0, 14, '2021-05-27 15:02:48', '2021-05-27 15:02:48'),
-(10, 1, 533, 9876543, '2021-05-28', '2021-05-28', 'unconfirmed', 0, 15, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
-(11, 1, 817, 98765432, '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
-(12, 1, 817, 98765321, '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
-(13, 1, 152, 159, '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
-(14, 1, 817, 35755856, '2021-06-11', '2021-06-12', 'confirmed', 1, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
-(15, 1, 189, 27918841, '2021-06-11', '2021-06-16', 'confirmed', 0, 20, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
-(16, 1, 188, 63902707, '2021-06-15', '2021-06-15', 'confirmed', 0, 21, '2021-06-12 14:48:26', '2021-06-12 18:41:53'),
-(17, 1, 188, 2485634, '2021-06-20', '2021-06-22', 'confirmed', 0, 14, '2021-06-12 18:42:17', '2021-06-12 18:42:26');
+(1, 1, 220, '123', '2021-05-23', '2021-05-26', 'confirmed', 0, 14, '2021-05-19 20:15:34', '2021-05-19 20:15:34'),
+(2, 1, 517, '1234', '2021-05-21', '2021-05-24', 'confirmed', 0, 14, '2021-05-19 20:15:35', '2021-05-19 20:15:35'),
+(3, 1, 517, '12345', '2021-05-28', '2021-05-30', 'confirmed', 0, 14, '2021-05-19 20:15:36', '2021-05-19 20:15:36'),
+(4, 1, 694, '123456', '2021-05-20', '2021-05-30', 'confirmed', 0, 14, '2021-05-19 20:15:37', '2021-05-19 20:15:37'),
+(5, 1, 860, '1234567', '2021-05-20', '2021-05-22', 'confirmed', 0, 14, '2021-05-19 20:15:38', '2021-05-19 20:15:38'),
+(6, 1, 860, '12345689', '2021-05-28', '2021-05-28', 'confirmed', 0, 14, '2021-05-19 20:15:45', '2021-05-19 20:15:45'),
+(7, 1, 925, '98765', '2021-05-20', '2021-05-21', 'confirmed', 0, 14, '2021-05-19 20:37:34', '2021-05-19 20:37:34'),
+(9, 1, 817, '987654', '2021-05-26', '2021-05-28', 'unconfirmed', 0, 14, '2021-05-27 15:02:48', '2021-05-27 15:02:48'),
+(10, 1, 533, '9876543', '2021-05-28', '2021-05-28', 'unconfirmed', 0, 15, '2021-05-28 12:52:21', '2021-05-28 12:52:21'),
+(11, 1, 817, '98765432', '2021-06-05', '2021-06-05', 'unconfirmed', 0, 16, '2021-05-31 00:33:39', '2021-05-31 00:33:39'),
+(12, 1, 817, '98765321', '2021-06-09', '2021-07-10', 'cancelled', 0, 17, '2021-06-07 03:10:58', '2021-06-07 03:10:58'),
+(13, 1, 152, '159', '2021-07-01', '2021-07-01', 'unconfirmed', 1, 18, '2021-06-08 02:01:18', '2021-06-08 02:01:18'),
+(14, 1, 817, '35755856', '2021-06-11', '2021-06-12', 'confirmed', 1, 19, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
+(15, 1, 189, '27918841', '2021-06-11', '2021-06-16', 'confirmed', 0, 20, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
+(16, 1, 188, '63902707', '2021-06-15', '2021-06-15', 'confirmed', 0, 21, '2021-06-12 14:48:26', '2021-06-12 18:41:53'),
+(17, 1, 188, '2485634', '2021-06-20', '2021-06-22', 'confirmed', 0, 14, '2021-06-12 18:42:17', '2021-06-12 18:42:26'),
+(18, 1, 4, '60', '2021-06-13', '2021-06-13', 'confirmed', 0, 22, '2021-06-13 04:15:43', '2021-06-13 04:15:43'),
+(19, 1, 80, '60c55ce10440f', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 23, '2021-06-13 04:18:25', '2021-06-13 04:18:25'),
+(20, 1, 80, '60c55d0d1200d', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 24, '2021-06-13 04:19:09', '2021-06-13 04:19:09'),
+(21, 1, 80, '60c55e6752a57', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 25, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
+(22, 1, 80, '60c55e8bafc83', '2021-06-13', '2021-06-13', 'confirmed', 0, 26, '2021-06-13 04:25:31', '2021-06-13 04:25:31');
 
 -- --------------------------------------------------------
 
@@ -738,19 +777,19 @@ ALTER TABLE `dbproj_car_type`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
 --
 ALTER TABLE `dbproj_sales_invoice`
-  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
 --
 ALTER TABLE `dbproj_transaction`
-  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user`
@@ -762,13 +801,13 @@ ALTER TABLE `dbproj_user`
 -- AUTO_INCREMENT for table `dbproj_user_address`
 --
 ALTER TABLE `dbproj_user_address`
-  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
 ALTER TABLE `dbproj_user_car_reservation`
-  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_type`
