@@ -250,6 +250,11 @@ parent::setValue('car_id', $value);
             return false;
         }
 
+        if ($this->getStatus() == 'cancelled') {
+            $why = 'Already cancelled';
+            return false;
+        }
+
         $now = new DateTime();
         $pickupDate = date_create($this->getPickupDate());
 
