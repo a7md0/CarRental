@@ -15,7 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null) {
     $phone = $_POST['phone']; // 8 digits
     $gender = $_POST['gender']; // Male or female
 
-    // TODO: Input validations
+    $requiredFields = ['first_name', 'last_name', 'email', 'password', 'cpr', 'nationality', 'phone', 'gender'];
+    foreach ($requiredFields as $requiredField) {
+        if (!isset($_POST[$requiredField]) || empty($_POST[$requiredField])) {
+            $encodedMessage = urlencode("$requiredField is required.");
+            header("Location: ?p=signup&errorMessage={$encodedMessage}");
+            exit;
+        }
+    }
 
     // TODO: Validate email is not already existing
 
@@ -23,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null) {
 
     $user = new User();
     $user->setUserTypeId(1)
-            ->setFirstName($first_name)
-            ->setLastName($last_name)
-            ->setEmail($email)
-            ->setPassword($hashed_password)
-            ->setCpr($cpr)
-            ->setNationality($nationality)
-            ->setPhone($phone)
-            ->setGender($gender);
+        ->setFirstName($first_name)
+        ->setLastName($last_name)
+        ->setEmail($email)
+        ->setPassword($hashed_password)
+        ->setCpr($cpr)
+        ->setNationality($nationality)
+        ->setPhone($phone)
+        ->setGender($gender);
 
     if ($user->insert()) {
         $_SESSION['user']['user_id'] = $user->getUserId();
@@ -39,7 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null) {
         header('Location: ?p=home');
         exit;
     } else {
-        $message .= "Failed to register, please contact the support.";
+        $encodedMessage = urlencode("Failed to register, please contact the support.");
+        header("Location: ?p=signup&errorMessage={$encodedMessage}");
+        exit;
     }
 }
 

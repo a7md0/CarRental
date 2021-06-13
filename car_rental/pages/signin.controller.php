@@ -7,6 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null && isset($_PO
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $requiredFields = ['email', 'password'];
+    foreach ($requiredFields as $requiredField) {
+        if (!isset($_POST[$requiredField]) || empty($_POST[$requiredField])) {
+            $encodedMessage = urlencode("$requiredField is required.");
+            header("Location: ?p=sign-in&errorMessage={$encodedMessage}");
+            exit;
+        }
+    }
+
     $whereClause = new WhereClause();
     $whereClause->where('email', $email);
 
@@ -19,12 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null && isset($_PO
             header("Location: ?p=home");
             exit;
         } else {
-            echo 'The provided password is incorrect.';
             http_response_code(401);
+
+            $encodedMessage = urlencode("The provided password is incorrect.");
+            header("Location: ?p=sign-in&errorMessage={$encodedMessage}");
+            exit;
         }
     } else {
-        echo 'No user was found matching this email address.';
         http_response_code(401);
+
+        $encodedMessage = urlencode("No user was found matching this email address.");
+        header("Location: ?p=sign-in&errorMessage={$encodedMessage}");
+        exit;
     }
 }
 

@@ -1,6 +1,11 @@
 <form method="POST" class="text-center">
     <h1 class="h3 mb-3 fw-normal">Create new account</h1>
 
+    <?php if (isset($_GET['errorMessage']) && strlen($_GET['errorMessage']) > 0) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?= urldecode($_GET['errorMessage']) ?>
+        </div>
+    <?php } ?>
     <div class="row g-3">
         <div class="col-6">
             <label for="firstName" class="form-label">First name</label>
