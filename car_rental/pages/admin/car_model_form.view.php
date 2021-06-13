@@ -38,7 +38,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-4">
                                     <label for="exampleDataList" class="form-label">Car model</label>
-                                    <select class="form-select" name="car_model_id" onchange="submit_get({ carModelId: this.value })" required>
+                                    <select class="form-select" name="car_model_id" onchange="submit_get({ carModelId: this.value })">
                                         <option value="">Add new model</option>
                                         <?php foreach ($carModels as $cm) { ?>
                                             <option value="<?= $cm->getCarModelId() ?>" <?= isset($carModel) && $cm->getCarModelId() == $carModel->getCarModelId() ? ' selected' : '' ?>><?= $cm->getFullDisplayName() ?></option>
