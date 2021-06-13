@@ -16,7 +16,7 @@ class SetClause
                 continue;
             }
 
-            if ($value == null) {
+            if ($value === null) {
                 $this->predicates[] = "`$column` = NULL";
             } else {
                 $this->predicates[] = "`$column` = ?";
