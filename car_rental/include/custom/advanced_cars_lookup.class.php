@@ -51,7 +51,9 @@ class AdvancedCarsLookup
         INNER JOIN `$carTypeTblName` AS CT
             ON CM.`car_type_id` = CT.`car_type_id`
 
-        $whereCarClause";
+        $whereCarClause
+
+         ORDER BY c.`car_id` ASC";
     }
 
     /**
