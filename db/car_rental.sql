@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2021 at 04:05 AM
+-- Generation Time: Jun 13, 2021 at 05:37 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -26,9 +26,7 @@ DELIMITER $$
 -- Procedures
 --
 CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGNED, IN `pickupDate` DATE, IN `returnDate` DATE)  BEGIN
-	DECLARE carReservationFee DECIMAL(10, 3);
-    
-	START TRANSACTION;
+    DECLARE carReservationFee DECIMAL(10, 3);
     
     SELECT @carId:=UCR.`car_id`,
             @salesInvoiceId:=UCR.`sales_invoice_id`,
@@ -62,34 +60,25 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
 		WHERE UCR.`user_car_reservation_id` = userCarReservationId;
 	
     CALL update_sales_invoice(@salesInvoiceId);
-    
-	COMMIT;
 END$$
 
 CREATE DEFINER=`u201700099`@`%` PROCEDURE `cancel_reservation` (IN `user_car_reservation_id` INT UNSIGNED)  BEGIN
-	DECLARE sales_invoice_id INT UNSIGNED;
-    
-    START TRANSACTION;
+    DECLARE sales_invoice_id INT UNSIGNED;
     
     UPDATE `dbproj_user_car_reservation` AS UCR
     
-	INNER JOIN `dbproj_sales_invoice` AS SI
-		ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
-	LEFT JOIN `dbproj_transaction` AS T
-		ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
-		AND T.`status` = 'completed'
-		
-	SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.paid_amount = 0.000, T.`status` = 'refunded'
+		INNER JOIN `dbproj_sales_invoice` AS SI
+			ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
+		LEFT JOIN `dbproj_transaction` AS T
+			ON UCR.`sales_invoice_id` = T.`sales_invoice_id`
+			AND T.`status` = 'completed'
+			
+		SET UCR.`status` = 'cancelled', SI.`status` = 'cancelled', SI.paid_amount = 0.000, T.`status` = 'refunded'
 
-	WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
-    
-    
-    COMMIT;
+		WHERE UCR.`user_car_reservation_id` = user_car_reservation_id;
 END$$
 
 CREATE DEFINER=`u201700099`@`%` PROCEDURE `update_sales_invoice` (IN `salesInvoiceId` INT UNSIGNED)  BEGIN
-	START TRANSACTION;
-    
     SELECT @totalAmount:=COALESCE(SUM(SII.`price`), 0), @paidAmount:=SI.`paid_amount`
     FROM `dbproj_sales_invoice` AS SI
 		INNER JOIN `dbproj_sales_invoice_item` AS SII
@@ -97,10 +86,8 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `update_sales_invoice` (IN `salesInvoi
 		WHERE SI.`sales_invoice_id` = salesInvoiceId;
     
     UPDATE `dbproj_sales_invoice`
-		SET `grand_total` = @totalAmount, `status` = if(@paidAmount >= @totalAmount, 'paid', 'unpaid')
+		SET `grand_total` = @totalAmount, `status` = if(@paidAmount >= @totalAmount, 'paid', 'unpaid'), `paid_amount` = if(@paidAmount > @totalAmount, @totalAmount, @paidAmount)
 		WHERE `sales_invoice_id` = salesInvoiceId;
-    
-    COMMIT;
 END$$
 
 --
@@ -357,7 +344,8 @@ INSERT INTO `dbproj_car_reservation_accessory` (`user_car_reservation_id`, `car_
 (18, 108),
 (18, 112),
 (18, 114),
-(18, 116);
+(18, 116),
+(23, 107);
 
 -- --------------------------------------------------------
 
@@ -413,7 +401,8 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (23, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:18:24', '2021-06-13 04:18:24'),
 (24, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:19:08', '2021-06-13 04:19:08'),
 (25, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
-(26, 'paid', '12.999', '12.999', NULL, '2021-06-13 04:25:31', '2021-06-13 04:26:04');
+(26, 'paid', '12.999', '12.999', NULL, '2021-06-13 04:25:31', '2021-06-13 04:26:04'),
+(27, 'paid', '36.702', '36.702', NULL, '2021-06-13 05:13:33', '2021-06-13 05:30:56');
 
 -- --------------------------------------------------------
 
@@ -474,7 +463,12 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (45, 23, 'Car rent', '12.999'),
 (46, 24, 'Car rent', '12.999'),
 (47, 25, 'Car rent', '12.999'),
-(48, 26, 'Car rent', '12.999');
+(48, 26, 'Car rent', '12.999'),
+(49, 27, 'Car rent', '11.999'),
+(50, 27, 'Dash cam', '12.600'),
+(51, 27, 'Amendation fees', '2.460'),
+(52, 27, 'Amendation fees', '6.306'),
+(53, 27, 'Amendation fees', '3.337');
 
 -- --------------------------------------------------------
 
@@ -510,7 +504,9 @@ INSERT INTO `dbproj_transaction` (`transaction_id`, `sales_invoice_id`, `user_ad
 (23, 22, 22, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:21:19', '2021-06-13 04:21:19'),
 (24, 22, 23, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:24:37', '2021-06-13 04:24:37'),
 (25, 22, 24, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
-(26, 26, 25, '12.999', 'Credit-card', NULL, 'completed', '2021-06-13 04:26:03', '2021-06-13 04:26:03');
+(26, 26, 25, '12.999', 'Credit-card', NULL, 'completed', '2021-06-13 04:26:03', '2021-06-13 04:26:03'),
+(27, 27, 26, '24.599', 'Credit-card', NULL, 'completed', '2021-06-13 05:24:57', '2021-06-13 05:24:57'),
+(28, 27, 27, '38.457', 'Credit-card', NULL, 'completed', '2021-06-13 05:28:21', '2021-06-13 05:28:21');
 
 -- --------------------------------------------------------
 
@@ -576,7 +572,9 @@ INSERT INTO `dbproj_user_address` (`user_address_id`, `user_id`, `type`, `addres
 (22, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:21:19', '2021-06-13 04:21:19'),
 (23, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:24:37', '2021-06-13 04:24:37'),
 (24, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
-(25, 1, 'billing', '134', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:26:03', '2021-06-13 04:26:03');
+(25, 1, 'billing', '134', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:26:03', '2021-06-13 04:26:03'),
+(26, 1, 'billing', '1111111111111111111', NULL, 'Bahrain', NULL, NULL, '2021-06-13 05:24:57', '2021-06-13 05:24:57'),
+(27, 1, 'billing', 'aaaa', NULL, 'Bahrain', NULL, NULL, '2021-06-13 05:28:21', '2021-06-13 05:28:21');
 
 -- --------------------------------------------------------
 
@@ -623,7 +621,8 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (19, 1, 80, '60c55ce10440f', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 23, '2021-06-13 04:18:25', '2021-06-13 04:18:25'),
 (20, 1, 80, '60c55d0d1200d', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 24, '2021-06-13 04:19:09', '2021-06-13 04:19:09'),
 (21, 1, 80, '60c55e6752a57', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 25, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
-(22, 1, 80, '60c55e8bafc83', '2021-06-13', '2021-06-13', 'confirmed', 0, 26, '2021-06-13 04:25:31', '2021-06-13 04:25:31');
+(22, 1, 80, '60c55e8bafc83', '2021-06-13', '2021-06-13', 'confirmed', 0, 26, '2021-06-13 04:25:31', '2021-06-13 04:25:31'),
+(23, 1, 75, '60c569cd396c9', '2021-06-16', '2021-06-16', 'confirmed', 1, 27, '2021-06-13 05:13:33', '2021-06-13 05:30:56');
 
 -- --------------------------------------------------------
 
@@ -777,19 +776,19 @@ ALTER TABLE `dbproj_car_type`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
 --
 ALTER TABLE `dbproj_sales_invoice`
-  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
 --
 ALTER TABLE `dbproj_transaction`
-  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user`
@@ -801,13 +800,13 @@ ALTER TABLE `dbproj_user`
 -- AUTO_INCREMENT for table `dbproj_user_address`
 --
 ALTER TABLE `dbproj_user_address`
-  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
 ALTER TABLE `dbproj_user_car_reservation`
-  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_type`
