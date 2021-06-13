@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         SalesInvoiceItem::insertMany($salesInvoiceItems);
 
         // TODO: Create new user_car_reservation (unconfirmed)
-        $reservationCode = rand(12345678, 99999999);
+        $reservationCode = uniqid();
 
         $userCarReservation = new UserCarReservation();
         $userCarReservation->setUserId($_SESSION['user']['user_id'])
