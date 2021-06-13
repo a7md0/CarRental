@@ -47,6 +47,12 @@
                 </div>
             <?php } ?>
 
+            <?php foreach ($infoMessages as $infoMessage) { ?>
+                <div class="alert alert-info" role="alert">
+                    <?= $infoMessage ?>
+                </div>
+            <?php } ?>
+
             <?php if (isset($reservation)) { ?>
                 <div class="card">
                     <article class="card-group-item">

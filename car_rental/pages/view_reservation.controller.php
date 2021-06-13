@@ -58,6 +58,14 @@ if (isset($_GET['reservationCode'])) {
             }
         }
 
+        if ($reservation->getStatus() == 'unconfirmed') {
+            $VALUES['infoMessages'][] = "This reservation is unconfirmed, make sure to pay the outstanding balance to confirm it.<br />";
+        }
+
+        if ($reservation->getStatus() == 'cancelled') {
+            $VALUES['infoMessages'][] = "This reservation is cancelled.<br />";
+        }
+
         $carDetails = CarDetail::findById($reservation->getCarId());
 
         $salesInvoice = SalesInvoice::findById($reservation->getSalesInvoiceId());
@@ -74,6 +82,10 @@ if (isset($_GET['reservationCode'])) {
         $paidAmount = $salesInvoice->getPaidAmount();
         $totalAmount = $salesInvoice->getGrandTotal();
         $dueAmount = $totalAmount - $paidAmount;
+
+        if ($dueAmount > 0.000 && $reservation->getStatus() != 'cancelled') {
+            $VALUES['infoMessages'][] = "You have an outstanding place of $dueAmount, please <a href=\"?p=checkout\">click here</a> to pay now.<br />";
+        }
 
         $VALUES['reservation'] = $reservation;
         $VALUES['carDetails'] = $carDetails;
