@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @var User $CURRENT_USER
+ */
+
 if (
     !isset($_GET['pickupDate']) ||
     !isset($_GET['returnDate']) ||
@@ -144,6 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             CarReservationAccessory::insertMany($carReservationAccessories);
         }
 
+        $to = $CURRENT_USER->getEmail(); // Get current user email address
+        $subject = "New reservation placed | " . $reservationCode;
+        $body = "Your new reservation has been placed. You could view/amend/cancel your reservation using the code " . $reservationCode;
+
+        mail($to, $subject, $body); // Send email to the user
+
         // TODO: Redirect to confirm reservation page
         header("Location: ?p=checkout&reservationCode={$userCarReservation->getReservationCode()}&from=place-reservation");
         exit;
@@ -166,7 +176,3 @@ $VALUES += [
     'cartItems' => $cartItems,
     'cartTotal' => $cartTotal,
 ];
-
-// var_dump($accessories);
-// var_dump($pickedAccessories);
-// var_dump($availableAccessories);
