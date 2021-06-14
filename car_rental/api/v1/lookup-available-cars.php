@@ -4,12 +4,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once '../../include/env.php';
     require_once '../../include/auto_loader.php';
 
+    require_once '../../include/authentication.php';
+
+
     /**
      * @param Car[] $car
      * @return string
      */
     function generateCarsTemplate($cars)
     {
+        /** @param User|null $CURRENT_USER  */
+        global $CURRENT_USER;
         $cards = '';
 
         /** @var Car */
@@ -18,9 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <img src="' . $car->getPreviewImage() . '" loading="lazy" class="card-img-top car-img" alt="' . $car->getCarModel()->getFullDisplayName() . ' Image">
             <div class="card-body text-center">
                 <h5 class="card-title">' . $car->getCarModel()->getFullDisplayName() . '</h5>
-                <p class="card-subtitle">BD' . $car->getDailyRentRate() . ' | ' . $car->getColor() . ' </p>
-                <a href="javascript:void(0)" class="btn btn-primary reserve-car-btn" data-car-id="' . $car->getCarId() . '">Reserve</a>
-            </div>
+                <p class="card-subtitle">BD' . $car->getDailyRentRate() . ' | ' . $car->getColor() . ' </p>';
+
+            if (!isset($CURRENT_USER) || $CURRENT_USER === null) {
+                $cards .= '<a href="?p=signup" class="btn btn-primary">Signup to continue</a>';
+            } else {
+                $cards .= '<a href="javascript:void(0)" class="btn btn-primary reserve-car-btn" data-car-id="' . $car->getCarId() . '">Reserve</a>';
+            }
+
+            $cards .= '</div>
             </div>';
         }
 
