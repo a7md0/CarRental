@@ -12,7 +12,7 @@ function handleUpload(Car $c)
 
             $c->setPreviewImage($file->getPath());
         } catch (Exception $ex) {
-            echo '<script>alert('.$ex->getMessage().');</script>';
+            echo '<script>alert(' . $ex->getMessage() . ');</script>';
         }
     }
 }
@@ -30,42 +30,69 @@ if (isset($_GET['carId'])) {
         $VALUES['car'] = $car;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // TODO: Validate inputs
+            // Validate inputs
+            $valid = true;
 
-            handleUpload($car);
+            $requiredFields = ['car_model_id', 'license_plate', 'color', 'daily_rent_fees', 'status'];
+            foreach ($requiredFields as $requiredField) {
+                if (!isset($_POST[$requiredField]) || empty($_POST[$requiredField])) {
+                    $VALUES['errorMessage'] = "$requiredField is required.";
+                    $valid = false;
+                    break;
+                }
+            }
 
-            $car->setCarModelId($_POST['car_model_id'])
-                ->setLicensePlate($_POST['license_plate'])
-                ->setVehicleIdentificationNumber($_POST['vin'])
-                ->setColor($_POST['color'])
-                ->setDailyRentRate($_POST['daily_rent_fees'])
-                ->setStatus($_POST['status']);
+            if ($valid) {
+                handleUpload($car);
 
-            if ($car->update()) {
-                header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20updated%20successfully");
-                exit;
-            } else {
-                $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
+                $car->setCarModelId($_POST['car_model_id'])
+                    ->setLicensePlate($_POST['license_plate'])
+                    ->setVehicleIdentificationNumber($_POST['vin'])
+                    ->setColor($_POST['color'])
+                    ->setDailyRentRate($_POST['daily_rent_fees'])
+                    ->setStatus($_POST['status']);
+
+                if ($car->update()) {
+                    header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20updated%20successfully");
+                    exit;
+                } else {
+                    $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
+                }
             }
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $car = new Car();
 
-    handleUpload($car);
+    // Validate inputs
+    $valid = true;
 
-    $car->setCarModelId($_POST['car_model_id'])
-        ->setLicensePlate($_POST['license_plate'])
-        ->setVehicleIdentificationNumber($_POST['vin'])
-        ->setColor($_POST['color'])
-        ->setDailyRentRate($_POST['daily_rent_fees'])
-        ->setStatus($_POST['status']);
+    $requiredFields = ['car_model_id', 'license_plate', 'color', 'daily_rent_fees', 'status'];
+    foreach ($requiredFields as $requiredField) {
+        if (!isset($_POST[$requiredField]) || empty($_POST[$requiredField])) {
+            $VALUES['errorMessage'] = "$requiredField is required.";
+            $valid = false;
+            break;
+        }
+    }
 
-    if ($car->insert()) {
-        header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20added%20successfully");
-        exit;
-    } else {
-        $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
+    if ($valid) {
+        handleUpload($car);
+
+        $car->setCarModelId($_POST['car_model_id'])
+            ->setLicensePlate($_POST['license_plate'])
+            ->setVehicleIdentificationNumber($_POST['vin'])
+            ->setColor($_POST['color'])
+            ->setDailyRentRate($_POST['daily_rent_fees'])
+            ->setStatus($_POST['status']);
+
+
+        if ($car->insert()) {
+            header("Location: ?p=car-form&carId={$car->getCarId()}&successMessage=The%20car%20details%20have%20been%20added%20successfully");
+            exit;
+        } else {
+            $VALUES['errorMessage'] = 'Failed to update the car details, please contact the technical support.';
+        }
     }
 }
 
