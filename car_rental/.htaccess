@@ -1,0 +1,3 @@
+ErrorDocument 401 /~u201700099/car_rental/index.php?p=401
+ErrorDocument 403 /~u201700099/car_rental/index.php?p=401
+ErrorDocument 404 /~u201700099/car_rental/index.php?p=401
