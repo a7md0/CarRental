@@ -29,6 +29,12 @@
 
         background-color: white;
     }
+
+    img.car-img {
+        max-width: 286px;
+        max-height: 130px;
+        object-fit: contain;
+    }
 </style>
 
 <div class="container-fluid">
