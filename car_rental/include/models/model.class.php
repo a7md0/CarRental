@@ -231,7 +231,7 @@ abstract class Model
             $whereValues = $where->getValues();
         }
 
-        $query = "UPDATE `$tblName`$setClause$whereClause$limitClause;"; // TODO: Set clause
+        $query = "UPDATE `$tblName`$setClause$whereClause$limitClause;";
 
         $stmt = Database::executeStatement($query, $setTypes . $whereTypes, array_merge($setValues, $whereValues));
         $affectedRows = $stmt->affected_rows;
@@ -265,7 +265,7 @@ abstract class Model
             $whereValues = $where->getValues();
         }
 
-        $query = "DELETE FROM `$tblName`$whereClause$limitClause;"; // TODO: Set clause
+        $query = "DELETE FROM `$tblName`$whereClause$limitClause;";
 
         $stmt = Database::executeStatement($query, $whereTypes, $whereValues);
         $affectedRows = $stmt->affected_rows;
