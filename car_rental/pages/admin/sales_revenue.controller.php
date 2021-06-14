@@ -22,8 +22,8 @@ list($paidAmount, $totalAmount) = SalesInvoice::aggregateValues(['SUM' => ['paid
 $owedAmount = $totalAmount - $paidAmount;
 
 /***** Pass values to the view *****/
-$VALUES['paidAmount'] = $paidAmount;
-$VALUES['totalAmount'] = $totalAmount;
+$VALUES['paidAmount'] = $paidAmount ?? 0;
+$VALUES['totalAmount'] = $totalAmount ?? 0;
 $VALUES['owedAmount'] = $owedAmount;
 $VALUES['from'] = $from;
 $VALUES['to'] = $to;
