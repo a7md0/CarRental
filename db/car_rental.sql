@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2021 at 11:49 AM
+-- Generation Time: Jun 14, 2021 at 12:12 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -423,8 +423,8 @@ CREATE TABLE `dbproj_user` (
 --
 
 INSERT INTO `dbproj_user` (`user_id`, `user_type_id`, `first_name`, `last_name`, `email`, `password`, `cpr`, `nationality`, `gender`, `phone`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Ahmed', 'Naser', 'a7m3d699@gmail.com', '$2y$10$szCP.rJmBHYlN5KJ.dQR4uauAdbdTNReCI5tjoe7AkUcJ7dC5PhlC', '999999999', 'bahraini', 'male', NULL, '2021-05-19 20:14:09', '2021-06-14 06:01:15'),
-(2, 1, 'Ali', 'Ahmed', 'admin@csr.local', '$2y$10$szCP.rJmBHYlN5KJ.dQR4uauAdbdTNReCI5tjoe7AkUcJ7dC5PhlC', '999999999', 'bahraini', 'male', '33333333', '2021-05-22 19:22:14', '2021-06-14 06:01:11');
+(1, 2, 'Ahmed', 'Naser', 'admin@csr.local', '$2y$10$szCP.rJmBHYlN5KJ.dQR4uauAdbdTNReCI5tjoe7AkUcJ7dC5PhlC', '999999999', 'bahraini', 'male', NULL, '2021-05-19 20:14:09', '2021-06-14 13:11:16'),
+(2, 1, 'Ali', 'Ahmed', 'ali@csr.local', '$2y$10$szCP.rJmBHYlN5KJ.dQR4uauAdbdTNReCI5tjoe7AkUcJ7dC5PhlC', '999999999', 'bahraini', 'male', '33333333', '2021-05-22 19:22:14', '2021-06-14 13:11:29');
 
 -- --------------------------------------------------------
 
