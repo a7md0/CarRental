@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $salesInvoice->setStatus('unpaid')->setPaidAmount(0)->setGrandTotal($cartTotal);
         $salesInvoice->insert();
 
-        // TODO: Create sales invoice items
+        // Create sales invoice items
         $salesInvoiceItems = [];
 
         foreach ($cartItems as $item) {

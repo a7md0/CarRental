@@ -119,7 +119,6 @@
             </div>
 
             <div class="col-md-9">
-                <!-- TODO: document.querySelectorAll('a[class="page-link"][data-page-link="1"]'); -->
                 <nav aria-label="Page navigation example">
                     <ul id="pagination" class="pagination justify-content-end">
                     </ul>

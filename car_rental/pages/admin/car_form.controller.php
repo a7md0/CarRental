@@ -12,8 +12,7 @@ function handleUpload(Car $c)
 
             $c->setPreviewImage($file->getPath());
         } catch (Exception $ex) {
-            // echo $ex->getMessage();
-            // TODO: Show upload image error
+            echo '<script>alert('.$ex->getMessage().');</script>';
         }
     }
 }

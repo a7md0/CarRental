@@ -15,7 +15,7 @@ class InsertClause
     public function __construct(array $data, $autoIncrementKey)
     {
         foreach ($data as $column => $value) {
-            if ($column == $autoIncrementKey) { // TODO: Would cause issue with two pfk
+            if ($column == $autoIncrementKey) {
                 continue;
             }
 
