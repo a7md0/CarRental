@@ -37,7 +37,7 @@ $reservationDays = $pickupDate->diff($returnDate)->days + 1;
 
 $car = Car::findById($carId);
 
-if (is_null($car) || $car->isReserved($pickupDateStr, $returnDateStr)) {
+if (is_null($car) || $car->isReserved($pickupDateStr, $returnDateStr)) { // Check if var is available between pickup&return dates
     header("Location: ?p=lookup-cars");
     exit;
 }
@@ -97,9 +97,7 @@ $availableAccessories = array_diff_key($accessories, $pickedAccessories);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['place_reservation'])) {
-        // TODO: Check if var is available between pickup&return dates
-
-        // TODO: Create sales invoice (unpaid)
+        // Create sales invoice (unpaid)
         $salesInvoice = new SalesInvoice();
         $salesInvoice->setStatus('unpaid')->setPaidAmount(0)->setGrandTotal($cartTotal);
         $salesInvoice->insert();
@@ -118,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         SalesInvoiceItem::insertMany($salesInvoiceItems);
 
-        // TODO: Create new user_car_reservation (unconfirmed)
+        // Create new user_car_reservation (unconfirmed)
         $reservationCode = uniqid();
 
         $userCarReservation = new UserCarReservation();
@@ -133,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userCarReservation->insert();
 
 
-        // TODO: Create new car_reservation_accessory
+        // Create new car_reservation_accessory
         $carReservationAccessories = [];
 
         foreach ($pickedAccessories as $pickedAccessory) {
@@ -154,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         mail($to, $subject, $body); // Send email to the user
 
-        // TODO: Redirect to confirm reservation page
+        // Redirect to confirm reservation page
         header("Location: ?p=checkout&reservationCode={$userCarReservation->getReservationCode()}&from=place-reservation");
         exit;
     }
