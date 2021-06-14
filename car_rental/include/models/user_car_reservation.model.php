@@ -302,7 +302,7 @@ parent::setValue('car_id', $value);
      * @param string $pickupDate
      * @param string $returnDate
      */
-    public function amend($pickupDate, $returnDate, &$error)
+    public function amend($pickupDate, $returnDate, &$error = null)
     {
         $ucrTblName = UserCarReservation::getTableName();
         $carTblName = Car::getTableName();
@@ -365,18 +365,9 @@ parent::setValue('car_id', $value);
      * Cancel reservation
      *
      */
-    public function cancel(&$error)
+    public function cancel(&$error = null)
     {
-        $user_car_reservation_id = $this->getUserCarReservationId();
-        $query = "CALL cancel_reservation(?);"; // TODO: Set clause
-
-        $stmt = Database::executeStatement($query, 'i', [$user_car_reservation_id]);
-
-        if ($stmt->errno) {
-            $error = $stmt->error;
-        }
-
-        $stmt->free_result();
-        $stmt->close();
+        Database::getInstance()->query("CALL cancel_reservation(" . $this->getUserCarReservationId() . ");");
+        Database::getInstance()->closeConnection();
     }
 }
