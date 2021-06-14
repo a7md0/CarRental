@@ -102,6 +102,8 @@ parent::setValue('car_id', $value);
 
     /**
      * Get the value of email
+     *
+     * @return string
      */
     public function getEmail()
     {
