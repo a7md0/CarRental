@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2021 at 05:37 AM
+-- Generation Time: Jun 14, 2021 at 02:30 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -26,8 +26,6 @@ DELIMITER $$
 -- Procedures
 --
 CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCarReservationId` INT UNSIGNED, IN `pickupDate` DATE, IN `returnDate` DATE)  BEGIN
-    DECLARE carReservationFee DECIMAL(10, 3);
-    
     SELECT @carId:=UCR.`car_id`,
             @salesInvoiceId:=UCR.`sales_invoice_id`,
             @dailyRentRate:=C.`daily_rent_rate`,
@@ -41,7 +39,7 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
 		INNER JOIN `dbproj_sales_invoice` AS SI
 			ON UCR.`sales_invoice_id` = SI.`sales_invoice_id`
 			
-		WHERE `user_car_reservation_id` = userCarReservationId;
+		WHERE UCR.`user_car_reservation_id` = userCarReservationId;
     
     IF is_car_reserved_except(@carId, userCarReservationId, pickupDate, returnDate) = true THEN
 		SET @errMsg = CONCAT('Car is not available between ', pickupDate, ' and ', returnDate);
@@ -49,17 +47,25 @@ CREATE DEFINER=`u201700099`@`%` PROCEDURE `amend_reservation_dates` (IN `userCar
     END IF;
     
     SET @reservationPeriod = (returnDate - pickupDate) + 1;
-    SET carReservationFee = @reservationPeriod * @dailyRentRate;
     
     INSERT INTO `dbproj_sales_invoice_item`(`sales_invoice_id`, `item`, `price`) VALUES (@salesInvoiceId, 'Amendation fees', @grandTotal * 0.10);
     
     UPDATE `dbproj_user_car_reservation` AS UCR
 		INNER JOIN `dbproj_sales_invoice_item` AS SII
-			ON UCR.`sales_invoice_id` = SII.`sales_invoice_id` AND SII.item = 'Car rent'
-		SET UCR.`pickup_date` = pickupDate, UCR.`return_date` = returnDate, UCR.`is_amended` = true, SII.`price` = carReservationFee
+			ON UCR.`sales_invoice_id` = SII.`sales_invoice_id` AND SII.`item` = 'Car rent'
+		SET UCR.`pickup_date` = pickupDate, UCR.`return_date` = returnDate, UCR.`is_amended` = true, SII.`price` = @reservationPeriod * @dailyRentRate
 		WHERE UCR.`user_car_reservation_id` = userCarReservationId;
 	
     CALL update_sales_invoice(@salesInvoiceId);
+END$$
+
+CREATE DEFINER=`u201700099`@`%` PROCEDURE `apply_amend_fees` (IN `salesInvoiceId` INT UNSIGNED)  NO SQL
+BEGIN
+
+SELECT @grandTotal:=`grand_total` FROM `dbproj_sales_invoice` WHERE `sales_invoice_id` = salesInvoiceId;
+
+INSERT INTO `dbproj_sales_invoice_item`(`sales_invoice_id`, `item`, `price`) VALUES (salesInvoiceId, 'Amendation fees', @grandTotal * 0.10);
+
 END$$
 
 CREATE DEFINER=`u201700099`@`%` PROCEDURE `cancel_reservation` (IN `user_car_reservation_id` INT UNSIGNED)  BEGIN
@@ -345,7 +351,8 @@ INSERT INTO `dbproj_car_reservation_accessory` (`user_car_reservation_id`, `car_
 (18, 112),
 (18, 114),
 (18, 116),
-(23, 107);
+(23, 107),
+(25, 100);
 
 -- --------------------------------------------------------
 
@@ -397,12 +404,14 @@ INSERT INTO `dbproj_sales_invoice` (`sales_invoice_id`, `status`, `paid_amount`,
 (19, 'paid', '43.053', '43.053', NULL, '2021-06-08 22:01:26', '2021-06-08 22:01:26'),
 (20, 'cancelled', '0.000', '82.625', NULL, '2021-06-11 08:11:44', '2021-06-11 08:11:44'),
 (21, 'paid', '21.998', '21.998', NULL, '2021-06-12 14:48:26', '2021-06-12 14:48:26'),
-(22, 'paid', '78.097', '78.097', NULL, '2021-06-13 04:15:43', '2021-06-13 04:16:04'),
+(22, 'unpaid', '0.000', '111.792', NULL, '2021-06-13 04:15:43', '2021-06-13 08:06:29'),
 (23, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:18:24', '2021-06-13 04:18:24'),
 (24, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:19:08', '2021-06-13 04:19:08'),
 (25, 'unpaid', '0.000', '12.999', NULL, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
-(26, 'paid', '12.999', '12.999', NULL, '2021-06-13 04:25:31', '2021-06-13 04:26:04'),
-(27, 'paid', '36.702', '36.702', NULL, '2021-06-13 05:13:33', '2021-06-13 05:30:56');
+(26, 'unpaid', '0.000', '103.992', NULL, '2021-06-13 04:25:31', '2021-06-13 08:09:30'),
+(27, 'unpaid', '36.702', '40.372', NULL, '2021-06-13 05:13:33', '2021-06-13 11:40:11'),
+(28, 'unpaid', '0.000', '79.294', NULL, '2021-06-13 10:08:28', '2021-06-13 10:08:44'),
+(29, 'paid', '21.998', '21.998', NULL, '2021-06-13 14:04:12', '2021-06-13 14:04:52');
 
 -- --------------------------------------------------------
 
@@ -463,12 +472,18 @@ INSERT INTO `dbproj_sales_invoice_item` (`sales_invoice_item_id`, `sales_invoice
 (45, 23, 'Car rent', '12.999'),
 (46, 24, 'Car rent', '12.999'),
 (47, 25, 'Car rent', '12.999'),
-(48, 26, 'Car rent', '12.999'),
+(48, 26, 'Car rent', '103.992'),
 (49, 27, 'Car rent', '11.999'),
 (50, 27, 'Dash cam', '12.600'),
 (51, 27, 'Amendation fees', '2.460'),
 (52, 27, 'Amendation fees', '6.306'),
-(53, 27, 'Amendation fees', '3.337');
+(53, 27, 'Amendation fees', '3.337'),
+(82, 26, 'Amendation fees', '0.000'),
+(83, 28, 'Car rent', '77.994'),
+(84, 28, 'Amendation fees', '1.300'),
+(85, 27, 'Amendation fees', '3.670'),
+(86, 29, 'Car rent', '11.999'),
+(87, 29, '\r\nToddler safety seat', '9.999');
 
 -- --------------------------------------------------------
 
@@ -506,7 +521,8 @@ INSERT INTO `dbproj_transaction` (`transaction_id`, `sales_invoice_id`, `user_ad
 (25, 22, 24, '0.000', 'Credit-card', NULL, 'completed', '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
 (26, 26, 25, '12.999', 'Credit-card', NULL, 'completed', '2021-06-13 04:26:03', '2021-06-13 04:26:03'),
 (27, 27, 26, '24.599', 'Credit-card', NULL, 'completed', '2021-06-13 05:24:57', '2021-06-13 05:24:57'),
-(28, 27, 27, '38.457', 'Credit-card', NULL, 'completed', '2021-06-13 05:28:21', '2021-06-13 05:28:21');
+(28, 27, 27, '38.457', 'Credit-card', NULL, 'completed', '2021-06-13 05:28:21', '2021-06-13 05:28:21'),
+(29, 29, 28, '21.998', 'Credit-card', NULL, 'completed', '2021-06-13 14:04:52', '2021-06-13 14:04:52');
 
 -- --------------------------------------------------------
 
@@ -574,7 +590,8 @@ INSERT INTO `dbproj_user_address` (`user_address_id`, `user_id`, `type`, `addres
 (24, 1, 'billing', 'BBBBB', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:24:47', '2021-06-13 04:24:47'),
 (25, 1, 'billing', '134', NULL, 'Bahrain', NULL, NULL, '2021-06-13 04:26:03', '2021-06-13 04:26:03'),
 (26, 1, 'billing', '1111111111111111111', NULL, 'Bahrain', NULL, NULL, '2021-06-13 05:24:57', '2021-06-13 05:24:57'),
-(27, 1, 'billing', 'aaaa', NULL, 'Bahrain', NULL, NULL, '2021-06-13 05:28:21', '2021-06-13 05:28:21');
+(27, 1, 'billing', 'aaaa', NULL, 'Bahrain', NULL, NULL, '2021-06-13 05:28:21', '2021-06-13 05:28:21'),
+(28, 1, 'billing', 'AAAAA', '', 'Bahrain', '', '', '2021-06-13 14:04:52', '2021-06-13 14:04:52');
 
 -- --------------------------------------------------------
 
@@ -618,11 +635,10 @@ INSERT INTO `dbproj_user_car_reservation` (`user_car_reservation_id`, `user_id`,
 (16, 1, 188, '63902707', '2021-06-15', '2021-06-15', 'confirmed', 0, 21, '2021-06-12 14:48:26', '2021-06-12 18:41:53'),
 (17, 1, 188, '2485634', '2021-06-20', '2021-06-22', 'confirmed', 0, 14, '2021-06-12 18:42:17', '2021-06-12 18:42:26'),
 (18, 1, 4, '60', '2021-06-13', '2021-06-13', 'confirmed', 0, 22, '2021-06-13 04:15:43', '2021-06-13 04:15:43'),
-(19, 1, 80, '60c55ce10440f', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 23, '2021-06-13 04:18:25', '2021-06-13 04:18:25'),
-(20, 1, 80, '60c55d0d1200d', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 24, '2021-06-13 04:19:09', '2021-06-13 04:19:09'),
-(21, 1, 80, '60c55e6752a57', '2021-06-13', '2021-06-13', 'unconfirmed', 0, 25, '2021-06-13 04:24:55', '2021-06-13 04:24:55'),
-(22, 1, 80, '60c55e8bafc83', '2021-06-13', '2021-06-13', 'confirmed', 0, 26, '2021-06-13 04:25:31', '2021-06-13 04:25:31'),
-(23, 1, 75, '60c569cd396c9', '2021-06-16', '2021-06-16', 'confirmed', 1, 27, '2021-06-13 05:13:33', '2021-06-13 05:30:56');
+(22, 1, 80, '60c55e8bafc83', '2021-06-19', '2021-06-26', 'confirmed', 1, 26, '2021-06-13 04:25:31', '2021-06-13 08:09:30'),
+(23, 1, 75, '60c569cd396c9', '0000-00-00', '0000-00-00', 'confirmed', 1, 27, '2021-06-13 05:13:33', '2021-06-13 11:40:10'),
+(24, 1, 80, '60c5aeec2c649', '2021-07-15', '2021-07-20', 'unconfirmed', 1, 28, '2021-06-13 10:08:28', '2021-06-13 10:08:43'),
+(25, 1, 75, '60c5e62c4e560', '2021-06-16', '2021-06-16', 'confirmed', 0, 29, '2021-06-13 14:04:12', '2021-06-13 14:06:39');
 
 -- --------------------------------------------------------
 
@@ -776,19 +792,19 @@ ALTER TABLE `dbproj_car_type`
 -- AUTO_INCREMENT for table `dbproj_sales_invoice`
 --
 ALTER TABLE `dbproj_sales_invoice`
-  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `sales_invoice_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `dbproj_sales_invoice_item`
 --
 ALTER TABLE `dbproj_sales_invoice_item`
-  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `sales_invoice_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `dbproj_transaction`
 --
 ALTER TABLE `dbproj_transaction`
-  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `transaction_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user`
@@ -800,13 +816,13 @@ ALTER TABLE `dbproj_user`
 -- AUTO_INCREMENT for table `dbproj_user_address`
 --
 ALTER TABLE `dbproj_user_address`
-  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_car_reservation`
 --
 ALTER TABLE `dbproj_user_car_reservation`
-  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `user_car_reservation_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `dbproj_user_type`
