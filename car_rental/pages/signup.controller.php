@@ -24,7 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $CURRENT_USER === null) {
         }
     }
 
-    // TODO: Validate email is not already existing
+    $whereClause = (new WhereClause())->where("email", $email);
+    $matches = User::count($whereClause);
+    if ($matches > 0) {
+        $encodedMessage = urlencode("There are already a user with email $email. Please consider <a href=\"?p=sign-in\">signing in</a>.");
+        header("Location: ?p=signup&errorMessage={$encodedMessage}");
+        exit;
+    }
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
