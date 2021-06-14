@@ -334,6 +334,15 @@
                 <h4 class="mb-3">Payment</h4>
 
                 <div class="row gy-3">
+                    <div class="col-md-12">
+                        <label for="cc-name" class="form-label">Name on card</label>
+                        <input type="text" class="form-control" name="" placeholder="" required>
+                        <small class="text-muted">Full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                            Name on card is required
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <label for="cc-number" class="form-label">Credit card number</label>
                         <input type="text" class="form-control" name="cc_number" placeholder="1234 5678 9112 1314" minlength="16" maxlength="16" autocomplete="cc-number" required>
